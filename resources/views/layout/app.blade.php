@@ -12,9 +12,11 @@
             integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
         </script>
         <script src="https://kit.fontawesome.com/691f4cd05f.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{{ asset("css/alertify.css") }}">
+        <script src="{{ asset("js/alertify.js") }}" crossorigin="anonymous"></script>
     </head>
 
-    <body class="text-white bg-dark">
+    <body class="bg-dark">
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; margin-bottom: 20px;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('home') }}">Server Manager</a>

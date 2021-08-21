@@ -22,7 +22,7 @@ class VpsViewController extends Controller
 
     public function show()
     {
-        $vpss = Auth::user()->vps()->latest()->with('user')->paginate(6);
+        $vpss = Auth::user()->vps()->latest()->with('user')->paginate(5);
         return view("dashboard.vps.index", ['vpss' => $vpss]);
     }
 

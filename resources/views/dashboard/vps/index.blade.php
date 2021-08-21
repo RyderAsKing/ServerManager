@@ -1,11 +1,10 @@
 @extends("layout.app")
 @section("content")
-<div class="container">
+<div class="container text-white">
     <h3 style="text-align: center">Manage {{ Str::plural("Server", $vpss->count()) }}</h3>
     <p style="text-align: center">Perform powerful one click actions on servers with ease</p>
     @if($vpss->count() > 0)
 
-    @if($vpss->count() == 1)
     <div class="row">
         @foreach($vpss as $vps)
         <div class="col-sm-6">
@@ -13,12 +12,17 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $vps->virtualizor_server_id }} - {{ $vps->hostname }}</h5>
                     <p class="card-text">{{ $vps->ipv4 }}</p>
-                    <a class="btn btn-success"><i class="fas fa-play"></i></a>
-                    <a class="btn btn-danger"><i class="fas fa-stop"></i></a>
-                    <a class="btn btn-primary"><i class="fas fa-external-link-alt"></i></a>
+                    <a href="{{ route("dashboard.vps.current.start", $vps) }}" class="btn btn-success"><i
+                            class="fas fa-play"></i></a>
+                    <a href="{{ route("dashboard.vps.current.stop", $vps)}}" class="btn btn-danger"><i
+                            class="fas fa-stop"></i></a>
+                    <a href="{{ route("dashboard.vps.current.index", $vps)}}" class="btn btn-primary"><i
+                            class="fas fa-external-link-alt"></i></a>
                 </div>
             </div>
         </div>
+
+        @endforeach
         <div class="col-sm-6">
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
@@ -29,25 +33,7 @@
                 </div>
             </div>
         </div>
-        @endforeach
     </div>
-    @else
-    <div class="row">
-        @foreach($vpss as $vps)
-        <div class="col-sm-6">
-            <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $vps->virtualizor_server_id }} - {{ $vps->hostname }}</h5>
-                    <p class="card-text">{{ $vps->ipv4 }}</p>
-                    <a class="btn btn-success"><i class="fas fa-play"></i></a>
-                    <a class="btn btn-danger"><i class="fas fa-stop"></i></a>
-                    <a class="btn btn-primary"><i class="fas fa-external-link-alt"></i></a>
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-    @endif
 
     <div style="float: right; margin-top: 100px;">
         {{ $vpss->links() }}

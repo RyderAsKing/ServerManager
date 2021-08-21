@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vps;
 use Illuminate\Http\Request;
 
 class VpsActionController extends Controller
@@ -12,28 +13,37 @@ class VpsActionController extends Controller
     {
         $this->middleware('auth');
     }
-
-    public function index()
+    public function index(Vps $vps)
     {
+        $this->authorize("use", $vps);
+
         return view('dashboard.vps.current');
     }
-    public function start()
+    public function start(Vps $vps)
     {
+        $this->authorize("use", $vps);
+
         return back();
     }
 
-    public function stop()
+    public function stop(Vps $vps)
     {
+        $this->authorize("use", $vps);
+
         return back();
     }
 
-    public function restart()
+    public function restart(Vps $vps)
     {
+        $this->authorize("use", $vps);
+
         return back();
     }
 
-    public function destroy()
+    public function destroy(Vps $vps)
     {
+        $this->authorize("use", $vps);
+
         return back();
     }
 }
