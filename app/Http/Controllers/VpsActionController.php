@@ -13,6 +13,10 @@ class VpsActionController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        return view('dashboard.vps.current');
+    }
     public function start()
     {
         return back();
