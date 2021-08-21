@@ -16,8 +16,10 @@
                             class="fas fa-play"></i></a>
                     <a href="{{ route("dashboard.vps.current.stop", $vps)}}" class="btn btn-danger"><i
                             class="fas fa-stop"></i></a>
-                    <a href="{{ route("dashboard.vps.current.index", $vps)}}" class="btn btn-primary"><i
-                            class="fas fa-external-link-alt"></i></a>
+                    <a href="{{ route("dashboard.vps.current.restart", $vps)}}" class="btn btn-warning"><i
+                            class="fas fa-redo"></i><a>
+                            <a href="{{ route("dashboard.vps.current.index", $vps)}}" class="btn btn-primary"><i
+                                    class="fas fa-external-link-alt"></i></a>
                 </div>
             </div>
         </div>
