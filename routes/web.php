@@ -39,14 +39,13 @@ Route::get('/dashboard/vps/add', [VpsViewController::class, 'add'])->name("dashb
 Route::post('/dashboard/vps/add', [VpsViewController::class, 'store']); //request
 
 
-Route::get('/dashboard/vps/{vps:virtualizor_server_id}', [VpsActionController::class, 'index'])->name("dashboard.vps.current.index");
-Route::get('/dashboard/vps/{vps:virtualizor_server_id}/start', [VpsActionController::class, 'start'])->name("dashboard.vps.current.start");
-Route::get('/dashboard/vps/{vps:virtualizor_server_id}/stop', [VpsActionController::class, 'stop'])->name("dashboard.vps.current.stop");
-Route::get('/dashboard/vps/{vps:virtualizor_server_id}/restart', [VpsActionController::class, 'restart'])->name("dashboard.vps.current.restart");
-Route::get('/dashboard/vps/{vps:virtualizor_server_id}/destroy', [VpsActionController::class, 'destroy'])->name("dashboard.vps.current.destroy");
+Route::get('/dashboard/vps/{vps}', [VpsActionController::class, 'index'])->name("dashboard.vps.current.index");
+Route::get('/dashboard/vps/{vps}/start', [VpsActionController::class, 'start'])->name("dashboard.vps.current.start");
+Route::get('/dashboard/vps/{vps}/stop', [VpsActionController::class, 'stop'])->name("dashboard.vps.current.stop");
+Route::get('/dashboard/vps/{vps}/restart', [VpsActionController::class, 'restart'])->name("dashboard.vps.current.restart");
+Route::get('/dashboard/vps/{vps}/destroy', [VpsActionController::class, 'destroy'])->name("dashboard.vps.current.destroy");
 
 Route::get('/dashboard/api', [ApiManagementController::class, 'index'])->name("dashboard.api.index"); //list
 Route::get('/dashboard/api/add', [ApiManagementController::class, 'add'])->name("dashboard.api.add"); //show a form
 Route::post('/dashboard/api/add', [ApiManagementController::class, 'store']); //request (when form filled)
-Route::get('/dashboard/api/{Api:api}', [ApiManagementController::class, 'manage'])->name("dashboard.vps.manage"); //particular api
-Route::post('/dashboard/api/{Api:api}', [ApiManagementController::class, 'manage']); //request for it 
+Route::get('/dashboard/api/{api}/destroy', [ApiManagementController::class, 'destroy'])->name("dashboard.api.destroy"); //particular api

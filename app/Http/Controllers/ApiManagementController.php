@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,5 +35,11 @@ class ApiManagementController extends Controller
 
         Auth::user()->api()->create(['type' => $request->type, 'api' => $request->api, 'api_pass' => $request->api_pass, 'nick' => $request->name]);
         return redirect()->route("dashboard.api.index");
+    }
+    public function destroy(Api $api)
+    {
+        $this->authorize("use", $api);
+        Auth::user()->api()->where("id", $api->id)->delete();
+        return back()->with('message', 'Successfully deleted the specified API');
     }
 }

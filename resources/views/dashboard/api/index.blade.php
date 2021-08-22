@@ -13,7 +13,7 @@
                     <h5 class="card-title">API: <code>{{ $api->api }}</code></h5>
                     <p class="card-text">Type @if(Str::of($api->type)->contains('0')) Virtualizor @endif <br> Created
                         {{ $api->created_at->diffForHumans() }}</p>
-                    <a href="{{ route("dashboard.vps.add") }}"><button class="btn btn-outline-danger"
+                    <a href="{{ route("dashboard.api.destroy", $api) }}"><button class="btn btn-outline-danger"
                             type="button">Delete</button></a>
                 </div>
             </div>
@@ -31,6 +31,10 @@
             </div>
         </div>
     </div>
+    <div style="float: right;">
+        {{ $apis->links() }}
+    </div>
+
     @else
     <div class="p-5 text-white bg-dark rounded-3" style="text-align: center; margin-top: 10%;">
         <h4>Seems like you have no API, how about adding one?</h4>

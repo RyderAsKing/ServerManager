@@ -14,6 +14,13 @@
         <script src="https://kit.fontawesome.com/691f4cd05f.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset("css/alertify.css") }}">
         <script src="{{ asset("js/alertify.js") }}" crossorigin="anonymous"></script>
+        <style>
+            .ajs-message.ajs-custom {
+                color: #5aabd3;
+                background-color: #196388;
+                border-color: #31708f;
+            }
+        </style>
     </head>
 
     <body class="bg-dark">
@@ -44,6 +51,11 @@
                 </div>
             </div>
         </nav>
+        @if(session('message'))
+        <script>
+            alertify.notify("{{ session('message') }}", 'custom');
+        </script>
+        @endif
         @yield('content')
 
     </body>
