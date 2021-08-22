@@ -4,10 +4,10 @@ Are you sick of having to log into hundreads of different website just to access
 
 ## Supported softwares
 
-| ID  | Softwares    | Supported              |
-| --- | ------------ | ---------------------- |
-| 1   | Virtualizor  | Yes                    |
-| 2   | Pterodactyl` | No, planned for future |
+| ID  | Softwares   | Supported              |
+| --- | ----------- | ---------------------- |
+| 1   | Virtualizor | Yes                    |
+| 2   | Pterodactyl | No, planned for future |
 
 ## License
 
