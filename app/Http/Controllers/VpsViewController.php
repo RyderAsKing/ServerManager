@@ -28,11 +28,13 @@ class VpsViewController extends Controller
 
     public function add()
     {
-        return view("dashboard.vps.add");
+        $apis = Auth::user()->api()->get();
+        return view("dashboard.vps.add", ["apis" => $apis]);
     }
 
     public function store(Request $request)
     {
+        //TODO complete this 
         $this->validate($request, [
             'virtualizor_server_id' => 'required|numeric',
             'api' => 'required',

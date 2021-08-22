@@ -21,13 +21,9 @@
         <div class="mb-3">
             <label for="api" class="form-label">API Account</label>
             <select class="form-select" name="api">
-                <option selected>{{ auth()->user()->api }}</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="api" class="form-label">Virtualizor Host</label>
-            <select class="form-select" name="host">
-                <option selected>VelocityNode</option>
+                @foreach ($apis as $api)
+                <option value="{{ $api->id }}">{{ $api->nick }} | {{ $api->api }}</option>
+                @endforeach
             </select>
         </div>
         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add server</button>
