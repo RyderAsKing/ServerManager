@@ -1,7 +1,7 @@
 @extends("layout.app")
 @section("content")
 <div class="container">
-    <div class="row align-items-md-stretch" style="margin-top: 10%;">
+    <div class="row align-items-md-stretch" style="margin-top: 5%;">
         <h3 style="text-align: center">What would you like to do today?</h3>
         <div class="col-md-6" style="margin-top: 15px;">
             <div class="p-5 text-white bg-dark rounded-3" style="border: 1px solid #E3F2FD">

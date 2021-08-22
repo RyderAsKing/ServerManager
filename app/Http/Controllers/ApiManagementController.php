@@ -23,7 +23,16 @@ class ApiManagementController extends Controller
     }
     public function store(Request $request)
     {
-        $this->validate($request, ['type' => 'required|integer', 'api' => 'required|min:16', 'api_pass' => 'required|min:16']);
+        $this->validate($request, ['type' => 'required|integer', 'api' => 'required|min:16', 'name' => 'required|max:64']);
+
+        if ($request->type == "0") { // Virtualizor
+            if (empty($request->api_pass)) {
+                return back()->with('status', 'The API pass is required for Virtualizor API type');
+            }
+            $this->validate($request, ['api_pass' => 'min:16']);
+        }
+
+        Auth::user()->api()->create(['type' => $request->type, 'api' => $request->api, 'api_pass' => $request->api_pass, 'nick' => $request->name]);
         return redirect()->route("dashboard.api.index");
     }
 }

@@ -18,7 +18,8 @@ class CreateApiTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('type');
             $table->string('api', 64);
-            $table->string('api_pass', 64);
+            $table->string('api_pass', 64)->nullable();
+            $table->timestamps();
         });
     }
 

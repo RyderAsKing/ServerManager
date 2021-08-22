@@ -1,8 +1,8 @@
 @extends("layout.app")
 @section("content")
 <div class="container text-white">
-    <h3 style="text-align: center">Manage {{ Str::plural("Server", $vpss->count()) }}</h3>
-    <p style="text-align: center">Perform powerful one click actions on servers with ease</p>
+    <h3 class="text-center">Manage {{ Str::plural("Server", $vpss->count()) }}</h3>
+    <p class="text-center">Perform powerful one click actions on servers with ease</p>
     @if($vpss->count() > 0)
 
     <div class="row">
