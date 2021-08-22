@@ -21,4 +21,9 @@ class ApiManagementController extends Controller
     {
         return view('dashboard.api.add');
     }
+    public function store(Request $request)
+    {
+        $this->validate($request, ['type' => 'required|integer', 'api' => 'required|min:16', 'api_pass' => 'required|min:16']);
+        return redirect()->route("dashboard.api.index");
+    }
 }
