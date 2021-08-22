@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Api;
 use App\Models\Vps;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -48,5 +49,10 @@ class User extends Authenticatable
     public function vps()
     {
         return $this->hasMany(Vps::class);
+    }
+
+    public function api()
+    {
+        return $this->hasMany(Api::class);
     }
 }

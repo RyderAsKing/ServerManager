@@ -7,6 +7,7 @@ use App\Http\Controllers\VpsActionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ApiManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,9 @@ Route::get('/dashboard/vps/{vps:virtualizor_server_id}/start', [VpsActionControl
 Route::get('/dashboard/vps/{vps:virtualizor_server_id}/stop', [VpsActionController::class, 'stop'])->name("dashboard.vps.current.stop");
 Route::get('/dashboard/vps/{vps:virtualizor_server_id}/restart', [VpsActionController::class, 'restart'])->name("dashboard.vps.current.restart");
 Route::get('/dashboard/vps/{vps:virtualizor_server_id}/destroy', [VpsActionController::class, 'destroy'])->name("dashboard.vps.current.destroy");
+
+Route::get('/dashboard/api', [ApiManagementController::class, 'index'])->name("dashboard.api.index"); //list
+Route::get('/dashboard/api/add', [ApiManagementController::class, 'add'])->name("dashboard.api.add"); //show a form
+Route::post('/dashboard/api/add', [ApiManagementController::class, 'store']); //request (when form filled)
+Route::get('/dashboard/api/{Api:api}', [ApiManagementController::class, 'manage'])->name("dashboard.vps.manage"); //particular api
+Route::post('/dashboard/api/{Api:api}', [ApiManagementController::class, 'manage']); //request for it 
