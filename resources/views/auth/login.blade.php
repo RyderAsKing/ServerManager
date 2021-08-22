@@ -1,6 +1,6 @@
 @extends("layout.app")
 @section("content")
-<div class="container">
+<div class="container text-white">
     <h3>Login</h3>
     <form method="post" action="{{ route("login") }}">
         @if(session('status'))
