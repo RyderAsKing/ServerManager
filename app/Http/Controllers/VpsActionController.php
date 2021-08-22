@@ -21,7 +21,7 @@ class VpsActionController extends Controller
 
     public function createVirtualizorClient($api, $api_pass)
     {
-        $host_ip  = 'vps.velocitynode.net';
+        $host_ip  = '';
         $key = $api;
         $key_pass = $api_pass;
         return new Virtualizor\Virtualizor_Enduser_API($host_ip, $key, $key_pass);

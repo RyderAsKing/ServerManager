@@ -12,9 +12,13 @@ class ApiManagementController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(Request $request)
+    public function index()
     {
         $apis = Auth::user()->api()->latest()->with('user')->paginate(5);
         return view('dashboard.api.index', ['apis' => $apis]);
+    }
+    public function add()
+    {
+        return view('dashboard.api.add');
     }
 }
