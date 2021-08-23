@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Virtualizor;
+use App\Models\Api;
 use App\Models\server;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 include("Virtualizor.php");
 
-use Virtualizor;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServerActionController extends Controller
 {
@@ -19,34 +20,53 @@ class ServerActionController extends Controller
         $this->middleware('auth');
     }
 
-    public function createVirtualizorClient($api, $api_pass)
+    public function createVirtualizorClient($protocol_get, $hostname, $api, $api_pass)
     {
-        $host_ip  = '';
+        $host_ip  = $hostname;
+        $protocol = $protocol_get;
         $key = $api;
         $key_pass = $api_pass;
-        return new Virtualizor\Virtualizor_Enduser_API($host_ip, $key, $key_pass);
+        return new Virtualizor\Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
     }
-    public function getInformation($v, $server)
+    public function getVirtualizorInformation($v, $server_id, $server)
     {
-        $serverinfo = $v->vpsinfo($server->virtualizor_server_id);
+        $serverinfo = $v->vpsinfo($server_id);
+        $vncinfo = $v->vnc($server_id);
+        $vnc_ip = $vncinfo['ip'];
+        $vnc_port = $vncinfo['port'];
+        $vnc_password = $vncinfo['password'];
         $ipv4 = $server->ipv4;
         $hostname = $server->hostname;
         $bandwidth_used = $serverinfo['info']['bandwidth']['used'];
         $storage = $serverinfo['info']['vps']['space'];
         $cores = $serverinfo['info']['vps']['cores'];
-        $active_time = $serverinfo['info']['show_server_active_time'];
+        $active_time = $serverinfo['info']['show_vps_active_time'];
         $os_name = $serverinfo['info']['vps']['os_name'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'bandwidth_used' => $bandwidth_used, 'storage' => $storage, 'cores' => $cores, 'active_time', $active_time, 'os_name' => $os_name);
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'bandwidth_used' => $bandwidth_used, 'storage' => $storage, 'cores' => $cores, 'active_time', $active_time, 'os_name' => $os_name, 'type' => 0, 'vnc_ip' => $vnc_ip, 'vnc_port' => $vnc_port, 'vnc_password' => $vnc_password);
         return $current_information;
     }
     public function index(Server $server)
     {
         $this->authorize("use_server", $server);
-        $api = Auth::user()->api;
-        $api_pass = Auth::user()->api_pass;
-        $v = $this->createVirtualizorClient($api, $api_pass);
-        $information = $this->getInformation($v, $server);
-        return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
+
+        $api_instance = Api::find(['id' => $server->api_id])->first();
+        $type = $api_instance->type;
+
+        // 0 = Virtualizor
+        if ($type == 0) {
+            $protocol = $api_instance->protocol;
+            if ($protocol == 0) {
+                $protocol = 'http';
+            } else {
+                $protocol = 'https';
+            }
+            $hostname = $api_instance->hostname;
+            $api = $api_instance->api;
+            $api_pass = $api_instance->api_pass;
+            $v = $this->createVirtualizorClient($protocol, $hostname, $api, $api_pass);
+            $information = $this->getVirtualizorInformation($v, $server->server_id, $server);
+            return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
+        }
     }
     public function start(Server $server)
     {

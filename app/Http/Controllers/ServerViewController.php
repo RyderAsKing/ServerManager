@@ -48,6 +48,7 @@ class ServerViewController extends Controller
         $this->authorize('use_api', $api);
 
         // Get API type
+
         // 0 = Virtualizor
         $type = $api->type;
         if ($type == 0) {
