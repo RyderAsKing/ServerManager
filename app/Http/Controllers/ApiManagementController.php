@@ -39,6 +39,7 @@ class ApiManagementController extends Controller
     public function destroy(Api $api)
     {
         $this->authorize("use_api", $api);
+        Auth::user()->server()->where('api_id', $api->id)->delete();
         Auth::user()->api()->where("id", $api->id)->delete();
         return back()->with('message', 'Successfully deleted the specified API');
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNickToApi extends Migration
+class AddApiIdToServers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddNickToApi extends Migration
      */
     public function up()
     {
-        Schema::table('apis', function (Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             //
-            $table->string('nick', 64);
+            $table->integer('api_id');
         });
     }
 
@@ -26,9 +26,9 @@ class AddNickToApi extends Migration
      */
     public function down()
     {
-        Schema::table('api', function (Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             //
-            $table->dropColumn('nick');
+            $table->dropColumn('api_id');
         });
     }
 }

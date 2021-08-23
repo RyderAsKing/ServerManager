@@ -16,6 +16,7 @@ class Server extends Model
         'server_id',
         'hostname',
         'ipv4',
+        'api_id',
     ];
 
     public function user()

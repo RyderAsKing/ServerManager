@@ -29,6 +29,8 @@ class AddServerIpOrHostnameToApis extends Migration
     {
         Schema::table('apis', function (Blueprint $table) {
             //
+            $table->dropColumn('hostname');
+            $table->dropColumn('protocol');
         });
     }
 }

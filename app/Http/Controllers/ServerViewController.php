@@ -75,7 +75,7 @@ class ServerViewController extends Controller
             $hostname = $serverinfo['info']['hostname'];
             $ipv4 = $serverinfo['info']['ip'][0];
 
-            if (!Auth::user()->server()->create(['server_type' => 0, 'server_id' => $request->server_id, 'hostname' => $hostname, 'ipv4' => $ipv4])) {
+            if (!Auth::user()->server()->create(['server_type' => 0, 'server_id' => $request->server_id, 'hostname' => $hostname, 'ipv4' => $ipv4, 'api_id' => $request->api_id])) {
                 return back()->with('status', 'There was an error adding the server');
             }
             return redirect()->route("dashboard.server.show");
