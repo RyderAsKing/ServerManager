@@ -45,7 +45,6 @@ class ServerActionController extends Controller
     public function getVirtualizorInformation($v, Server $server)
     {
         $serverinfo = $v->vpsinfo($server->server_id);
-        // die(print_r(json_encode($serverinfo)));
         $is_vnc_available = $serverinfo['info']['vps']['vnc'];
         $vncinfo = "";
         $vnc_ip = "";
