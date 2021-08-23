@@ -19,19 +19,33 @@ class ServerActionController extends Controller
     {
         $this->middleware('auth');
     }
-
-    public function createVirtualizorClient($protocol_get, $hostname, $api, $api_pass)
+    private function returnApiInstance(Server $server)
     {
-        $host_ip  = $hostname;
-        $protocol = $protocol_get;
-        $key = $api;
-        $key_pass = $api_pass;
+        $api_instance = Api::find(['id' => $server->api_id])->first();
+        return $api_instance;
+    }
+    private function returnType(Api $api_instance)
+    {
+        $type = $api_instance->type;
+        return $type;
+    }
+    private function createVirtualizorClient(Api $api_instance)
+    {
+        $protocol = $api_instance->protocol;
+        if ($protocol == 0) {
+            $protocol = 'http';
+        } else {
+            $protocol = 'https';
+        }
+        $host_ip  = $api_instance->hostname;
+        $key = $api_instance->api;
+        $key_pass = $api_instance->api_pass;
         return new Virtualizor\Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
     }
-    public function getVirtualizorInformation($v, $server_id, $server)
+    public function getVirtualizorInformation($v, Server $server)
     {
-        $serverinfo = $v->vpsinfo($server_id);
-        $vncinfo = $v->vnc($server_id);
+        $serverinfo = $v->vpsinfo($server->server_id);
+        $vncinfo = $v->vnc($server->server_id);
         $vnc_ip = $vncinfo['ip'];
         $vnc_port = $vncinfo['port'];
         $vnc_password = $vncinfo['password'];
@@ -48,23 +62,13 @@ class ServerActionController extends Controller
     public function index(Server $server)
     {
         $this->authorize("use_server", $server);
+        $api_instance = $this->returnApiInstance($server); // returns the api instance model
 
-        $api_instance = Api::find(['id' => $server->api_id])->first();
-        $type = $api_instance->type;
-
+        $type = $this->returnType($api_instance); // returns type of the api instance
         // 0 = Virtualizor
         if ($type == 0) {
-            $protocol = $api_instance->protocol;
-            if ($protocol == 0) {
-                $protocol = 'http';
-            } else {
-                $protocol = 'https';
-            }
-            $hostname = $api_instance->hostname;
-            $api = $api_instance->api;
-            $api_pass = $api_instance->api_pass;
-            $v = $this->createVirtualizorClient($protocol, $hostname, $api, $api_pass);
-            $information = $this->getVirtualizorInformation($v, $server->server_id, $server);
+            $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
             return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
         }
     }
