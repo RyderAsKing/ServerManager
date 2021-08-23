@@ -11,7 +11,6 @@ include("Virtualizor.php");
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\isEmpty;
 
 class ServerViewController extends Controller
 {

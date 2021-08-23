@@ -70,12 +70,14 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">More actions (Virtualizor specific)</h5>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-file-signature"></i>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#changeHostname"><i class="fas fa-file-signature"></i>
                         Change
-                        Hostname</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-key"></i>
-                        Reset
-                        Password</a>
+                        Hostname</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePassword"><i
+                            class="fas fa-key"></i>
+                        Change
+                        Password</button>
                     <a href="#" class="btn btn-primary"><i class="fas fa-first-aid"></i> Enable
                         rescue mode</a>
                 </div>
@@ -108,6 +110,59 @@
         </div>
     </div>
     @endif
+</div>
+</div>
+<!-- Modals -->
+<div class="modal fade" id="changePassword" role="modal" tabindex="-1" aria-labelledby="changePassword"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" action="{{ route("dashboard.server.current.changepassword", $server) }}">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Change password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="password">New Password</label>
+                        <input type="string" class="form-control" id="password" aria-describedby="emailHelp"
+                            placeholder="Enter new password" name="password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Change password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="changeHostname" role="modal" tabindex="-1" aria-labelledby="changeHostname"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" action="{{ route("dashboard.server.current.changehostname", $server) }}">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Change Hostname</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="hostname">New Hostname</label>
+                        <input type="string" class="form-control" id="hostname" aria-describedby="emailHelp"
+                            placeholder="Enter new hostname" name="hostname">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Change hostname</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 @endsection

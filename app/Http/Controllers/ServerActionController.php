@@ -19,6 +19,8 @@ class ServerActionController extends Controller
     {
         $this->middleware('auth');
     }
+
+
     private function returnApiInstance(Server $server)
     {
         $api_instance = Api::find(['id' => $server->api_id])->first();
@@ -29,6 +31,8 @@ class ServerActionController extends Controller
         $type = $api_instance->type;
         return $type;
     }
+
+    // Virtualizor handling
     private function createVirtualizorClient(Api $api_instance)
     {
         $protocol = $api_instance->protocol;
@@ -66,6 +70,8 @@ class ServerActionController extends Controller
         $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'bandwidth_used' => $bandwidth_used, 'storage' => $storage, 'cores' => $cores, 'os_name' => $os_name, 'type' => 0, 'is_vnc_available' => $is_vnc_available, 'vnc_ip' => $vnc_ip, 'vnc_port' => $vnc_port, 'vnc_password' => $vnc_password, 'status' => $status);
         return $current_information;
     }
+    // Virtualizor handling end
+
     public function index(Server $server)
     {
         $this->authorize("use_server", $server);
@@ -122,5 +128,34 @@ class ServerActionController extends Controller
         $this->authorize("use_server", $server);
         Auth::user()->server()->where('id', $server->id)->delete();
         return redirect()->route("dashboard.server.index")->with('message', "Successfully removed the specified server");
+    }
+
+    public function changeHostname(Request $request, Server $server)
+    {
+        $this->authorize("use_server", $server);
+        $this->validate($request, ['hostname' => 'required|max:32']);
+        $api_instance = $this->returnApiInstance($server);
+        $type = $this->returnType($api_instance);
+        // 0 = Virtualizor
+        if ($type == 0) {
+            $v = $this->createVirtualizorClient($api_instance);
+            $hostname = $request->hostname;
+            $output = $v->hostname($server->server_id, $hostname);
+            return back()->with('popup', $output);
+        }
+    }
+    public function changePassword(Request $request, Server $server)
+    {
+        $this->authorize("use_server", $server);
+        $this->validate($request, ['password' => 'required|min:8|max:32']);
+        $api_instance = $this->returnApiInstance($server);
+        $type = $this->returnType($api_instance);
+        // 0 = Virtualizor
+        if ($type == 0) {
+            $v = $this->createVirtualizorClient($api_instance);
+            $password = $request->password;
+            $output = $v->changepassword($server->server_id, $password);
+            return back()->with('popup', $output);
+        }
     }
 }

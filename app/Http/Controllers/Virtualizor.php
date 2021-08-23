@@ -590,12 +590,13 @@ class Virtualizor_Enduser_API
 				// Will it be done when the VPS is STOPPED and STARTED ?
 			} elseif (!empty($resp['onboot'])) {
 
-				return 'onboot';
+				return $resp['done']['msg'];
 
 				// It was done successfully
 			} elseif (!empty($resp['done'])) {
 
-				return 'done';
+				//return 'done';
+				return $resp['done']['msg'];
 			}
 
 			// Just return the CURRENT HOSTNAME
@@ -997,12 +998,12 @@ class Virtualizor_Enduser_API
 			// Will it be done when the VPS is STOPPED and STARTED ?
 		} elseif (!empty($resp['onboot'])) {
 
-			return 'onboot';
+			return $resp['done']['msg'];
 
 			// It was done successfully
 		} elseif (!empty($resp['done'])) {
 
-			return 'done';
+			return $resp['done']['msg'];
 		}
 	}
 
