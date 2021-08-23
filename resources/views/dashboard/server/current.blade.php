@@ -66,7 +66,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="@if($information['is_vnc_available'] == 1) col-sm-8 @else col-sm-12 @endif">
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">More actions (Virtualizor specific)</h5>
@@ -81,6 +81,7 @@
                 </div>
             </div>
         </div>
+        @if($information['is_vnc_available'] == 1)
         <div class="col-sm-4">
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
@@ -93,6 +94,8 @@
                 </div>
             </div>
         </div>
+        @endif
+
     </div>
     @endif
     <div class="col-sm-12" style="text-align: center">

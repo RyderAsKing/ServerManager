@@ -61,7 +61,7 @@ class ServerViewController extends Controller
             } else {
                 $protocol = 'https';
             }
-            if (Auth::user()->server()->where('server_id', $request->server_id)->count() > 0) {
+            if (Auth::user()->server()->where(['server_id' => $request->server_id, 'api_id' => $request->api_id])->count() > 0) {
                 return back()->with('status', 'This server already exists in our database');
             }
             $v = new Virtualizor\Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
@@ -79,7 +79,7 @@ class ServerViewController extends Controller
             if (!Auth::user()->server()->create(['server_type' => 0, 'server_id' => $request->server_id, 'hostname' => $hostname, 'ipv4' => $ipv4, 'api_id' => $request->api_id])) {
                 return back()->with('status', 'There was an error adding the server');
             }
-            return redirect()->route("dashboard.server.show");
+            return redirect()->route("dashboard.server.index");
         }
     }
 }

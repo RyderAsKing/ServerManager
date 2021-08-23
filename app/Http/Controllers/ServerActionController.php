@@ -45,19 +45,26 @@ class ServerActionController extends Controller
     public function getVirtualizorInformation($v, Server $server)
     {
         $serverinfo = $v->vpsinfo($server->server_id);
-        $vncinfo = $v->vnc($server->server_id);
-        $vnc_ip = $vncinfo['ip'];
-        $vnc_port = $vncinfo['port'];
-        $vnc_password = $vncinfo['password'];
+        // die(print_r(json_encode($serverinfo)));
+        $is_vnc_available = $serverinfo['info']['vps']['vnc'];
+        $vncinfo = "";
+        $vnc_ip = "";
+        $vnc_port = "";
+        $vnc_password = "";
+        if ($is_vnc_available == 1) {
+            $vncinfo = $v->vnc($server->server_id);
+            $vnc_ip = $vncinfo['ip'];
+            $vnc_port = $vncinfo['port'];
+            $vnc_password = $vncinfo['password'];
+        }
         $ipv4 = $server->ipv4;
         $hostname = $server->hostname;
         $bandwidth_used = $serverinfo['info']['bandwidth']['used'];
         $storage = $serverinfo['info']['vps']['space'];
         $cores = $serverinfo['info']['vps']['cores'];
-        $active_time = $serverinfo['info']['show_vps_active_time'];
         $os_name = $serverinfo['info']['vps']['os_name'];
         $status = $serverinfo['info']['status'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'bandwidth_used' => $bandwidth_used, 'storage' => $storage, 'cores' => $cores, 'active_time', $active_time, 'os_name' => $os_name, 'type' => 0, 'vnc_ip' => $vnc_ip, 'vnc_port' => $vnc_port, 'vnc_password' => $vnc_password, 'status' => $status);
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'bandwidth_used' => $bandwidth_used, 'storage' => $storage, 'cores' => $cores, 'os_name' => $os_name, 'type' => 0, 'is_vnc_available' => $is_vnc_available, 'vnc_ip' => $vnc_ip, 'vnc_port' => $vnc_port, 'vnc_password' => $vnc_password, 'status' => $status);
         return $current_information;
     }
     public function index(Server $server)
@@ -114,7 +121,7 @@ class ServerActionController extends Controller
     public function destroy(Server $server)
     {
         $this->authorize("use_server", $server);
-
-        return back();
+        Auth::user()->server()->where('id', $server->id)->delete();
+        return redirect()->route("dashboard.server.index")->with('message', "Successfully removed the specified server");
     }
 }
