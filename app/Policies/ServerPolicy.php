@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Vps;
+use App\Models\Server;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class VpsPolicy
+class ServerPolicy
 {
     use HandlesAuthorization;
 
@@ -15,8 +15,8 @@ class VpsPolicy
      *
      * @return void
      */
-    public function use(User $user, Vps $vps)
+    public function use_server(User $user, Server $server)
     {
-        return $user->id == $vps->user_id;
+        return $user->id == $server->user_id;
     }
 }

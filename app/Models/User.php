@@ -46,9 +46,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function vps()
+    public function server()
     {
-        return $this->hasMany(Vps::class);
+        return $this->hasMany(Server::class);
     }
 
     public function api()

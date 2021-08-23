@@ -42,6 +42,27 @@
         @error('api_pass')
         <div style="color: red;">{{ $message }}</div>
         @enderror
+
+        <div class="mb-3">
+            <label for="hostname" class="form-label">Hostname or IP</label>
+            <input type="text" class="form-control" id="hostname" name="hostname"
+                placeholder="Enter the API providers hostname or IP address" value="{{ old('hostname') }}" min="1">
+        </div>
+        @error('hostname')
+        <div style="color: red;">{{ $message }}</div>
+        @enderror
+
+        <div class="mb-3">
+            <label for="protocol" class="form-label">Protocol</label>
+            <select class="form-select" name="protocol">
+                <option value="0">HTTP</option>
+                <option value="1">HTTPs</option>
+            </select>
+        </div>
+        @error('protocol')
+        <div style="color: red;">{{ $message }}</div>
+        @enderror
+
         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add API</button>
     </form>
 

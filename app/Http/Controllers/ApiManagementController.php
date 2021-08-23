@@ -24,7 +24,7 @@ class ApiManagementController extends Controller
     }
     public function store(Request $request)
     {
-        $this->validate($request, ['type' => 'required|integer', 'api' => 'required|min:16', 'name' => 'required|max:64']);
+        $this->validate($request, ['type' => 'required|integer', 'api' => 'required|min:16', 'name' => 'required|max:64', 'hostname' => 'required|max:32', 'protocol' => 'required|max:32']);
 
         if ($request->type == "0") { // Virtualizor
             if (empty($request->api_pass)) {
@@ -33,12 +33,12 @@ class ApiManagementController extends Controller
             $this->validate($request, ['api_pass' => 'min:16']);
         }
 
-        Auth::user()->api()->create(['type' => $request->type, 'api' => $request->api, 'api_pass' => $request->api_pass, 'nick' => $request->name]);
+        Auth::user()->api()->create(['type' => $request->type, 'api' => $request->api, 'api_pass' => $request->api_pass, 'nick' => $request->name, 'hostname' => $request->hostname, 'protocol' => $request->protocol]);
         return redirect()->route("dashboard.api.index");
     }
     public function destroy(Api $api)
     {
-        $this->authorize("use", $api);
+        $this->authorize("use_api", $api);
         Auth::user()->api()->where("id", $api->id)->delete();
         return back()->with('message', 'Successfully deleted the specified API');
     }

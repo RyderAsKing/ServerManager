@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VpsViewController;
+use App\Http\Controllers\ServerViewController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\VpsActionController;
+use App\Http\Controllers\ServerActionController;
 use App\Http\Controllers\ApiManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -34,16 +34,16 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/logout', [LogoutController::class, 'index'])->name("logout");
 
-Route::get('/dashboard/vps', [VpsViewController::class, 'show'])->name("dashboard.vps.show");
-Route::get('/dashboard/vps/add', [VpsViewController::class, 'add'])->name("dashboard.vps.add"); //view
-Route::post('/dashboard/vps/add', [VpsViewController::class, 'store']); //request
+Route::get('/dashboard/server', [ServerViewController::class, 'show'])->name("dashboard.server.show");
+Route::get('/dashboard/server/add', [ServerViewController::class, 'add'])->name("dashboard.server.add"); //view
+Route::post('/dashboard/server/add', [ServerViewController::class, 'store']); //request
 
 
-Route::get('/dashboard/vps/{vps}', [VpsActionController::class, 'index'])->name("dashboard.vps.current.index");
-Route::get('/dashboard/vps/{vps}/start', [VpsActionController::class, 'start'])->name("dashboard.vps.current.start");
-Route::get('/dashboard/vps/{vps}/stop', [VpsActionController::class, 'stop'])->name("dashboard.vps.current.stop");
-Route::get('/dashboard/vps/{vps}/restart', [VpsActionController::class, 'restart'])->name("dashboard.vps.current.restart");
-Route::get('/dashboard/vps/{vps}/destroy', [VpsActionController::class, 'destroy'])->name("dashboard.vps.current.destroy");
+Route::get('/dashboard/server/{server}', [ServerActionController::class, 'index'])->name("dashboard.server.current.index");
+Route::get('/dashboard/server/{server}/start', [ServerActionController::class, 'start'])->name("dashboard.server.current.start");
+Route::get('/dashboard/server/{server}/stop', [ServerActionController::class, 'stop'])->name("dashboard.server.current.stop");
+Route::get('/dashboard/server/{server}/restart', [ServerActionController::class, 'restart'])->name("dashboard.server.current.restart");
+Route::get('/dashboard/server/{server}/destroy', [ServerActionController::class, 'destroy'])->name("dashboard.server.current.destroy");
 
 Route::get('/dashboard/api', [ApiManagementController::class, 'index'])->name("dashboard.api.index"); //list
 Route::get('/dashboard/api/add', [ApiManagementController::class, 'add'])->name("dashboard.api.add"); //show a form

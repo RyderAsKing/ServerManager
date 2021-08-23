@@ -16,6 +16,8 @@ class Api extends Model
         'api',
         'api_pass',
         'nick',
+        'hostname',
+        'protocol',
     ];
 
     public function user()

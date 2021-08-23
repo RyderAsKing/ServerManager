@@ -14,7 +14,7 @@ class ApiPolicy
      *
      * @return void
      */
-    public function use(User $user, Api $api)
+    public function use_api(User $user, Api $api)
     {
         return $user->id == $api->user_id;
     }

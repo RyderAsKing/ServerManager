@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVpsTable extends Migration
+class CreateServersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateVpsTable extends Migration
      */
     public function up()
     {
-        Schema::create('vps', function (Blueprint $table) {
+        Schema::create('servers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('server_type');
-            $table->integer('virtualizor_server_id');
-            $table->integer('hetzner_server_id');
+            $table->string('server_id', 32);
+            $table->string('hostname', 32);
+            $table->string('ipv4', 32);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateVpsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vps');
+        Schema::dropIfExists('servers');
     }
 }

@@ -6,15 +6,14 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Vps extends Model
+class Server extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'server_type',
-        'virtualizor_server_id',
-        'hetzner_server_id',
+        'server_id',
         'hostname',
         'ipv4',
     ];
