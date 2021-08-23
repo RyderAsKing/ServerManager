@@ -20,6 +20,22 @@
                 background-color: #196388;
                 border-color: #31708f;
             }
+
+            .online {
+                height: 15px;
+                width: 15px;
+                background-color: rgb(94, 255, 167);
+                border-radius: 50%;
+                display: inline-block;
+            }
+
+            .offline {
+                height: 15px;
+                width: 15px;
+                background-color: rgb(255, 62, 62);
+                border-radius: 50%;
+                display: inline-block;
+            }
         </style>
     </head>
 
@@ -36,6 +52,12 @@
                         @auth
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route("dashboard") }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route("dashboard.server.index") }}">List servers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route("dashboard.api.index") }}">List API's</a>
                         </li>
                         @endauth
                     </ul>
@@ -54,6 +76,11 @@
         @if(session('message'))
         <script>
             alertify.notify("{{ session('message') }}", 'custom');
+        </script>
+        @endif
+        @if(session('popup'))
+        <script>
+            alertify.alert('Notification', "{{ session('popup') }}");
         </script>
         @endif
         @yield('content')

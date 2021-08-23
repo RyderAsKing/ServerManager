@@ -464,11 +464,12 @@ class Virtualizor_Enduser_API
 		$res = $this->call('index.php?svs=' . $vid . '&act=start&do=1');
 
 		// Did it finish ?
-		if (!empty($res['done'])) {
-			return true;
-		} else {
-			return false;
-		}
+		// if (!empty($res['done'])) {
+		// 	return true;
+		// } else {
+		// 	return false;
+		// }
+		return $res['done']['msg'];
 	}
 
 
@@ -486,11 +487,12 @@ class Virtualizor_Enduser_API
 		$res = $this->call('index.php?svs=' . $vid . '&act=stop&do=1');
 
 		// Did it finish ?
-		if (!empty($res['done'])) {
-			return true;
-		} else {
-			return false;
-		}
+		// if (!empty($res['done'])) {
+		// 	return true;
+		// } else {
+		// 	return false;
+		// }
+		return $res['done']['msg'];
 	}
 
 
@@ -508,11 +510,12 @@ class Virtualizor_Enduser_API
 		$res = $this->call('index.php?svs=' . $vid . '&act=restart&do=1');
 
 		// Did it finish ?
-		if (!empty($res['done'])) {
-			return true;
-		} else {
-			return false;
-		}
+		// if (!empty($res['done'])) {
+		// 	return true;
+		// } else {
+		// 	return false;
+		// }
+		return $res['done']['msg'];
 	}
 
 

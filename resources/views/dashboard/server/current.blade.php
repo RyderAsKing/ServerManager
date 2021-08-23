@@ -5,8 +5,24 @@
     <div class="col-sm-12">
         <div class="card bg-dark" style="margin: 5px; border: 1px solid white; margin-top: 5%;">
             <div class="card-body">
-                <h5 class="card-title">{{ $server->server_id }} - {{ $server->hostname }} @if($server->type == 0)
-                    ({{ $information['os_name'] }}) @endif
+                <h5 class="card-title">
+
+                    @if($server->type == 0)
+
+                    <!-- Virtualizor Online and offline -->
+                    (@if($information['status'] == 0)
+                    <span class="offline"></span>
+                    @elseif($information['status'] == 1)
+
+                    <span class="online"></span>
+                    @endif
+                    @endif)
+                    <!-- Virtualizor Online and offline -->
+
+                    {{ $server->server_id }} - {{ $server->hostname }}
+                    @if($server->type == 0)
+                    ({{ $information['os_name'] }})
+                    @endif
                 </h5>
                 <p class="card-text">{{ $server->ipv4 }}</p>
                 <a href="{{ route("dashboard.server.current.start", $server) }}" class="btn btn-success"><i
@@ -54,9 +70,14 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">More actions (Virtualizor specific)</h5>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-file-signature"></i> Change Hostname</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-key"></i> Reset Password</a>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-first-aid"></i> Enable rescue mode</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-file-signature"></i>
+                        Change
+                        Hostname</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-key"></i>
+                        Reset
+                        Password</a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-first-aid"></i> Enable
+                        rescue mode</a>
                 </div>
             </div>
         </div>

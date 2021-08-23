@@ -64,7 +64,7 @@ class ServerViewController extends Controller
             if (Auth::user()->server()->where('server_id', $request->server_id)->count() > 0) {
                 return back()->with('status', 'This server already exists in our database');
             }
-            $v = new Virtualizor\Virtualizor_Enduser_API($host_ip, $key, $key_pass);
+            $v = new Virtualizor\Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
             $vid = $request->server_id;
             $serverinfo = $v->vpsinfo($vid);
             if (empty($serverinfo)) {

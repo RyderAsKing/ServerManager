@@ -34,7 +34,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/logout', [LogoutController::class, 'index'])->name("logout");
 
-Route::get('/dashboard/server', [ServerViewController::class, 'show'])->name("dashboard.server.show");
+Route::get('/dashboard/server', [ServerViewController::class, 'show'])->name("dashboard.server.index");
 Route::get('/dashboard/server/add', [ServerViewController::class, 'add'])->name("dashboard.server.add"); //view
 Route::post('/dashboard/server/add', [ServerViewController::class, 'store']); //request
 
