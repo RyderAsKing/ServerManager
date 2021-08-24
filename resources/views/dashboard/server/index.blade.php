@@ -12,7 +12,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $server->server_id }} - {{ $server->hostname }}</h5>
                     <p class="card-text">{{ $server->ipv4 }}</p>
-                    <p class="card-text">Type: @if($server->server_type == 0)Virtualizor @endif <br></p>
+                    <p class="card-text">Type: @if($server->server_type == 0)Virtualizor @elseif($server->server_type ==
+                        1) Pterodactyl @endif <br></p>
                     <a href="{{ route("dashboard.server.current.start", $server) }}" class="btn btn-success"><i
                             class="fas fa-play"></i></a>
                     <a href="{{ route("dashboard.server.current.stop", $server)}}" class="btn btn-danger"><i

@@ -18,8 +18,8 @@
     @csrf
     <div class="mb-3">
         <label for="server_id" class="form-label">Server ID</label>
-        <input type="number" class="form-control" id="server_id" name="server_id" placeholder="Enter your server ID"
-            value="{{ old('server_id') }}" min="1">
+        <input class="form-control" id="server_id" name="server_id" placeholder="Enter your server ID"
+            value="{{ old('server_id') }}">
     </div>
     @error('server_id')
     <div style="color: red;">{{ $message }}</div>
@@ -28,7 +28,9 @@
         <label for="api_id" class="form-label">API Account</label>
         <select class="form-select" name="api_id">
             @foreach ($apis as $api)
-            <option value="{{ $api->id }}">{{ $api->nick }} | {{ $api->api }}</option>
+            <option value="{{ $api->id }}">{{ $api->nick }} | {{ $api->api }} | @if($api->type == 0) Virtualizor
+                @elseif($api->type == 1) Pterodactyl @endif
+            </option>
             @endforeach
         </select>
     </div>

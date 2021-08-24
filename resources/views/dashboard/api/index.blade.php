@@ -12,7 +12,8 @@
                     <h5 class="card-title">Nickname: {{ $api->nick }}</h5>
                     <h5 class="card-title">API: <code>{{ $api->api }}</code></h5>
                     <h5 class="card-title">Hostname: <code>{{ $api->hostname }}</code></h5>
-                    <p class="card-text">Type @if(Str::of($api->type)->contains('0')) Virtualizor @endif <br> Created
+                    <p class="card-text">Type @if($api->type == 0) Virtualizor @elseif($api->type == 1) Pterodactyl
+                        @endif <br> Created
                         {{ $api->created_at->diffForHumans() }}</p>
                     <a href="{{ route("dashboard.api.destroy", $api) }}"><button class="btn btn-outline-danger"
                             type="button">Delete</button></a>

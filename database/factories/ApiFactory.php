@@ -24,10 +24,12 @@ class ApiFactory extends Factory
     {
         return [
             //
-            'nick' => $this->faker->name(),
             'type' => 0,
             'api' => Str::random(16),
             'api_pass' => Str::random(32),
+            'nick' => $this->faker->name(),
+            'hostname' => Str::random(16),
+            'protocol' => "https",
         ];
     }
 }

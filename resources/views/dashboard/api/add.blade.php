@@ -13,6 +13,7 @@
             <label for="type" class="form-label">API Type</label>
             <select class="form-select" name="type">
                 <option selected value="0">Virtualizor</option>
+                <option selected value="1">Pterodactyl</option>
             </select>
         </div>
         @error('type')
