@@ -20,7 +20,6 @@ class ServerActionController extends Controller
         $this->middleware('auth');
     }
 
-
     private function returnApiInstance(Server $server)
     {
         $api_instance = Api::find(['id' => $server->api_id])->first();
