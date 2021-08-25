@@ -38,6 +38,10 @@
                 border-radius: 50%;
                 display: inline-block;
             }
+
+            .hidden {
+                display: none;
+            }
         </style>
     </head>
 

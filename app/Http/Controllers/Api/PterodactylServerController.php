@@ -27,7 +27,7 @@ class PterodactylServerController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         $user = User::where('api_token', $request->bearerToken())->first();
-        $server = $user->server()->findOrFail($server_id);
+        $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
         $api_instance = $this->returnApiInstance($server);
         $type = $this->returnType($api_instance);
 
@@ -90,7 +90,7 @@ class PterodactylServerController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         $user = User::where('api_token', $request->bearerToken())->first();
-        $server = $user->server()->findOrFail($server_id);
+        $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
         $api_instance = $this->returnApiInstance($server);
         $type = $this->returnType($api_instance);
 
@@ -138,7 +138,7 @@ class PterodactylServerController extends Controller
             $ram_current = round($result['attributes']['resources']['memory_bytes'] / 1024 / 1024, 0);
             $cpu_current = $result['attributes']['resources']['cpu_absolute'];
             $disk_current = round($result['attributes']['resources']['disk_bytes'] / 1024 / 1024, 0);
-            $resources = array('status' => $status, 'ram_usage' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current);
+            $resources = array('status' => $status, 'memory_current' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current);
             return response()->json($resources);
         } else {
             return response()->json(["message" => "Invalid type"], 404);

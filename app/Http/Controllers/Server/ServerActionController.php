@@ -120,7 +120,7 @@ class ServerActionController extends Controller
         $cpu = $result['attributes']['limits']['cpu'];
         $memory = $result['attributes']['limits']['memory'];
         $uuid = $result['attributes']['uuid'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid);
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token);
         return $current_information;
     }
     // Pterodactyl handling end

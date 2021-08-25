@@ -19,7 +19,8 @@
 
                     <!-- if pterodactyl -->
                     @elseif($server->server_type == 1)
-
+                    ( <span class="offline hidden" id="offline"></span>
+                    <span class="online hidden" id="online"></span> )
                     @endif
 
 
@@ -119,7 +120,7 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">Memory</h5>
-                    <p class="card-text">{{ $information['memory'] }} MB</p>
+                    <p class="card-text"><span id="memory"></span>{{ $information['memory'] }} MB</p>
                 </div>
             </div>
         </div>
@@ -127,7 +128,8 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">CPU</h5>
-                    <p class="card-text">@if($information['cpu'] == 0) No limit @else {{ $information['cpu'] }}% @endif
+                    <p class="card-text"><span id="cpu"></span>@if($information['cpu'] == 0)Unlimited @else
+                        {{ $information['cpu'] }}% @endif
                     </p>
                 </div>
             </div>
@@ -136,7 +138,7 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">Disk</h5>
-                    <p class="card-text">{{ $information['disk'] }} MB
+                    <p class="card-text"><span id="disk"></span>{{ $information['disk'] }} MB
                     </p>
                 </div>
             </div>
@@ -144,49 +146,13 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <canvas id="cpu"></canvas>
+            <canvas id="chart_cpu"></canvas>
         </div>
         <div class="col-sm-6">
-            <canvas id="ram"></canvas>
+            <canvas id="chart_memory"></canvas>
         </div>
     </div>
-    <script>
-        var ctx = document.getElementById('cpu').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
+
     @endif
     <div class="col-sm-12" style="text-align: center">
         <div class="card bg-dark" style="margin: 5px; border: 1px solid red">
@@ -253,5 +219,189 @@
         </form>
     </div>
 </div>
+
+
+<!-- Additional Javascript if required -->
+@if($server->server_type == 1)
+<script>
+    function timeformat(date) {
+        var h = date.getHours();
+        var m = date.getMinutes();
+        var x = h >= 12 ? 'pm' : 'am';
+        h = h % 12;
+        h = h ? h : 12;
+        m = m < 10 ? '0'+m: m;
+        var mytime= h + ':' + m + ' ' + x;
+        return mytime;
+    }
+    first();
+    var memory = document.getElementById("memory");
+    var cpu = document.getElementById("cpu");
+    var disk = document.getElementById("disk");
+    var ctc = $('#chart_cpu');
+    var TimeLabels = [timeformat(new Date()), timeformat(new Date())];
+    var CPUData = [0, 0];
+    var CPUChart = new Chart(ctc, {
+        type: 'line',
+        data: {
+            labels: TimeLabels,
+            datasets: [
+                {
+                    cubicInterpolationMode: 'monotone',
+                    label: "CPU Usage (Percentage)",
+                    fill: false,
+                    lineTension: 0.4,
+                    backgroundColor: "#5EFFA7",
+                    borderColor: '#5EFFA7',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "#5EFFA7",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "#5EFFA7",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: CPUData,
+                    spanGaps: false,
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'CPU Usage (as Percent Total)'
+            },
+            legend: {
+                display: false,
+            },
+            animation: {
+                duration: 1,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    var ctm = $('#chart_memory');
+    MemoryData = [0, 0];
+    MemoryChart = new Chart(ctm, {
+        type: 'line',
+        data: {
+            labels: TimeLabels,
+            datasets: [
+                {
+                    cubicInterpolationMode: 'monotone',
+                    label: "Memory Usage (in Megabytes)",
+                    fill: false,
+                    lineTension: 0.4,
+                    backgroundColor: "#FFC107",
+                    borderColor: "#FFC107",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "#FFC107",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "#FFC107",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: MemoryData,
+                    spanGaps: false,
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Memory Usage (in Megabytes)'
+            },
+            legend: {
+                display: false,
+            },
+            animation: {
+                duration: 1,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    function first() {
+        var online = document.getElementById("online");
+        var offline = document.getElementById("offline");
+        $.ajax({
+            url: '/api/server/pterodactyl/{{ $server->server_id }}/resources',
+            type: 'GET',
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer {{ $information['api_token'] }}'
+            },
+            success: function(result) {
+                // CallBack(result);
+                if (result['status'] == 'offline') {
+                    offline.classList.remove("hidden");
+                    online.classList.add("hidden");
+                } else {
+                    online.classList.remove("hidden");
+                    offline.classList.add("hidden");
+                }
+            }
+        });
+        setInterval(update, 1000);
+    }
+
+    function update() {
+        $.ajax({
+            url: '/api/server/pterodactyl/{{ $server->server_id }}/resources',
+            type: 'GET',
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer {{ $information['api_token'] }}'
+            },
+            success: function(result) {
+                console.log(result);
+                // CallBack(result);
+                if (CPUData.length > 10) {
+                    CPUData.shift();
+                    MemoryData.shift();
+                    TimeLabels.shift();
+                }
+                var cpuUse = result['cpu_current'];
+                var memoryUse = result['memory_current'];
+
+                CPUData.push(cpuUse);
+                MemoryData.push(memoryUse);
+                var dateWithouthSecond = new Date();
+
+                memory.innerHTML = `${result['memory_current']}/`;
+                cpu.innerHTML = `${result['cpu_current']}/`;
+                disk.innerHTML = `${result['disk_current']}/`;
+                TimeLabels.push(timeformat(new Date()));
+                CPUChart.update();
+                MemoryChart.update();
+            }
+        });
+    }
+</script>
+@endif
 
 @endsection
