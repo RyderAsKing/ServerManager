@@ -13,6 +13,7 @@
             integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
         </script>
         <script src="https://kit.fontawesome.com/691f4cd05f.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset("css/alertify.css") }}">
         <script src="{{ asset("js/alertify.js") }}" crossorigin="anonymous"></script>
         <style>

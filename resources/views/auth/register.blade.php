@@ -40,25 +40,6 @@
         @error('password')
         <div style="color: red;">{{ $message }}</div>
         @enderror
-        <div class="mb-3">
-            <label for="api" class="form-label">Virtualizor API key</label>
-            <input type="text" class="form-control" id="api" name="api" placeholder="Enter your virtualizor API key"
-                value="{{ old('api') }}">
-        </div>
-        @error('api')
-        <div style="color: red;">{{ $message }}</div>
-        @enderror
-        <div class="mb-3">
-            <label for="api_pass" class="form-label">Virtualizor API Password</label>
-            <input type="text" class="form-control" id="api_pass" name="api_pass"
-                placeholder="Enter your virtualizor API Password" value="{{ old('api_pass') }}">
-            <div id="apiHelp" class="form-text"><a href="https://www.virtualizor.com/docs/enduser/client-api-keys/"
-                    style="color: white;" target="_blank">Here's how to get the API key for
-                    your account</a></div>
-        </div>
-        @error('api_pass')
-        <div style="color: red;">{{ $message }}</div>
-        @enderror
         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Register</button>
     </form>
 </div>

@@ -15,8 +15,7 @@ class AddApiToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('api', 17);
-            $table->string('api_pass', 33);
+            $table->string('api_token', 32);
         });
     }
 
@@ -29,8 +28,7 @@ class AddApiToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('api');
-            $table->dropColumn('api_pass');
+            $table->dropColumn('api_token');
         });
     }
 }

@@ -23,9 +23,8 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, ['name' => 'required|max:32', 'email' => 'required|email|max:128', 'password' => 'required|confirmed']);
-        $api = Str::random(16);
-        $api_pass = Str::random(32);
-        User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->password), 'api' => $api, 'api_pass' => $api_pass]);
+        $api_token = Str::random(32);
+        User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->password), 'api_token' => $api_token]);
         Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         return redirect()->route('dashboard');
     }

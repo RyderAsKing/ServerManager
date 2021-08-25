@@ -113,6 +113,80 @@
         @endif
 
     </div>
+    @elseif($server->server_type == 1)
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
+                <div class="card-body">
+                    <h5 class="card-title">Memory</h5>
+                    <p class="card-text">{{ $information['memory'] }} MB</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
+                <div class="card-body">
+                    <h5 class="card-title">CPU</h5>
+                    <p class="card-text">@if($information['cpu'] == 0) No limit @else {{ $information['cpu'] }}% @endif
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
+                <div class="card-body">
+                    <h5 class="card-title">Disk</h5>
+                    <p class="card-text">{{ $information['disk'] }} MB
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <canvas id="cpu"></canvas>
+        </div>
+        <div class="col-sm-6">
+            <canvas id="ram"></canvas>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById('cpu').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
     @endif
     <div class="col-sm-12" style="text-align: center">
         <div class="card bg-dark" style="margin: 5px; border: 1px solid red">
@@ -123,6 +197,7 @@
             </div>
         </div>
     </div>
+
     @endif
 </div>
 </div>
