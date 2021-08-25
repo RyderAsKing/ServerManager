@@ -240,7 +240,7 @@
     var disk = document.getElementById("disk");
     var ctc = $('#chart_cpu');
     var TimeLabels = [timeformat(new Date()), timeformat(new Date())];
-    var CPUData = [0, 0];
+    var CPUData = [0, 0.01];
     var CPUChart = new Chart(ctc, {
         type: 'line',
         data: {
@@ -285,6 +285,7 @@
             scales: {
                 yAxes: [{
                     ticks: {
+                        suggestedMin: 0,
                         beginAtZero: true
                     }
                 }]
@@ -293,7 +294,7 @@
     });
 
     var ctm = $('#chart_memory');
-    MemoryData = [0, 0];
+    MemoryData = [0, 0.01];
     MemoryChart = new Chart(ctm, {
         type: 'line',
         data: {
@@ -338,6 +339,7 @@
             scales: {
                 yAxes: [{
                     ticks: {
+                        suggestedMin: 0,
                         beginAtZero: true
                     }
                 }]
