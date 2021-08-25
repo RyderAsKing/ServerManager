@@ -6,8 +6,8 @@
         <div class="card bg-dark" style="margin: 5px; border: 1px solid white; margin-top: 5%;">
             <div class="card-body">
                 <h5 class="card-title">
-
-                    @if($server->type == 0)
+                    <!-- if virtualizor -->
+                    @if($server->server_type == 0)
 
                     <!-- Virtualizor Online and offline -->
                     (@if($information['status'] == 0)
@@ -15,13 +15,26 @@
                     @elseif($information['status'] == 1)
 
                     <span class="online"></span>
-                    @endif
                     @endif)
+
+                    <!-- if pterodactyl -->
+                    @elseif($server->server_type == 1)
+
+                    @endif
+
+
                     <!-- Virtualizor Online and offline -->
 
                     {{ $server->server_id }} - {{ $server->hostname }}
-                    @if($server->type == 0)
+
+                    <!-- if virtualizor -->
+                    @if($server->server_type == 0)
                     ({{ $information['os_name'] }})
+
+                    <!-- if pterodactyl -->
+                    @elseif($server->server_type == 1)
+                    ({{ $information['uuid'] }})
+
                     @endif
                 </h5>
                 <p class="card-text">{{ $server->ipv4 }}</p>
@@ -34,7 +47,8 @@
             </div>
         </div>
     </div>
-    @if($server->type == 0)
+    <!-- if virtualizor -->
+    @if($server->server_type == 0)
     <div class="row">
         <div class="col-sm-4">
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">

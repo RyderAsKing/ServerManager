@@ -54,6 +54,7 @@ class ServerViewController extends Controller
 
         $key = $api->api;
         $key_pass = $api->api_pass;
+        $protocol = "";
         if ($api->protocol == 0) {
             $protocol = 'http';
         } else {

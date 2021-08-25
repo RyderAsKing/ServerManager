@@ -72,6 +72,60 @@ class ServerActionController extends Controller
     }
     // Virtualizor handling end
 
+
+    // Pterodactyl handling
+    private function getPterodactylInformation(Server $server, Api $api_instance)
+    {
+        $server_id = $server->server_id;
+        $host_ip = $api_instance->hostname;
+        $key = $api_instance->api;
+
+        $protocol = "";
+        if ($api_instance->protocol == 0) {
+            $protocol = 'http';
+        } else {
+            $protocol = 'https';
+        }
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+        $headers = array();
+        $headers[] = 'Accept: application/json';
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer ' . $key;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        $result = json_decode($result, true);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        if (isset($result['errors'])) {
+            if ($result['errors'][0]['status'] == 403) {
+                return back()->with('status', 'The API key and password are incorrect');
+            } elseif ($result['errors'][0]['status'] == 404) {
+                return back()->with('status', 'The requested server was not found');
+            }
+            return back()->with('status', 'There was an error adding the server');
+        }
+        $hostname = $result['attributes']['name'];
+        $ipv4 = $result['attributes']['sftp_details']['ip'];
+        $sftp_port = $result['attributes']['sftp_details']['port'];
+        $disk = $result['attributes']['limits']['disk'];
+        $cpu = $result['attributes']['limits']['cpu'];
+        $memory = $result['attributes']['limits']['memory'];
+        $uuid = $result['attributes']['uuid'];
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid);
+        return $current_information;
+    }
+    // Pterodactyl handling end
+
     public function index(Server $server)
     {
         $this->authorize("use_server", $server);
@@ -81,6 +135,12 @@ class ServerActionController extends Controller
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
             $information = $this->getVirtualizorInformation($v, $server);
+            return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
+        }
+        // 1 = Pterodactyl
+        if ($type == 1) {
+            $api_instance = $this->returnApiInstance($server);
+            $information = $this->getPterodactylInformation($server, $api_instance);
             return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
         }
     }
