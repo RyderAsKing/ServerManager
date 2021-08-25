@@ -154,6 +154,41 @@ class ServerActionController extends Controller
             $output = $v->start($server->server_id);
             return back()->with('popup', $output);
         }
+
+        if ($type == 1) {
+            $host_ip = $api_instance->hostname;
+            $key = $api_instance->api;
+            $action = array('signal' => 'start');
+
+            $action = json_encode($action);
+            $protocol = "";
+            if ($api_instance->protocol == 0) {
+                $protocol = 'http';
+            } else {
+                $protocol = 'https';
+            }
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/power');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $action);
+
+            $headers = array();
+            $headers[] = 'Accept: application/json';
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: Bearer ' . $key;
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+            }
+            curl_close($ch);
+            return back()->with('popup', 'Successfully started the server');
+        }
     }
 
     public function stop(Server $server)
@@ -167,6 +202,40 @@ class ServerActionController extends Controller
             $output = $v->stop($server->server_id);
             return back()->with('popup', $output);
         }
+        if ($type == 1) {
+            $host_ip = $api_instance->hostname;
+            $key = $api_instance->api;
+            $action = array('signal' => 'stop');
+
+            $action = json_encode($action);
+            $protocol = "";
+            if ($api_instance->protocol == 0) {
+                $protocol = 'http';
+            } else {
+                $protocol = 'https';
+            }
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/power');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $action);
+
+            $headers = array();
+            $headers[] = 'Accept: application/json';
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: Bearer ' . $key;
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+            }
+            curl_close($ch);
+            return back()->with('popup', 'Successfully stopped the server');
+        }
     }
 
     public function restart(Server $server)
@@ -179,6 +248,88 @@ class ServerActionController extends Controller
             $v = $this->createVirtualizorClient($api_instance);
             $output = $v->restart($server->server_id);
             return back()->with('popup', $output);
+        }
+        if ($type == 1) {
+            $host_ip = $api_instance->hostname;
+            $key = $api_instance->api;
+            $action = array('signal' => 'restart');
+
+            $action = json_encode($action);
+            $protocol = "";
+            if ($api_instance->protocol == 0) {
+                $protocol = 'http';
+            } else {
+                $protocol = 'https';
+            }
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/power');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $action);
+
+            $headers = array();
+            $headers[] = 'Accept: application/json';
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: Bearer ' . $key;
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+            }
+            curl_close($ch);
+            return back()->with('popup', 'Successfully restarted the server');
+        }
+    }
+
+    public function kill(Server $server)
+    {
+        $this->authorize("use_server", $server);
+        $api_instance = $this->returnApiInstance($server);
+        $type = $this->returnType($api_instance);
+        // 0 = Virtualizor
+        if ($type == 0) {
+            $v = $this->createVirtualizorClient($api_instance);
+            $output = $v->poweroff($server->server_id);
+            return back()->with('popup', $output);
+        }
+        if ($type == 1) {
+            $host_ip = $api_instance->hostname;
+            $key = $api_instance->api;
+            $action = array('signal' => 'kill');
+
+            $action = json_encode($action);
+            $protocol = "";
+            if ($api_instance->protocol == 0) {
+                $protocol = 'http';
+            } else {
+                $protocol = 'https';
+            }
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/power');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $action);
+
+            $headers = array();
+            $headers[] = 'Accept: application/json';
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: Bearer ' . $key;
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+            }
+            curl_close($ch);
+
+            return back()->with('popup', 'Successfully killed the server');
         }
     }
 

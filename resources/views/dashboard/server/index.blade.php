@@ -20,8 +20,11 @@
                             class="fas fa-stop"></i></a>
                     <a href="{{ route("dashboard.server.current.restart", $server)}}" class="btn btn-warning"><i
                             class="fas fa-redo"></i><a>
+                            <a href="{{ route("dashboard.server.current.kill", $server)}}" class="btn btn-danger"><i
+                                    class="fas fa-power-off"></i></a>
                             <a href="{{ route("dashboard.server.current.index", $server)}}" class="btn btn-primary"><i
                                     class="fas fa-external-link-alt"></i></a>
+
                 </div>
             </div>
         </div>

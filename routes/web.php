@@ -43,6 +43,7 @@ Route::get('/dashboard/server/{server}', [ServerActionController::class, 'index'
 Route::get('/dashboard/server/{server}/start', [ServerActionController::class, 'start'])->name("dashboard.server.current.start");
 Route::get('/dashboard/server/{server}/stop', [ServerActionController::class, 'stop'])->name("dashboard.server.current.stop");
 Route::get('/dashboard/server/{server}/restart', [ServerActionController::class, 'restart'])->name("dashboard.server.current.restart");
+Route::get('/dashboard/server/{server}/kill', [ServerActionController::class, 'kill'])->name("dashboard.server.current.kill");
 Route::get('/dashboard/server/{server}/destroy', [ServerActionController::class, 'destroy'])->name("dashboard.server.current.destroy");
 Route::post('/dashboard/server/{server}/change/hostname', [ServerActionController::class, 'changeHostname'])->name("dashboard.server.current.changehostname");
 Route::post('/dashboard/server/{server}/change/password', [ServerActionController::class, 'changePassword'])->name("dashboard.server.current.changepassword");

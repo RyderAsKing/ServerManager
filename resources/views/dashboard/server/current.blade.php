@@ -45,6 +45,9 @@
                         class="fas fa-stop"></i> Stop</a>
                 <a href="{{ route("dashboard.server.current.restart", $server)}}" class="btn btn-warning"><i
                         class="fas fa-redo"></i> Restart</a>
+                <a href="{{ route("dashboard.server.current.kill", $server)}}" class="btn btn-danger"><i
+                        class="fas fa-power-off"></i>
+                    Kill</a>
             </div>
         </div>
     </div>
@@ -144,12 +147,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <canvas id="chart_cpu"></canvas>
-        </div>
-        <div class="col-sm-6">
-            <canvas id="chart_memory"></canvas>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-sm-12">
+            <canvas id="resource_chart" height="70"></canvas>
         </div>
     </div>
 
@@ -238,13 +238,16 @@
     var memory = document.getElementById("memory");
     var cpu = document.getElementById("cpu");
     var disk = document.getElementById("disk");
-    var ctc = $('#chart_cpu');
+    var ctc = $('#resource_chart');
     var TimeLabels = [timeformat(new Date()), timeformat(new Date())];
-    var CPUData = [0, 0.01];
+    var CPUData = Array(24).fill('');
+    CPUData.push(0.01);
+    var MemoryData = Array(24).fill('');
+    MemoryData.push(0.01);
     var CPUChart = new Chart(ctc, {
         type: 'line',
         data: {
-            labels: TimeLabels,
+            labels: Array(24).fill(''),
             datasets: [
                 {
                     cubicInterpolationMode: 'monotone',
@@ -268,38 +271,7 @@
                     pointHitRadius: 10,
                     data: CPUData,
                     spanGaps: false,
-                }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'CPU Usage (as Percent Total)'
-            },
-            legend: {
-                display: false,
-            },
-            animation: {
-                duration: 1,
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        suggestedMin: 0,
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-
-    var ctm = $('#chart_memory');
-    MemoryData = [0, 0.01];
-    MemoryChart = new Chart(ctm, {
-        type: 'line',
-        data: {
-            labels: TimeLabels,
-            datasets: [
+                },
                 {
                     cubicInterpolationMode: 'monotone',
                     label: "Memory Usage (in Megabytes)",
@@ -328,7 +300,7 @@
         options: {
             title: {
                 display: true,
-                text: 'Memory Usage (in Megabytes)'
+                text: 'Resource Usage'
             },
             legend: {
                 display: false,
@@ -382,7 +354,7 @@
             success: function(result) {
                 console.log(result);
                 // CallBack(result);
-                if (CPUData.length > 7) {
+                if (CPUData.length > 25) {
                     CPUData.shift();
                     MemoryData.shift();
                     TimeLabels.shift();
@@ -399,7 +371,6 @@
                 disk.innerHTML = `${result['disk_current']}/`;
                 TimeLabels.push(timeformat(new Date()));
                 CPUChart.update();
-                MemoryChart.update();
             }
         });
     }

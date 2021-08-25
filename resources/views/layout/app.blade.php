@@ -15,6 +15,7 @@
         <script src="https://kit.fontawesome.com/691f4cd05f.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset("css/alertify.css") }}">
+        <script src="https://cdn.socket.io/4.0.1/socket.io.js"></script>
         <script src="{{ asset("js/alertify.js") }}" crossorigin="anonymous"></script>
         <style>
             .ajs-message.ajs-custom {
@@ -82,6 +83,11 @@
         @if(session('message'))
         <script>
             alertify.notify("{{ session('message') }}", 'custom');
+        </script>
+        @endif
+        @if(session('error'))
+        <script>
+            alertify.error("{{ session('error') }}");
         </script>
         @endif
         @if(session('popup'))
