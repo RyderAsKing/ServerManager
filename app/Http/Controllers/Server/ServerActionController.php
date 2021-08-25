@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
-use Virtualizor;
+
 use App\Models\Api;
 use App\Models\server;
 
-include("Virtualizor.php");
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Custom\Handlers\Virtualizor_Enduser_API;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ServerActionController extends Controller
@@ -45,7 +44,7 @@ class ServerActionController extends Controller
         $host_ip  = $api_instance->hostname;
         $key = $api_instance->api;
         $key_pass = $api_instance->api_pass;
-        return new Virtualizor\Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
+        return new Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
     }
     public function getVirtualizorInformation($v, Server $server)
     {

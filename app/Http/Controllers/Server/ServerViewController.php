@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Server;
 
-use Virtualizor;
 use App\Models\Api;
 use App\Models\server;
-
-include("Virtualizor.php");
+use App\Custom\Handlers\Virtualizor_Enduser_API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -66,7 +64,7 @@ class ServerViewController extends Controller
             if (Auth::user()->server()->where(['server_id' => $request->server_id, 'api_id' => $request->api_id])->count() > 0) {
                 return back()->with('status', 'This server already exists in our database');
             }
-            $v = new Virtualizor\Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
+            $v = new Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
             $vid = $request->server_id;
             $serverinfo = $v->vpsinfo($vid);
             if (empty($serverinfo)) {
