@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}', [PterodactylServerController::class, 'information']);
 Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}/resources', [PterodactylServerController::class, 'resources']);
+Route::middleware('auth:api')->post('/server/pterodactyl/{server_id}/power', [PterodactylServerController::class, 'power']);
