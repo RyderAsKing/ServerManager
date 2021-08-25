@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ServerViewController;
+use App\Http\Controllers\Server\ServerViewController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ServerActionController;
-use App\Http\Controllers\ApiManagementController;
+use App\Http\Controllers\Server\ServerActionController;
+use App\Http\Controllers\Api\ApiManagementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;

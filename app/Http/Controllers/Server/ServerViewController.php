@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Server;
 
 use Virtualizor;
 use App\Models\Api;
@@ -8,6 +8,7 @@ use App\Models\server;
 
 include("Virtualizor.php");
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
