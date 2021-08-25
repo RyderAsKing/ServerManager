@@ -382,7 +382,7 @@
             success: function(result) {
                 console.log(result);
                 // CallBack(result);
-                if (CPUData.length > 10) {
+                if (CPUData.length > 7) {
                     CPUData.shift();
                     MemoryData.shift();
                     TimeLabels.shift();
