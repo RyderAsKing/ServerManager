@@ -78,8 +78,8 @@ class PterodactylServerController extends Controller
             $cpu = $result['attributes']['limits']['cpu'];
             $memory = $result['attributes']['limits']['memory'];
             $uuid = $result['attributes']['uuid'];
-            $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid);
-            return response()->json($current_information);
+            $information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid);
+            return response()->json($information);
         } else {
             return response()->json(["message" => "Invalid type"], 404);
         }
