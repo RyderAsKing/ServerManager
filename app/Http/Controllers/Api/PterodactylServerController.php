@@ -155,6 +155,9 @@ class PterodactylServerController extends Controller
         $api_instance = $this->returnApiInstance($server);
         $type = $this->returnType($api_instance);
         $action = $request->action;
+        if ($action != 'start' && $action != 'stop' && $action != 'restart' &&  $action != 'kill') {
+            return response()->json(["message" => "Invalid method"], 404);
+        }
         $action = array('action' => $request->action);
         // 1 = Pterodactyl
         if ($type == 1) {

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\PterodactylServerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PterodactylServerController;
+use App\Http\Controllers\Api\VirtualizorServerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}', [PterodactylServerController::class, 'information']);
 Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}/resources', [PterodactylServerController::class, 'resources']);
 Route::middleware('auth:api')->post('/server/pterodactyl/{server_id}/power', [PterodactylServerController::class, 'power']);
+
+
+Route::middleware('auth:api')->get('/server/virtualizor/{server_id}', [VirtualizorServerController::class, 'information']);
+Route::middleware('auth:api')->post('/server/virtualizor/{server_id}/power', [VirtualizorServerController::class, 'power']);
