@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Server;
 
 
 use App\Models\Api;
-use App\Models\server;
+use App\Models\Server;
 
 use Illuminate\Http\Request;
 use App\Custom\Handlers\Virtualizor_Enduser_API;
