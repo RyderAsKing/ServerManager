@@ -10,7 +10,6 @@ Are you sick of having to log into hundreads of different website just to access
 | --- | --------------- | ---------------------- |
 | 1   | Virtualizor     | Yes                    |
 | 2   | Pterodactyl     | Yes                    |
-| 3   | Ararat (By Hye) | No, planned for future |
 
 ## Installation
 
