@@ -123,7 +123,8 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">Memory</h5>
-                    <p class="card-text"><span id="memory"></span>{{ $information['memory'] }} MB</p>
+                    <p class="card-text"><span id="memory"></span>{{ $information['memory'] }}
+                        @if($information['memory'] == 0)Unlimited @else MB @endif</p>
                 </div>
             </div>
         </div>
@@ -141,7 +142,8 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">Disk</h5>
-                    <p class="card-text"><span id="disk"></span>{{ $information['disk'] }} MB
+                    <p class="card-text"><span id="disk"></span>{{ $information['disk'] }} @if($information['disk'] ==
+                        0) Unlimited @else MB @endif
                     </p>
                 </div>
             </div>
