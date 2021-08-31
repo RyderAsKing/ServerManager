@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Server;
 
 use App\Models\Api;
-use App\Models\server;
+use App\Models\Server;
 use App\Custom\Handlers\Virtualizor_Enduser_API;
 
 use App\Http\Controllers\Controller;
