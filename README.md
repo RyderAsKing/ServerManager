@@ -6,10 +6,10 @@ Are you sick of having to log into hundreads of different website just to access
 
 ## Supported softwares
 
-| ID  | Softwares       | Supported              |
-| --- | --------------- | ---------------------- |
-| 1   | Virtualizor     | Yes                    |
-| 2   | Pterodactyl     | Yes                    |
+| ID  | Softwares   | Supported |
+| --- | ----------- | --------- |
+| 1   | Virtualizor | Yes       |
+| 2   | Pterodactyl | Yes       |
 
 ## Installation
 
@@ -146,6 +146,71 @@ sudo apt-get update
 sudo apt-get install python3-certbot-nginx
 sudo certbot --nginx -d yourdomain.com
 ```
+
+## Updating
+
+### Enable Maintenance Mode
+
+```bash
+cd /var/www/manager
+sudo php artisan down
+```
+
+### Downloading new files
+
+```bash
+sudo git stash
+sudo git pull
+sudo chmod -R 755 /var/www/manager
+```
+
+### Updating database
+
+```bash
+sudo php artisan migrate --seed --force
+```
+
+### Clear cache
+
+```bash
+sudo php artisan view:clear
+sudo php artisan config:clear
+```
+
+### Updating dependencies
+
+```bash
+sudo composer install --no-dev --optimize-autoloader
+```
+
+### Updating permissions
+
+```bash
+# If using NGINX or Apache (not on CentOS):
+sudo chown -R www-data:www-data /var/www/manager/*
+
+# If using NGINX on CentOS:
+sudo chown -R nginx:nginx /var/www/manager/*
+
+# If using Apache on CentOS
+sudo chown -R apache:apache /var/www/manager/*
+```
+
+### Restarting queue workers
+
+```bash
+sudo php artisan queue:restart
+```
+
+### Disable maintenance mode
+
+```bash
+sudo php artisan up
+```
+
+## Finishing up
+
+Congratulations, you have successfully updated and are now running the latest instance of server manager on your server.
 
 ## Contributing
 
