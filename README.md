@@ -2,13 +2,14 @@
 
 Are you sick of having to log into hundreads of different website just to access your server? Well we got you, Server manager is a open source project made for people so that they can add the servers to one single place irrespective of their provider and manage it through one location. Feel free to setup a local instance of this, would be helpful to manage servers.
 
+![Preview](https://raw.githubusercontent.com/RyderAsKing/ServerManager/main/review.gif)
+
 ## Supported softwares
 
 | ID  | Softwares       | Supported              |
 | --- | --------------- | ---------------------- |
 | 1   | Virtualizor     | Yes                    |
 | 2   | Pterodactyl     | Yes                    |
-| 3   | Ararat (By Hye) | No, planned for future |
 
 ## Installation
 
@@ -139,9 +140,10 @@ Congratulations, you are now running a instance of server manager on your server
 ### SSL (Optional but recommended)
 
 ```bash
+# Make sure you have python3 installed
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
-sudo apt-get install python-certbot-nginx
+sudo apt-get install python3-certbot-nginx
 sudo certbot --nginx -d yourdomain.com
 ```
 
