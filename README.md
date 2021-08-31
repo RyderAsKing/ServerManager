@@ -140,9 +140,10 @@ Congratulations, you are now running a instance of server manager on your server
 ### SSL (Optional but recommended)
 
 ```bash
+# Make sure you have python3 installed
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
-sudo apt-get install python-certbot-nginx
+sudo apt-get install python3-certbot-nginx
 sudo certbot --nginx -d yourdomain.com
 ```
 
