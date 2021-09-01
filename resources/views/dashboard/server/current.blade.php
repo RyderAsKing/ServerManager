@@ -106,20 +106,6 @@
                 </div>
             </div>
         </div>
-        @if($information['is_vnc_available'] == 1)
-        <div class="col-sm-4 hidden">
-            <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
-                <div class="card-body">
-                    <h5 class="card-title">VNC Information</h5>
-                    <p class="card-text">
-                        IP: <code>{{ $information['vnc_ip'] }}</code><br>
-                        Port: <code>{{ $information['vnc_port'] }}</code><br>
-                        Password: <code>{{ $information['vnc_password'] }}</code>
-                    </p>
-                </div>
-            </div>
-        </div>
-        @endif
 
     </div>
     @elseif($server->server_type == 1)
@@ -228,6 +214,7 @@
     </div>
 </div>
 
+@if($information['is_vnc_available'] == 1)
 <div class="modal fade" id="vncInformation" role="modal" tabindex="-1" aria-labelledby="vncInformation"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -250,6 +237,7 @@
 
     </div>
 </div>
+@endif
 
 <!-- Additional Javascript if required -->
 @if($server->server_type == 1)
