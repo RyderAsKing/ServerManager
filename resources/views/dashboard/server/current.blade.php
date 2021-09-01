@@ -84,25 +84,30 @@
     </div>
 
     <div class="row">
-        <div class="@if($information['is_vnc_available'] == 1) col-sm-8 @else col-sm-12 @endif">
+        <div class="col-sm-12">
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">More actions (Virtualizor specific)</h5>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#changeHostname"><i class="fas fa-file-signature"></i>
                         Change
-                        Hostname</button>
+                        Hostname
+                    </button>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePassword"><i
                             class="fas fa-key"></i>
-                        Change
-                        Password</button>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-first-aid"></i> Enable
-                        rescue mode</a>
+                        Change Password
+                    </button>
+                    @if($information['is_vnc_available'] == 1)
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vncInformation"><i
+                            class="fas fa-desktop"></i>
+                        VNC information
+                    </button>
+                    @endif
                 </div>
             </div>
         </div>
         @if($information['is_vnc_available'] == 1)
-        <div class="col-sm-4">
+        <div class="col-sm-4 hidden">
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">VNC Information</h5>
@@ -223,6 +228,28 @@
     </div>
 </div>
 
+<div class="modal fade" id="vncInformation" role="modal" tabindex="-1" aria-labelledby="vncInformation"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">VNC Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    IP: <code>{{ $information['vnc_ip'] }}</code><br>
+                    Port: <code>{{ $information['vnc_port'] }}</code><br>
+                    Password: <code>{{ $information['vnc_password'] }}</code>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <!-- Additional Javascript if required -->
 @if($server->server_type == 1)
