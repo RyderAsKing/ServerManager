@@ -186,14 +186,7 @@ sudo composer install --no-dev --optimize-autoloader
 ### Updating permissions
 
 ```bash
-# If using NGINX or Apache (not on CentOS):
 sudo chown -R www-data:www-data /var/www/manager/*
-
-# If using NGINX on CentOS:
-sudo chown -R nginx:nginx /var/www/manager/*
-
-# If using Apache on CentOS
-sudo chown -R apache:apache /var/www/manager/*
 ```
 
 ### Restarting queue workers
