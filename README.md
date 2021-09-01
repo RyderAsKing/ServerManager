@@ -29,8 +29,14 @@ LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
 add-apt-repository -y ppa:chris-lea/redis-server
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 
+# Installed apt-add-repository
+apt install software-properties-common
+
 # Add universe repository if you are on Ubuntu 18.04
 apt-add-repository universe
+
+# Add Ondřej Surý PPA repository
+sudo add-apt-repository ppa:ondrej/php
 
 # Install Dependencies
 apt -y install php8.0 php8.0-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server
