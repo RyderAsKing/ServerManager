@@ -123,8 +123,9 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">Memory</h5>
-                    <p class="card-text"><span id="memory"></span>{{ $information['memory'] }}
-                        @if($information['memory'] == 0)Unlimited @else MB @endif</p>
+                    <p class="card-text"><span id="memory"></span>@if($information['memory'] == 0) Unlimited @else
+                        {{ $information['memory'] }} MB @endif
+                    </p>
                 </div>
             </div>
         </div>
@@ -132,7 +133,7 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">CPU</h5>
-                    <p class="card-text"><span id="cpu"></span>@if($information['cpu'] == 0)Unlimited @else
+                    <p class="card-text"><span id="cpu"></span>@if($information['cpu'] == 0) Unlimited @else
                         {{ $information['cpu'] }}% @endif
                     </p>
                 </div>
@@ -142,8 +143,8 @@
             <div class="card bg-dark" style="margin: 5px; border: 1px solid white">
                 <div class="card-body">
                     <h5 class="card-title">Disk</h5>
-                    <p class="card-text"><span id="disk"></span>{{ $information['disk'] }} @if($information['disk'] ==
-                        0) Unlimited @else MB @endif
+                    <p class="card-text"><span id="disk"></span>@if($information['disk'] == 0) Unlimited @else
+                        {{ $information['disk'] }} MB @endif
                     </p>
                 </div>
             </div>
@@ -226,6 +227,23 @@
 <!-- Additional Javascript if required -->
 @if($server->server_type == 1)
 <script>
+    var noPercentage = false;
+    var memoryLabel = "(Percentage)";
+    var maxMem = parseInt('{{ $information['memory'] }}');
+    if(maxMem == 0){
+        noPercentage = true;
+        memoryLabel = "(Megabyte)";
+    }
+    var memory = document.getElementById("memory");
+    var cpu = document.getElementById("cpu");
+    var disk = document.getElementById("disk");
+    var ctc = $('#resource_chart');
+    var TimeLabels = [timeformat(new Date()), timeformat(new Date())];
+    var CPUData = Array(23).fill('');
+    CPUData.push(0.01);
+    var MemoryData = Array(23).fill('');
+    MemoryData.push(0.01);
+    
     function timeformat(date) {
         var h = date.getHours();
         var m = date.getMinutes();
@@ -237,15 +255,7 @@
         return mytime;
     }
     first();
-    var memory = document.getElementById("memory");
-    var cpu = document.getElementById("cpu");
-    var disk = document.getElementById("disk");
-    var ctc = $('#resource_chart');
-    var TimeLabels = [timeformat(new Date()), timeformat(new Date())];
-    var CPUData = Array(24).fill('');
-    CPUData.push(0.01);
-    var MemoryData = Array(24).fill('');
-    MemoryData.push(0.01);
+
     var CPUChart = new Chart(ctc, {
         type: 'line',
         data: {
@@ -276,7 +286,7 @@
                 },
                 {
                     cubicInterpolationMode: 'monotone',
-                    label: "Memory Usage (in Megabytes)",
+                    label: `Memory Usage ${memoryLabel}`,
                     fill: false,
                     lineTension: 0.4,
                     backgroundColor: "#FFC107",
@@ -347,6 +357,7 @@
 
     function update() {
         $.ajax({
+            async: true,
             url: '/api/server/pterodactyl/{{ $server->server_id }}/resources',
             type: 'GET',
             contentType: 'application/json',
@@ -354,23 +365,28 @@
                 'Authorization': 'Bearer {{ $information['api_token'] }}'
             },
             success: function(result) {
-                console.log(result);
-                // CallBack(result);
                 if (CPUData.length > 25) {
                     CPUData.shift();
                     MemoryData.shift();
                     TimeLabels.shift();
                 }
                 var cpuUse = result['cpu_current'];
-                var memoryUse = result['memory_current'];
+                var memoryUse;
+
+                if(noPercentage == true){
+                    memoryUse = (result['memory_current']);
+                }
+                else{
+                    memoryUse = (result['memory_current'] / maxMem) * 100;
+                }
 
                 CPUData.push(cpuUse);
                 MemoryData.push(memoryUse);
                 var dateWithouthSecond = new Date();
 
-                memory.innerHTML = `${result['memory_current']}/`;
-                cpu.innerHTML = `${result['cpu_current']}/`;
-                disk.innerHTML = `${result['disk_current']}/`;
+                memory.innerHTML = `${result['memory_current']} /`;
+                cpu.innerHTML = `${result['cpu_current']} /`;
+                disk.innerHTML = `${result['disk_current']} /`;
                 TimeLabels.push(timeformat(new Date()));
                 CPUChart.update();
             }
