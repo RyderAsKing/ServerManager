@@ -17,25 +17,43 @@ The below installation steps are for Ubuntu OS only. Refer to other guides for i
 
 ### Dependencies
 
+### APT Update
 ```bash
-# Update
-apt-get update && apt-get upgrade -y
+apt-get update && apt-get -y upgrade 
+```
 
-# Curl (used in several places during installation)
-apt-get install curl -y
+### Curl (used in several places during installation)
+```bash
+apt-get -y install curl 
+```
 
+### Installed apt-add-repository
+```bash
 apt -y install software-properties-common curl apt-transport-https ca-certificates gnupg
+```
+
+### Add Ondřej Surý PPA repository
+```bash
 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+```
+
+### Add Chris-lea redis server repository
+```bash
 add-apt-repository -y ppa:chris-lea/redis-server
+```
+
+### Download mariadb setup and install it
+```bash
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+```
 
-# Add universe repository if you are on Ubuntu 18.04
-apt-add-repository universe
-
-# Install Dependencies
+### Install Dependencies
+```bash
 apt -y install php8.0 php8.0-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server
+```
 
-# Composer
+### Composer
+```bash
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 ```
 
@@ -66,8 +84,13 @@ php artisan storage:link
 
 ### Database Setup
 
+#### Login as root
 ```bash
 mysql -u root -p
+```
+
+#### Create database, user and grant all privileges
+```bash
 CREATE DATABASE servermanager;
 CREATE USER 'servermanager'@'127.0.0.1' IDENTIFIED BY 'USE_YOUR_OWN_PASSWORD';
 GRANT ALL PRIVILEGES ON *.* TO 'servermanager'@'127.0.0.1' WITH GRANT OPTION;
@@ -186,14 +209,7 @@ sudo composer install --no-dev --optimize-autoloader
 ### Updating permissions
 
 ```bash
-# If using NGINX or Apache (not on CentOS):
 sudo chown -R www-data:www-data /var/www/manager/*
-
-# If using NGINX on CentOS:
-sudo chown -R nginx:nginx /var/www/manager/*
-
-# If using Apache on CentOS
-sudo chown -R apache:apache /var/www/manager/*
 ```
 
 ### Restarting queue workers
