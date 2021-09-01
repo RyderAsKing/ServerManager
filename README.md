@@ -4,14 +4,14 @@ Are you sick of having to log into hundreads of different website just to access
 
 ![Preview](https://raw.githubusercontent.com/RyderAsKing/ServerManager/main/review.gif)
 
-## Supported softwares
+# Supported softwares
 
 | ID  | Softwares   | Supported |
 | --- | ----------- | --------- |
 | 1   | Virtualizor | Yes       |
 | 2   | Pterodactyl | Yes       |
 
-## Installation
+# Installation
 
 The below installation steps are for Ubuntu OS only. Refer to other guides for installation on different OS.
 
@@ -156,10 +156,6 @@ sudo nginx -t
 systemctl restart nginx
 ```
 
-## Finishing up
-
-Congratulations, you are now running a instance of server manager on your server.
-
 ### SSL (Optional but recommended)
 
 ```bash
@@ -170,7 +166,12 @@ sudo apt-get install python3-certbot-nginx
 sudo certbot --nginx -d yourdomain.com
 ```
 
-## Updating
+## Finishing up
+
+Congratulations, you are now running a instance of server manager on your server.
+
+
+# Updating
 
 ### Enable Maintenance Mode
 
@@ -224,17 +225,17 @@ sudo php artisan queue:restart
 sudo php artisan up
 ```
 
-## Finishing up
+# Finishing up
 
 Congratulations, you have successfully updated and are now running the latest instance of server manager on your server.
 
-## Contributing
+# Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-## License
+# License
 
 The MIT License ([MIT](https://choosealicense.com/licenses/mit/))
 
