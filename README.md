@@ -102,7 +102,7 @@ FLUSH PRIVILEGES;
 ```bash
 nano .env
 #Example .env vars
-APP_NAME=Controlpanel
+APP_NAME=ServerManager
 APP_URL=https://manager.yourdomain.com #The URL your site is located at
 
 DB_CONNECTION=mysql
