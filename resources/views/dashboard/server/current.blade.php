@@ -243,16 +243,6 @@
 <!-- Additional Javascript if required -->
 @if($server->server_type == 1)
 <script>
-    const socket = io("{{ $information['socket'] }}", {
-        "query": "token={{ $information['token'] }}"
-    });
-    
-    socket.on('error', function (err) {
-        console.log(err);
-    });
-</script>
-
-<script>
     var noPercentage = false;
     var memoryLabel = "(Percentage)";
     var maxMem = parseInt('{{ $information['memory'] }}');

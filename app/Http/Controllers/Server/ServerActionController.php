@@ -120,29 +120,7 @@ class ServerActionController extends Controller
         $cpu = $result['attributes']['limits']['cpu'];
         $memory = $result['attributes']['limits']['memory'];
         $uuid = $result['attributes']['uuid'];
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/websocket');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-
-        $headers = array();
-        $headers[] = 'Accept: application/json';
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: Bearer ' . $key;
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
-        curl_close($ch);
-        $result = json_decode($result, true);
-        $token = $result['data']['token'];
-        $socket = $result['data']['socket'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token, 'token' => $token, 'socket' => $socket);
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token);
         return $current_information;
     }
     // Pterodactyl handling end
