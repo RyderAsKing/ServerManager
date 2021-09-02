@@ -214,6 +214,7 @@
     </div>
 </div>
 
+@if($server->server_type == 0)
 @if($information['is_vnc_available'] == 1)
 <div class="modal fade" id="vncInformation" role="modal" tabindex="-1" aria-labelledby="vncInformation"
     aria-hidden="true">
@@ -238,7 +239,7 @@
     </div>
 </div>
 @endif
-
+@endif
 <!-- Additional Javascript if required -->
 @if($server->server_type == 1)
 <script>
