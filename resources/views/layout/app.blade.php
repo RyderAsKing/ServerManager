@@ -6,43 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Server Manager</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-        </script>
-        <script src="https://kit.fontawesome.com/691f4cd05f.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="{{ asset("css/alertify.css") }}">
+
+        <!-- Global CSS -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/alertify.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+        <!-- Global JS -->
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
+        <script src="{{ asset('chart.min.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset("js/alertify.js") }}" crossorigin="anonymous"></script>
-        <style>
-            .ajs-message.ajs-custom {
-                color: #5aabd3;
-                background-color: #196388;
-                border-color: #31708f;
-            }
-
-            .online {
-                height: 15px;
-                width: 15px;
-                background-color: rgb(94, 255, 167);
-                border-radius: 50%;
-                display: inline-block;
-            }
-
-            .offline {
-                height: 15px;
-                width: 15px;
-                background-color: rgb(255, 62, 62);
-                border-radius: 50%;
-                display: inline-block;
-            }
-
-            .hidden {
-                display: none;
-            }
-        </style>
     </head>
 
     <body class="bg-dark">

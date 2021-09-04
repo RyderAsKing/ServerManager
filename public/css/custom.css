@@ -1,0 +1,25 @@
+.ajs-message.ajs-custom {
+    color: #5aabd3;
+    background-color: #196388;
+    border-color: #31708f;
+}
+
+.online {
+    height: 15px;
+    width: 15px;
+    background-color: rgb(94, 255, 167);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.offline {
+    height: 15px;
+    width: 15px;
+    background-color: rgb(255, 62, 62);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.hidden {
+    display: none;
+}
