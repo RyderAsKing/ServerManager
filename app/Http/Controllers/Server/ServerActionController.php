@@ -47,7 +47,12 @@ class ServerActionController extends Controller
     }
     public function getVirtualizorInformation($v, Server $server)
     {
+        $current_information = array();
         $serverinfo = $v->vpsinfo($server->server_id);
+        if (empty($serverinfo)) {
+            return $current_information;
+        }
+
         $is_vnc_available = $serverinfo['info']['vps']['vnc'];
         $vncinfo = "";
         $vnc_ip = "";
@@ -121,6 +126,31 @@ class ServerActionController extends Controller
         $memory = $result['attributes']['limits']['memory'];
         $uuid = $result['attributes']['uuid'];
         $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token);
+
+        /*
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/websocket');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+
+        $headers = array();
+        $headers[] = 'Accept: application/json';
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer ' . $key;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        $result = json_decode($result, true);
+        $token = $result['data']['token'];
+        $socket = $result['data']['socket'];
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . $host_ip);
+        */
         return $current_information;
     }
     // Pterodactyl handling end
@@ -134,6 +164,9 @@ class ServerActionController extends Controller
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
             $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
         }
         // 1 = Pterodactyl
@@ -151,6 +184,10 @@ class ServerActionController extends Controller
         // 0 = Virtualizor
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             $output = $v->start($server->server_id);
             return back()->with('popup', $output);
         }
@@ -199,6 +236,10 @@ class ServerActionController extends Controller
         // 0 = Virtualizor
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             $output = $v->stop($server->server_id);
             return back()->with('popup', $output);
         }
@@ -246,6 +287,10 @@ class ServerActionController extends Controller
         // 0 = Virtualizor
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             $output = $v->restart($server->server_id);
             return back()->with('popup', $output);
         }
@@ -293,6 +338,10 @@ class ServerActionController extends Controller
         // 0 = Virtualizor
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             $output = $v->poweroff($server->server_id);
             return back()->with('popup', $output);
         }
@@ -349,6 +398,10 @@ class ServerActionController extends Controller
         // 0 = Virtualizor
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             $hostname = $request->hostname;
             $output = $v->hostname($server->server_id, $hostname);
             return back()->with('popup', $output);
@@ -363,6 +416,10 @@ class ServerActionController extends Controller
         // 0 = Virtualizor
         if ($type == 0) {
             $v = $this->createVirtualizorClient($api_instance);
+            $information = $this->getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
+            }
             $password = $request->password;
             $output = $v->changepassword($server->server_id, $password);
             return back()->with('popup', $output);

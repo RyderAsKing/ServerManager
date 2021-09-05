@@ -14,9 +14,9 @@
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
         <!-- Global JS -->
-        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.min.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
-        <script src="{{ asset('chart.min.js') }}" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/chart.min.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset("js/alertify.js") }}" crossorigin="anonymous"></script>
     </head>
 

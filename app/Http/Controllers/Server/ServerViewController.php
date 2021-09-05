@@ -21,7 +21,7 @@ class ServerViewController extends Controller
 
     public function show()
     {
-        $servers = Auth::user()->server()->latest()->with('user')->paginate(5);
+        $servers = Auth::user()->server()->with('user')->paginate(5);
         return view("dashboard.server.index", ['servers' => $servers]);
     }
 
