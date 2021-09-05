@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\VirtualizorServerController;
 
 Route::middleware('auth:api')->get('/server', [ServerController::class, 'index']);
 Route::middleware('auth:api')->get('/server/{id}', [ServerController::class, 'information']);
+Route::middleware('auth:api')->post('/server/{id}/power', [ServerController::class, 'power']);
 
 /* Pterodactyl API */
 

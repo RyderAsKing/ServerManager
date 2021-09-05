@@ -50,7 +50,7 @@ class PterodactylFunctions
         $ram_current = round($result['attributes']['resources']['memory_bytes'] / 1024 / 1024, 0);
         $cpu_current = $result['attributes']['resources']['cpu_absolute'];
         $disk_current = round($result['attributes']['resources']['disk_bytes'] / 1024 / 1024, 0);
-        $resources = array('status' => $status, 'memory_current' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current, 'memory_current_bytes' => $result['attributes']['resources']['memory_bytes'], 'disk_current_bytes' => $result['attributes']['resources']['disk_bytes']);
+        $resources = array('status' => $status, 'memory_current' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current, 'memory_current_bytes' => $result['attributes']['resources']['memory_bytes'], 'disk_current_bytes' => $result['attributes']['resources']['disk_bytes'], 'api_token' => $server->user->api_token);
         return $resources;
     }
     public static function getPterodactylInformation(Server $server, Api $api_instance)
@@ -127,5 +127,39 @@ class PterodactylFunctions
         $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . $host_ip);
         */
         return $current_information;
+    }
+
+    public static function sendPowerAction(Server $server, Api $api_instance, $action)
+    {
+        $server_id = $server->server_id;
+        $host_ip = $api_instance->hostname;
+        $key = $api_instance->api;
+        $protocol = "";
+        if ($api_instance->protocol == 0) {
+            $protocol = 'http';
+        } else {
+            $protocol = 'https';
+        }
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/power');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $action);
+
+        $headers = array();
+        $headers[] = 'Accept: application/json';
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer ' . $key;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        $result = json_decode($result, true);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        return;
     }
 }
