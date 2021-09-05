@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Server;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Custom\Functions\PterodactylFunctions;
 
 class PterodactylServerController extends Controller
 {
@@ -33,55 +34,10 @@ class PterodactylServerController extends Controller
 
         // 1 = Pterodactyl
         if ($type == 1) {
-            $server_id = $server->server_id;
-            $host_ip = $api_instance->hostname;
-            $key = $api_instance->api;
-
-            $protocol = "";
-            if ($api_instance->protocol == 0) {
-                $protocol = 'http';
-            } else {
-                $protocol = 'https';
-            }
-
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-
-            $headers = array();
-            $headers[] = 'Accept: application/json';
-            $headers[] = 'Content-Type: application/json';
-            $headers[] = 'Authorization: Bearer ' . $key;
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-            $result = curl_exec($ch);
-            $result = json_decode($result, true);
-            if (curl_errno($ch)) {
-                echo 'Error:' . curl_error($ch);
-            }
-            curl_close($ch);
-            if (isset($result['errors'])) {
-                if ($result['errors'][0]['status'] == 403) {
-                    return response()->json(['status' => 'The API key and password are incorrect']);
-                } elseif ($result['errors'][0]['status'] == 404) {
-                    return response()->json(['status' => 'The requested server was not found']);
-                }
-                return response()->json(['status' => 'There was an error adding the server']);
-            }
-            $hostname = $result['attributes']['name'];
-            $ipv4 = $result['attributes']['sftp_details']['ip'];
-            $sftp_port = $result['attributes']['sftp_details']['port'];
-            $disk = $result['attributes']['limits']['disk'];
-            $cpu = $result['attributes']['limits']['cpu'];
-            $memory = $result['attributes']['limits']['memory'];
-            $uuid = $result['attributes']['uuid'];
-            $information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid);
+            $information = PterodactylFunctions::getPterodactylInformation($server, $api_instance);
             return response()->json($information);
         } else {
-            return response()->json(["message" => "Invalid type"], 404);
+            return response()->json(["message" => "Wrong Server Type"], 404);
         }
     }
     public function resources(Request $request, $server_id)
@@ -96,52 +52,10 @@ class PterodactylServerController extends Controller
 
         // 1 = Pterodactyl
         if ($type == 1) {
-            $server_id = $server->server_id;
-            $host_ip = $api_instance->hostname;
-            $key = $api_instance->api;
-
-            $protocol = "";
-            if ($api_instance->protocol == 0) {
-                $protocol = 'http';
-            } else {
-                $protocol = 'https';
-            }
-
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/resources');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-
-            $headers = array();
-            $headers[] = 'Accept: application/json';
-            $headers[] = 'Content-Type: application/json';
-            $headers[] = 'Authorization: Bearer ' . $key;
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-            $result = curl_exec($ch);
-            $result = json_decode($result, true);
-            if (curl_errno($ch)) {
-                echo 'Error:' . curl_error($ch);
-            }
-            curl_close($ch);
-            if (isset($result['errors'])) {
-                if ($result['errors'][0]['status'] == 403) {
-                    return response()->json(['status' => 'The API key and password are incorrect']);
-                } elseif ($result['errors'][0]['status'] == 404) {
-                    return response()->json(['status' => 'The requested server was not found']);
-                }
-                return response()->json(['status' => 'There was an error adding the server']);
-            }
-            $status = $result['attributes']['current_state'];
-            $ram_current = round($result['attributes']['resources']['memory_bytes'] / 1024 / 1024, 0);
-            $cpu_current = $result['attributes']['resources']['cpu_absolute'];
-            $disk_current = round($result['attributes']['resources']['disk_bytes'] / 1024 / 1024, 0);
-            $resources = array('status' => $status, 'memory_current' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current);
+            $resources = PterodactylFunctions::getPterodactylResources($server, $api_instance);
             return response()->json($resources);
         } else {
-            return response()->json(["message" => "Invalid type"], 404);
+            return response()->json(["message" => "Wrong Server Type"], 404);
         }
     }
 
@@ -193,7 +107,7 @@ class PterodactylServerController extends Controller
             curl_close($ch);
             return response()->noContent(201);
         } else {
-            return response()->json(["message" => "Invalid type"], 404);
+            return response()->json(["message" => "Wrong Server Type"], 404);
         }
     }
 }
