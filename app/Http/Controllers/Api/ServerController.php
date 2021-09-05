@@ -80,6 +80,6 @@ class ServerController extends Controller
         $api_instance = ApiFunctions::returnApiInstance($server);
         $type = ApiFunctions::returnType($api_instance);
         $user->server()->where('id', $id)->delete();
-        return redirect()->json(['message' => 'Server deleted successfully']);
+        return response()->json(['message' => 'Server deleted successfully']);
     }
 }
