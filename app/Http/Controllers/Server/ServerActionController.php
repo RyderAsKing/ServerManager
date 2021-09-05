@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Server;
 
 
-use App\Models\Api;
 use App\Models\Server;
 
 use Illuminate\Http\Request;
-use App\Custom\Handlers\Virtualizor_Enduser_API;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Custom\Functions\ApiFunctions;
+use App\Custom\Functions\PterodactylFunctions;
+use App\Custom\Functions\VirtualizorFunctions;
 
 class ServerActionController extends Controller
 {
@@ -20,150 +21,15 @@ class ServerActionController extends Controller
         $this->middleware('auth');
     }
 
-    private function returnApiInstance(Server $server)
-    {
-        $api_instance = Api::find(['id' => $server->api_id])->first();
-        return $api_instance;
-    }
-    private function returnType(Api $api_instance)
-    {
-        $type = $api_instance->type;
-        return $type;
-    }
-
-    // Virtualizor handling
-    private function createVirtualizorClient(Api $api_instance)
-    {
-        $protocol = $api_instance->protocol;
-        if ($protocol == 0) {
-            $protocol = 'http';
-        } else {
-            $protocol = 'https';
-        }
-        $host_ip  = $api_instance->hostname;
-        $key = $api_instance->api;
-        $key_pass = $api_instance->api_pass;
-        return new Virtualizor_Enduser_API($protocol, $host_ip, $key, $key_pass);
-    }
-    public function getVirtualizorInformation($v, Server $server)
-    {
-        $current_information = array();
-        $serverinfo = $v->vpsinfo($server->server_id);
-        if (empty($serverinfo)) {
-            return $current_information;
-        }
-
-        $is_vnc_available = $serverinfo['info']['vps']['vnc'];
-        $vncinfo = "";
-        $vnc_ip = "";
-        $vnc_port = "";
-        $vnc_password = "";
-        if ($is_vnc_available == 1) {
-            $vncinfo = $v->vnc($server->server_id);
-            $vnc_ip = $vncinfo['ip'];
-            $vnc_port = $vncinfo['port'];
-            $vnc_password = $vncinfo['password'];
-        }
-        $ipv4 = $server->ipv4;
-        $hostname = $server->hostname;
-        $bandwidth_used = $serverinfo['info']['bandwidth']['used'];
-        $storage = $serverinfo['info']['vps']['space'];
-        $cores = $serverinfo['info']['vps']['cores'];
-        $os_name = $serverinfo['info']['vps']['os_name'];
-        $status = $serverinfo['info']['status'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'bandwidth_used' => $bandwidth_used, 'storage' => $storage, 'cores' => $cores, 'os_name' => $os_name, 'type' => 0, 'is_vnc_available' => $is_vnc_available, 'vnc_ip' => $vnc_ip, 'vnc_port' => $vnc_port, 'vnc_password' => $vnc_password, 'status' => $status);
-        return $current_information;
-    }
-    // Virtualizor handling end
-
-
-    // Pterodactyl handling
-    private function getPterodactylInformation(Server $server, Api $api_instance)
-    {
-        $server_id = $server->server_id;
-        $host_ip = $api_instance->hostname;
-        $key = $api_instance->api;
-
-        $protocol = "";
-        if ($api_instance->protocol == 0) {
-            $protocol = 'http';
-        } else {
-            $protocol = 'https';
-        }
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-
-        $headers = array();
-        $headers[] = 'Accept: application/json';
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: Bearer ' . $key;
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-        $result = json_decode($result, true);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
-        curl_close($ch);
-        if (isset($result['errors'])) {
-            if ($result['errors'][0]['status'] == 403) {
-                return back()->with('status', 'The API key and password are incorrect');
-            } elseif ($result['errors'][0]['status'] == 404) {
-                return back()->with('status', 'The requested server was not found');
-            }
-            return back()->with('status', 'There was an error adding the server');
-        }
-        $hostname = $result['attributes']['name'];
-        $ipv4 = $result['attributes']['sftp_details']['ip'];
-        $sftp_port = $result['attributes']['sftp_details']['port'];
-        $disk = $result['attributes']['limits']['disk'];
-        $cpu = $result['attributes']['limits']['cpu'];
-        $memory = $result['attributes']['limits']['memory'];
-        $uuid = $result['attributes']['uuid'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token);
-
-        /*
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/websocket');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-
-        $headers = array();
-        $headers[] = 'Accept: application/json';
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: Bearer ' . $key;
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
-        curl_close($ch);
-        $result = json_decode($result, true);
-        $token = $result['data']['token'];
-        $socket = $result['data']['socket'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . $host_ip);
-        */
-        return $current_information;
-    }
-    // Pterodactyl handling end
-
     public function index(Server $server)
     {
         $this->authorize("use_server", $server);
-        $api_instance = $this->returnApiInstance($server); // returns the api instance model
-        $type = $this->returnType($api_instance); // returns type of the api instance
+        $api_instance = ApiFunctions::returnApiInstance($server); // returns the api instance model
+        $type = ApiFunctions::returnType($api_instance); // returns type of the api instance
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
@@ -171,20 +37,20 @@ class ServerActionController extends Controller
         }
         // 1 = Pterodactyl
         if ($type == 1) {
-            $api_instance = $this->returnApiInstance($server);
-            $information = $this->getPterodactylInformation($server, $api_instance);
+            $api_instance = ApiFunctions::returnApiInstance($server);
+            $information = PterodactylFunctions::getPterodactylInformation($server, $api_instance);
             return view('dashboard.server.current', ['information' => $information, 'server' => $server]);
         }
     }
     public function start(Server $server)
     {
         $this->authorize("use_server", $server);
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
@@ -231,12 +97,12 @@ class ServerActionController extends Controller
     public function stop(Server $server)
     {
         $this->authorize("use_server", $server);
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
@@ -282,12 +148,12 @@ class ServerActionController extends Controller
     public function restart(Server $server)
     {
         $this->authorize("use_server", $server);
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
@@ -333,12 +199,12 @@ class ServerActionController extends Controller
     public function kill(Server $server)
     {
         $this->authorize("use_server", $server);
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
@@ -393,12 +259,12 @@ class ServerActionController extends Controller
     {
         $this->authorize("use_server", $server);
         $this->validate($request, ['hostname' => 'required|max:32']);
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
@@ -411,12 +277,12 @@ class ServerActionController extends Controller
     {
         $this->authorize("use_server", $server);
         $this->validate($request, ['password' => 'required|min:8|max:32']);
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         // 0 = Virtualizor
         if ($type == 0) {
-            $v = $this->createVirtualizorClient($api_instance);
-            $information = $this->getVirtualizorInformation($v, $server);
+            $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
             if (empty($information)) {
                 return back()->with('popup', 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.');
             }
