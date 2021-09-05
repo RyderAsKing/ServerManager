@@ -14,6 +14,9 @@ class ServerController extends Controller
 
     public function index(Request $request)
     {
+        if (empty($request->bearerToken())) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $servers = $user->server()->paginate(5);
         return response()->json($servers);
@@ -21,6 +24,9 @@ class ServerController extends Controller
 
     public function information(Request $request, $id)
     {
+        if (empty($request->bearerToken())) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['id' => $id])->firstOrFail();
         $api_instance = ApiFunctions::returnApiInstance($server);
@@ -43,6 +49,9 @@ class ServerController extends Controller
 
     public function power(Request $request, $id)
     {
+        if (empty($request->bearerToken())) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['id' => $id])->firstOrFail();
         $api_instance = ApiFunctions::returnApiInstance($server);
@@ -64,6 +73,10 @@ class ServerController extends Controller
         }
         if ($type == 0) {
             $v = VirtualizorFunctions::createVirtualizorClient($api_instance);
+            $information = VirtualizorFunctions::getVirtualizorInformation($v, $server);
+            if (empty($information)) {
+                return response()->json(['message' => 'The host returned a empty response, check your API, API Pass and try again. If it still does not work then there is high possibility that your host has a invalid license or has blocked the API requests.']);
+            }
             $response = VirtualizorFunctions::sendPowerAction($v, $server, $action);
             if (empty($response)) {
                 return response()->json(["message" => "Invalid response from host"]);
@@ -75,10 +88,12 @@ class ServerController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        if (empty($request->bearerToken())) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['id' => $id])->firstOrFail();
         $api_instance = ApiFunctions::returnApiInstance($server);
-        $type = ApiFunctions::returnType($api_instance);
         $user->server()->where('id', $id)->delete();
         return response()->json(['message' => 'Server deleted successfully']);
     }

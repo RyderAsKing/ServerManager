@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Api;
-use App\Models\User;
-use App\Models\Server;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Custom\Functions\ApiFunctions;
@@ -18,7 +15,7 @@ class PterodactylServerController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        $user = User::where('api_token', $request->bearerToken())->first();
+        $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
         $api_instance = ApiFunctions::returnApiInstance($server);
         $type = ApiFunctions::returnType($api_instance);
@@ -36,7 +33,7 @@ class PterodactylServerController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        $user = User::where('api_token', $request->bearerToken())->first();
+        $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
         $api_instance = ApiFunctions::returnApiInstance($server);
         $type = ApiFunctions::returnType($api_instance);
@@ -55,7 +52,7 @@ class PterodactylServerController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        $user = User::where('api_token', $request->bearerToken())->first();
+        $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
         $api_instance = ApiFunctions::returnApiInstance($server);
         $type = ApiFunctions::returnType($api_instance);
@@ -63,40 +60,15 @@ class PterodactylServerController extends Controller
         if ($action != 'start' && $action != 'stop' && $action != 'restart' &&  $action != 'kill') {
             return response()->json(["message" => "Invalid method"], 404);
         }
-        $action = array('action' => $request->action);
         // 1 = Pterodactyl
         if ($type == 1) {
-            $server_id = $server->server_id;
-            $host_ip = $api_instance->hostname;
-            $key = $api_instance->api;
-
-            $protocol = "";
-            if ($api_instance->protocol == 0) {
-                $protocol = 'http';
-            } else {
-                $protocol = 'https';
+            $action = ['signal' => $action];
+            $action = json_encode($action);
+            $response = PterodactylFunctions::sendPowerAction($server, $api_instance, $action);
+            if (empty($response)) {
+                $response = array('message' => 'Action successful');
             }
-
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/power');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $action);
-
-            $headers = array();
-            $headers[] = 'Accept: application/json';
-            $headers[] = 'Content-Type: application/json';
-            $headers[] = 'Authorization: Bearer ' . $key;
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-            $result = curl_exec($ch);
-            $result = json_decode($result, true);
-            if (curl_errno($ch)) {
-                echo 'Error:' . curl_error($ch);
-            }
-            curl_close($ch);
-            return response()->noContent(201);
+            return response()->json($response);
         } else {
             return response()->json(["message" => "Wrong Server Type"], 404);
         }
