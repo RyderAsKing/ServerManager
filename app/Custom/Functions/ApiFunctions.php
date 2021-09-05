@@ -3,6 +3,7 @@
 namespace App\Custom\Functions;
 
 use App\Models\Api;
+use App\Models\User;
 use App\Models\Server;
 
 class ApiFunctions
@@ -16,5 +17,10 @@ class ApiFunctions
     {
         $type = $api_instance->type;
         return $type;
+    }
+    public static function returnUser($bearerToken)
+    {
+        $user = User::where('api_token', $bearerToken)->first();
+        return $user;
     }
 }

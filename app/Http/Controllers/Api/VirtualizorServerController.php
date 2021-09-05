@@ -7,22 +7,12 @@ use App\Models\User;
 use App\Models\Server;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Custom\Functions\ApiFunctions;
 use App\Custom\Handlers\Virtualizor_Enduser_API;
 
 class VirtualizorServerController extends Controller
 {
     //
-    private function returnApiInstance(Server $server)
-    {
-        $api_instance = Api::find(['id' => $server->api_id])->first();
-        return $api_instance;
-    }
-    private function returnType(Api $api_instance)
-    {
-        $type = $api_instance->type;
-        return $type;
-    }
-
     // Virtualizor handling
     private function createVirtualizorClient(Api $api_instance)
     {
@@ -70,8 +60,8 @@ class VirtualizorServerController extends Controller
         }
         $user = User::where('api_token', $request->bearerToken())->first();
         $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
 
         // 0 = Virtualizor
         if ($type == 0) {
@@ -90,8 +80,8 @@ class VirtualizorServerController extends Controller
         }
         $user = User::where('api_token', $request->bearerToken())->first();
         $server = $user->server()->where(['server_id' => $server_id])->firstOrFail();
-        $api_instance = $this->returnApiInstance($server);
-        $type = $this->returnType($api_instance);
+        $api_instance = ApiFunctions::returnApiInstance($server);
+        $type = ApiFunctions::returnType($api_instance);
         $action = $request->action;
         if ($action != 'start' && $action != 'stop' && $action != 'restart' &&  $action != 'kill') {
             return response()->json(["message" => "Invalid method"], 404);
