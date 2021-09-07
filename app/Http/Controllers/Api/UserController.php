@@ -15,7 +15,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, ['email' => 'required', 'password' => 'required']);
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->firstOrFail();
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
@@ -58,7 +58,7 @@ class UserController extends Controller
             $response = ["error" => true, "message" => 'Invalid API token provided'];
             return response($response, 422);
         }
-        $user = User::where('api_token', $api_token)->first();
+        $user = User::where('api_token', $api_token)->firstOrFail();
 
         if ($user) {
             $response = array('name' => $user->name, 'email' => $user->email, 'api_token' => $user->api_token);
