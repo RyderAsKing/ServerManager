@@ -21,7 +21,7 @@ class UserController extends Controller
             return response()->json(['error' => true, 'validation_errors' => $validator->messages()]);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->first();
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
