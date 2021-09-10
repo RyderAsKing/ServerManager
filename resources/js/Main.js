@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // Componenets
@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 
 // Basic
 import Home from "./pages/Home";
-import Login from "./pages/Home";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 // Dashboard
@@ -22,7 +22,12 @@ import DashboardServerCurrent from "./pages/Dashboard/Server/DashboardServerCurr
 import DashboardApi from "./pages/Dashboard/Api";
 import DashboardApiAdd from "./pages/Dashboard/Api/DashboardApiAdd";
 
+const axios = require("axios");
+
 const Main = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [apiToken, setApiToken] = useState(null);
+
     return (
         <>
             <Router>

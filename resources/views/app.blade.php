@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     </head>
 
-    <body>
+    <body class="bg-dark">
         <div id="app"></div>
 
         <script src="{{ asset('js/app.js') }}"></script>

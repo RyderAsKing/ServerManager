@@ -21,7 +21,9 @@ use App\Http\Controllers\Auth\RegisterController;
 */
 
 
-Route::view('/{path?}', 'app');
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');
 
 /*
 Route::get('/', function () {

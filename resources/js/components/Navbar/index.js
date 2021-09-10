@@ -41,12 +41,12 @@ const Navbar = () => {
                         </li>
                     </ul>
                     <div className="ml-auto">
-                        <Link to="">
+                        <Link to="/login">
                             <button className="btn btn-outline-primary">
                                 Login
                             </button>
                         </Link>
-                        <Link to="">
+                        <Link to="/register">
                             <button
                                 className="btn btn-outline-primary"
                                 style={{ marginLeft: "5px" }}
@@ -55,11 +55,9 @@ const Navbar = () => {
                             </button>
                         </Link>
 
-                        <Link to="">
-                            <button className="btn btn-outline-danger">
-                                Logout
-                            </button>
-                        </Link>
+                        <button className="btn btn-outline-danger">
+                            Logout
+                        </button>
                     </div>
                 </div>
             </div>
