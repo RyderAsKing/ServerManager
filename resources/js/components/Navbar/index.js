@@ -40,22 +40,28 @@ const Navbar = () => {
                             </Link>
                         </li>
                     </ul>
-                </div>
-                <Link to="">
-                    <button className="btn btn-outline-primary">Login</button>
-                </Link>
-                <Link to="">
-                    <button
-                        className="btn btn-outline-primary"
-                        style={{ marginLeft: "5px" }}
-                    >
-                        Register
-                    </button>
-                </Link>
+                    <div className="ml-auto">
+                        <Link to="">
+                            <button className="btn btn-outline-primary">
+                                Login
+                            </button>
+                        </Link>
+                        <Link to="">
+                            <button
+                                className="btn btn-outline-primary"
+                                style={{ marginLeft: "5px" }}
+                            >
+                                Register
+                            </button>
+                        </Link>
 
-                <Link to="">
-                    <button className="btn btn-outline-danger">Logout</button>
-                </Link>
+                        <Link to="">
+                            <button className="btn btn-outline-danger">
+                                Logout
+                            </button>
+                        </Link>
+                    </div>
+                </div>
             </div>
         </nav>
     );
