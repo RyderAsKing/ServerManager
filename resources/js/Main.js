@@ -35,13 +35,34 @@ const Main = () => {
     return (
         <>
             <Router>
-                <Navbar></Navbar>
+                <Navbar
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                ></Navbar>
                 <ToastContainer></ToastContainer>
                 <CustomSwitch>
                     {/* Basic */}
                     <Route path="/" component={Home} exact></Route>
-                    <Route path="/login" component={Login} exact></Route>
-                    <Route path="/register" component={Register} exact></Route>
+                    <Route
+                        path="/login"
+                        component={() => (
+                            <Login
+                                isLoggedIn={isLoggedIn}
+                                setIsLoggedIn={setIsLoggedIn}
+                            ></Login>
+                        )}
+                        exact
+                    ></Route>
+                    <Route
+                        path="/register"
+                        component={() => (
+                            <Register
+                                isLoggedIn={isLoggedIn}
+                                setIsLoggedIn={setIsLoggedIn}
+                            ></Register>
+                        )}
+                        exact
+                    ></Route>
                     {/* Dashboard */}
                     <Route
                         path="/dashboard"

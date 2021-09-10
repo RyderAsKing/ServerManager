@@ -1,7 +1,60 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+const Navbar = (props) => {
+    const history = useHistory();
+    const [authButtons, setAuthButtons] = useState(null);
 
-const Navbar = () => {
+    useEffect(() => {
+        setupButtons();
+    }, [props.isLoggedIn]);
+
+    const logout = () => {
+        localStorage.removeItem("api_token");
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
+        toast.success(`Logged out successfully`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        props.setIsLoggedIn(false);
+        history.push("/");
+    };
+    const setupButtons = () => {
+        if (props.isLoggedIn == true) {
+            setAuthButtons(
+                <>
+                    <button className="btn btn-outline-danger" onClick={logout}>
+                        Logout
+                    </button>
+                </>
+            );
+        } else {
+            setAuthButtons(
+                <>
+                    <Link to="/login">
+                        <button className="btn btn-outline-primary">
+                            Login
+                        </button>
+                    </Link>
+                    <Link to="/register">
+                        <button
+                            className="btn btn-outline-primary"
+                            style={{ marginLeft: "5px" }}
+                        >
+                            Register
+                        </button>
+                    </Link>
+                </>
+            );
+        }
+    };
+
     return (
         <nav
             className="navbar navbar-expand-lg navbar-light"
@@ -40,25 +93,7 @@ const Navbar = () => {
                             </Link>
                         </li>
                     </ul>
-                    <div className="ml-auto">
-                        <Link to="/login">
-                            <button className="btn btn-outline-primary">
-                                Login
-                            </button>
-                        </Link>
-                        <Link to="/register">
-                            <button
-                                className="btn btn-outline-primary"
-                                style={{ marginLeft: "5px" }}
-                            >
-                                Register
-                            </button>
-                        </Link>
-
-                        <button className="btn btn-outline-danger">
-                            Logout
-                        </button>
-                    </div>
+                    <div className="ml-auto">{authButtons}</div>
                 </div>
             </div>
         </nav>

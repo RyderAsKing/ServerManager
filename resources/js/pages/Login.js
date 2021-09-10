@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-const Login = () => {
+const Login = (props) => {
     const history = useHistory();
     const [submitButton, setSubmitButton] = useState(
         <button
@@ -19,7 +19,6 @@ const Login = () => {
         errorMessage: "",
         errorList: [],
     });
-    console.log(loginInput);
 
     const setLoading = () => {
         setSubmitButton(
@@ -78,6 +77,7 @@ const Login = () => {
                     draggable: true,
                     progress: undefined,
                 });
+                props.setIsLoggedIn(true);
                 history.push("/dashboard");
             } else {
                 var tempErrorMessage = "";
