@@ -1,5 +1,6 @@
 # Server Manager
 
+test
 Are you sick of having to log into hundreads of different website just to access your server? Well we got you, Server manager is a open source project made for people so that they can add the servers to one single place irrespective of their provider and manage it through one location. Feel free to setup a local instance of this, would be helpful to manage servers.
 
 ![Preview](https://raw.githubusercontent.com/RyderAsKing/ServerManager/main/review.gif)
@@ -18,41 +19,49 @@ The below installation steps are for Ubuntu OS only. Refer to other guides for i
 ### Dependencies
 
 ### APT Update
+
 ```bash
-apt-get update && apt-get -y upgrade 
+apt-get update && apt-get -y upgrade
 ```
 
 ### Curl (used in several places during installation)
+
 ```bash
-apt-get -y install curl 
+apt-get -y install curl
 ```
 
 ### Installed apt-add-repository
+
 ```bash
 apt -y install software-properties-common curl apt-transport-https ca-certificates gnupg
 ```
 
 ### Add Ondřej Surý PPA repository
+
 ```bash
 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
 ```
 
 ### Add Chris-lea redis server repository
+
 ```bash
 add-apt-repository -y ppa:chris-lea/redis-server
 ```
 
 ### Download mariadb setup and install it
+
 ```bash
 curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 ```
 
 ### Install Dependencies
+
 ```bash
 apt -y install php8.0 php8.0-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server
 ```
 
 ### Composer
+
 ```bash
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 ```
@@ -85,11 +94,13 @@ php artisan storage:link
 ### Database Setup
 
 #### Login as root
+
 ```bash
 mysql -u root -p
 ```
 
 #### Create database, user and grant all privileges
+
 ```bash
 CREATE DATABASE servermanager;
 CREATE USER 'servermanager'@'127.0.0.1' IDENTIFIED BY 'USE_YOUR_OWN_PASSWORD';
@@ -169,7 +180,6 @@ sudo certbot --nginx -d yourdomain.com
 ## Finishing up
 
 Congratulations, you are now running a instance of server manager on your server.
-
 
 # Updating
 
