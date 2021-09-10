@@ -82,13 +82,26 @@ const Register = () => {
                 history.push("/dashboard");
             } else {
                 var tempErrorMessage = "";
+                var tempErrorList = [];
                 if (res.data.error_message != null) {
                     tempErrorMessage = res.data.error_message;
+                    toast.error(res.data.error_message, {
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (res.data.validation_errors != null) {
+                    tempErrorList = res.data.validation_errors;
                 }
                 setRegisterInput({
                     ...registerInput,
-                    errorList: res.data.validation_errors,
                     errorMessage: tempErrorMessage,
+                    errorList: tempErrorList,
                 });
                 setRegister();
             }
@@ -99,18 +112,6 @@ const Register = () => {
             <div className="container">
                 <h3>Register</h3>
                 <form onSubmit={registerSubmit}>
-                    {registerInput.errorMessage.length > 0 ? (
-                        <div
-                            className="alert alert-danger"
-                            role="alert"
-                            style={{ marginTop: "5px" }}
-                        >
-                            {registerInput.errorMessage}
-                        </div>
-                    ) : (
-                        ""
-                    )}
-
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">
                             Name

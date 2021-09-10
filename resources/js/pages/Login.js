@@ -19,6 +19,7 @@ const Login = () => {
         errorMessage: "",
         errorList: [],
     });
+    console.log(loginInput);
 
     const setLoading = () => {
         setSubmitButton(
@@ -80,13 +81,26 @@ const Login = () => {
                 history.push("/dashboard");
             } else {
                 var tempErrorMessage = "";
+                var tempErrorList = [];
                 if (res.data.error_message != null) {
                     tempErrorMessage = res.data.error_message;
+                    toast.error(res.data.error_message, {
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                if (res.data.validation_errors != null) {
+                    tempErrorList = res.data.validation_errors;
                 }
                 setLoginInput({
                     ...loginInput,
-                    errorList: res.data.validation_errors,
                     errorMessage: tempErrorMessage,
+                    errorList: tempErrorList,
                 });
                 setLogin();
             }
@@ -98,13 +112,6 @@ const Login = () => {
             <div className="container text-white">
                 <h3>Login</h3>
                 <form onSubmit={loginSubmit}>
-                    <div
-                        className="alert alert-danger"
-                        role="alert"
-                        style={{ marginTop: "5px" }}
-                    >
-                        If error
-                    </div>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">
                             Email address
@@ -121,6 +128,9 @@ const Login = () => {
                         <div id="emailHelp" className="form-text">
                             We'll never share your email with anyone else.
                         </div>
+                        <div style={{ color: "red" }}>
+                            {loginInput.errorList.email}
+                        </div>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">
@@ -135,6 +145,9 @@ const Login = () => {
                             value={loginInput.password}
                             placeholder="Enter your password"
                         />
+                        <div style={{ color: "red" }}>
+                            {loginInput.errorList.password}
+                        </div>
                     </div>
                     {submitButton}
                 </form>

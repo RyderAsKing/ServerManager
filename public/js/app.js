@@ -5827,6 +5827,8 @@ var Login = function Login() {
       loginInput = _useState4[0],
       setLoginInput = _useState4[1];
 
+  console.log(loginInput);
+
   var setLoading = function setLoading() {
     setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
@@ -5886,14 +5888,28 @@ var Login = function Login() {
         history.push("/dashboard");
       } else {
         var tempErrorMessage = "";
+        var tempErrorList = [];
 
         if (res.data.error_message != null) {
           tempErrorMessage = res.data.error_message;
+          react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.error(res.data.error_message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          });
+        }
+
+        if (res.data.validation_errors != null) {
+          tempErrorList = res.data.validation_errors;
         }
 
         setLoginInput(_objectSpread(_objectSpread({}, loginInput), {}, {
-          errorList: res.data.validation_errors,
-          errorMessage: tempErrorMessage
+          errorMessage: tempErrorMessage,
+          errorList: tempErrorList
         }));
         setLogin();
       }
@@ -5907,14 +5923,7 @@ var Login = function Login() {
         children: "Login"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
         onSubmit: loginSubmit,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "alert alert-danger",
-          role: "alert",
-          style: {
-            marginTop: "5px"
-          },
-          children: "If error"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "mb-3",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
             htmlFor: "email",
@@ -5932,6 +5941,11 @@ var Login = function Login() {
             id: "emailHelp",
             className: "form-text",
             children: "We'll never share your email with anyone else."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            style: {
+              color: "red"
+            },
+            children: loginInput.errorList.email
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "mb-3",
@@ -5947,6 +5961,11 @@ var Login = function Login() {
             onChange: handleInput,
             value: loginInput.password,
             placeholder: "Enter your password"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            style: {
+              color: "red"
+            },
+            children: loginInput.errorList.password
           })]
         }), submitButton]
       })]
@@ -6087,14 +6106,28 @@ var Register = function Register() {
         history.push("/dashboard");
       } else {
         var tempErrorMessage = "";
+        var tempErrorList = [];
 
         if (res.data.error_message != null) {
           tempErrorMessage = res.data.error_message;
+          react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.error(res.data.error_message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          });
+        }
+
+        if (res.data.validation_errors != null) {
+          tempErrorList = res.data.validation_errors;
         }
 
         setRegisterInput(_objectSpread(_objectSpread({}, registerInput), {}, {
-          errorList: res.data.validation_errors,
-          errorMessage: tempErrorMessage
+          errorMessage: tempErrorMessage,
+          errorList: tempErrorList
         }));
         setRegister();
       }
@@ -6108,14 +6141,7 @@ var Register = function Register() {
         children: "Register"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
         onSubmit: registerSubmit,
-        children: [registerInput.errorMessage.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "alert alert-danger",
-          role: "alert",
-          style: {
-            marginTop: "5px"
-          },
-          children: registerInput.errorMessage
-        }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "mb-3",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
             htmlFor: "name",
