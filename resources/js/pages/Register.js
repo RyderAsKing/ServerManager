@@ -66,7 +66,6 @@ const Register = () => {
         };
 
         axios.post(`/api/user/register`, data).then((res) => {
-            // TODO
             if (res.data.status == 200) {
                 localStorage.setItem("api_token", res.data.api_token);
                 localStorage.setItem("name", res.data.name);
@@ -91,8 +90,8 @@ const Register = () => {
                     errorList: res.data.validation_errors,
                     errorMessage: tempErrorMessage,
                 });
+                setRegister();
             }
-            setRegister();
         });
     };
     return (

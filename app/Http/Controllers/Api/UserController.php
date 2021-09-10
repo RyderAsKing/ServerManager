@@ -25,7 +25,7 @@ class UserController extends Controller
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $response = array('status' => 200, 'name' => $user->name, 'email' => $user->email, 'api_token' => $user->api_token);
+                $response = array('status' => 200, 'name' => $user->name, 'email' => $user->email, 'api_token' => $user->api_token, 'message' => 'Logged in successfully');
                 return response($response);
             } else {
                 $response = ["error" => true, "error_message" => "Password mismatch"];
@@ -49,7 +49,7 @@ class UserController extends Controller
         $api_token = Str::random(32);
 
         User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->password), 'api_token' => $api_token]);
-        $response = array('status' => 200, 'name' => $request->name, 'email' => $request->email, 'api_token' => $api_token, 'message' => "Registered Successfully");
+        $response = array('status' => 200, 'name' => $request->name, 'email' => $request->email, 'api_token' => $api_token, 'message' => "Registered successfully");
         return response($response);
     }
 
