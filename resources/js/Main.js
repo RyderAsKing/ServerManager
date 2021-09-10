@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // Componenets
 import CustomSwitch from "./components/CustomSwitch/";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
 
 // Basic
 import Home from "./pages/Home";
@@ -22,7 +23,10 @@ import DashboardServerCurrent from "./pages/Dashboard/Server/DashboardServerCurr
 import DashboardApi from "./pages/Dashboard/Api";
 import DashboardApiAdd from "./pages/Dashboard/Api/DashboardApiAdd";
 
-const axios = require("axios");
+import axios from "axios";
+
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.post["Accept"] = "application/json";
 
 const Main = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,6 +36,7 @@ const Main = () => {
         <>
             <Router>
                 <Navbar></Navbar>
+                <ToastContainer></ToastContainer>
                 <CustomSwitch>
                     {/* Basic */}
                     <Route path="/" component={Home} exact></Route>
