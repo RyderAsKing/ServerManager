@@ -5268,7 +5268,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 (axios__WEBPACK_IMPORTED_MODULE_12___default().defaults.headers.post.Accept) = "application/json";
 
 var Main = function Main() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
       isLoggedIn = _useState2[0],
       setIsLoggedIn = _useState2[1];
@@ -5278,6 +5278,15 @@ var Main = function Main() {
       apiToken = _useState4[0],
       setApiToken = _useState4[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (isLoggedIn == null) {
+      if (localStorage.getItem("api_token")) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    }
+  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.BrowserRouter, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_components_Navbar__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5290,22 +5299,22 @@ var Main = function Main() {
           exact: true
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Route, {
           path: "/login",
-          component: function component() {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Login__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              isLoggedIn: isLoggedIn,
-              setIsLoggedIn: setIsLoggedIn
-            });
-          },
-          exact: true
+          exact: true,
+          children: localStorage.getItem("api_token") ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Redirect, {
+            to: "/"
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Login__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            isLoggedIn: isLoggedIn,
+            setIsLoggedIn: setIsLoggedIn
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Route, {
           path: "/register",
-          component: function component() {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Register__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              isLoggedIn: isLoggedIn,
-              setIsLoggedIn: setIsLoggedIn
-            });
-          },
-          exact: true
+          exact: true,
+          children: localStorage.getItem("api_token") ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Redirect, {
+            to: "/"
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_pages_Register__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            isLoggedIn: isLoggedIn,
+            setIsLoggedIn: setIsLoggedIn
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Route, {
           path: "/dashboard",
           component: _pages_Dashboard___WEBPACK_IMPORTED_MODULE_6__["default"],

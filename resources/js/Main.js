@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 // Componenets
 import CustomSwitch from "./components/CustomSwitch/";
@@ -29,9 +29,18 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
 
 const Main = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [apiToken, setApiToken] = useState(null);
 
+    useEffect(() => {
+        if (isLoggedIn == null) {
+            if (localStorage.getItem("api_token")) {
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
+        }
+    });
     return (
         <>
             <Router>
@@ -43,26 +52,26 @@ const Main = () => {
                 <CustomSwitch>
                     {/* Basic */}
                     <Route path="/" component={Home} exact></Route>
-                    <Route
-                        path="/login"
-                        component={() => (
+                    <Route path="/login" exact>
+                        {localStorage.getItem("api_token") ? (
+                            <Redirect to="/" />
+                        ) : (
                             <Login
                                 isLoggedIn={isLoggedIn}
                                 setIsLoggedIn={setIsLoggedIn}
-                            ></Login>
+                            />
                         )}
-                        exact
-                    ></Route>
-                    <Route
-                        path="/register"
-                        component={() => (
+                    </Route>
+                    <Route path="/register" exact>
+                        {localStorage.getItem("api_token") ? (
+                            <Redirect to="/" />
+                        ) : (
                             <Register
                                 isLoggedIn={isLoggedIn}
                                 setIsLoggedIn={setIsLoggedIn}
-                            ></Register>
+                            />
                         )}
-                        exact
-                    ></Route>
+                    </Route>
                     {/* Dashboard */}
                     <Route
                         path="/dashboard"

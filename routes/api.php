@@ -31,13 +31,3 @@ Route::middleware('auth:api')->get('/server', [ServerController::class, 'index']
 Route::middleware('auth:api')->get('/server/{id}', [ServerController::class, 'information']);
 Route::middleware('auth:api')->post('/server/{id}/power', [ServerController::class, 'power']);
 Route::middleware('auth:api')->post('/server/{id}/destroy', [ServerController::class, 'destroy']);
-
-/* Pterodactyl API */
-
-Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}', [PterodactylServerController::class, 'information']);
-Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}/resources', [PterodactylServerController::class, 'resources']);
-Route::middleware('auth:api')->post('/server/pterodactyl/{server_id}/power', [PterodactylServerController::class, 'power']);
-
-/* Virtualizor API */
-Route::middleware('auth:api')->get('/server/virtualizor/{server_id}', [VirtualizorServerController::class, 'information']);
-Route::middleware('auth:api')->post('/server/virtualizor/{server_id}/power', [VirtualizorServerController::class, 'power']);

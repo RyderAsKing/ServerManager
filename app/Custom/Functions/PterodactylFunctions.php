@@ -50,7 +50,8 @@ class PterodactylFunctions
         $ram_current = round($result['attributes']['resources']['memory_bytes'] / 1024 / 1024, 0);
         $cpu_current = $result['attributes']['resources']['cpu_absolute'];
         $disk_current = round($result['attributes']['resources']['disk_bytes'] / 1024 / 1024, 0);
-        $resources = array('status' => $status, 'memory_current' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current, 'memory_current_bytes' => $result['attributes']['resources']['memory_bytes'], 'disk_current_bytes' => $result['attributes']['resources']['disk_bytes'], 'api_token' => $server->user->api_token);
+        $api_token = $server->user->api_token;
+        $resources = array('status' => $status, 'memory_current' => $ram_current, 'cpu_current' => $cpu_current, 'disk_current' => $disk_current, 'memory_current_bytes' => $result['attributes']['resources']['memory_bytes'], 'disk_current_bytes' => $result['attributes']['resources']['disk_bytes'], 'api_token' => $api_token);
         return $resources;
     }
     public static function getPterodactylInformation(Server $server, Api $api_instance)
@@ -100,9 +101,8 @@ class PterodactylFunctions
         $cpu = $result['attributes']['limits']['cpu'];
         $memory = $result['attributes']['limits']['memory'];
         $uuid = $result['attributes']['uuid'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token);
+        //$current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token);
 
-        /*
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $protocol . "://" . $host_ip . '/api/client/servers/' . $server->server_id . '/websocket');
@@ -124,8 +124,7 @@ class PterodactylFunctions
         $result = json_decode($result, true);
         $token = $result['data']['token'];
         $socket = $result['data']['socket'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . $host_ip);
-        */
+        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'api_token' => $server->user->api_token, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . "://" . $host_ip);
         return $current_information;
     }
 
