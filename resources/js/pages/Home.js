@@ -11,7 +11,7 @@ const Home = () => {
                 </p>
                 <p className="lead">
                     <Link
-                        to="/dadshboard"
+                        to="/dashboard"
                         className="btn btn-lg btn-secondary fw-bold border-white bg-white"
                         style={{ color: "black" }}
                     >
