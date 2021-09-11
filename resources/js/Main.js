@@ -5,12 +5,12 @@ import axios from "axios";
 // Routes
 import { BasicRoutes, GuestRoutes, AuthRoutes } from "./Routes";
 
-// Componenets
+// Custom Componenets
 import CustomSwitch from "./components/CustomSwitch/";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 
-// Protected Routes
+// Protected Route Componenets
 import AuthProtectedRoute from "./components/ProtectedRoutes/AuthProtectedRoute/index";
 import GuestProtectedRoute from "./components/ProtectedRoutes/GuestProtectedRoute/index";
 

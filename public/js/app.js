@@ -5239,11 +5239,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
  // Routes
 
- // Componenets
+ // Custom Componenets
 
 
 
- // Protected Routes
+ // Protected Route Componenets
 
 
 
@@ -5721,11 +5721,19 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
 var AuthProtectedRoute = function AuthProtectedRoute(_ref) {
   var Component = _ref.component,
       restOfProps = _objectWithoutProperties(_ref, _excluded);
 
   var isLoggedIn = restOfProps.isLoggedIn;
+
+  if (isLoggedIn == null) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+      children: "Loading..."
+    });
+  }
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route, _objectSpread(_objectSpread({}, restOfProps), {}, {
     render: function render(props) {
       return isLoggedIn ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Component, _objectSpread({}, props)) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
@@ -5769,12 +5777,20 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
 var GuestProtectedRoute = function GuestProtectedRoute(_ref) {
   var Component = _ref.component,
       restOfProps = _objectWithoutProperties(_ref, _excluded);
 
   var isLoggedIn = restOfProps.isLoggedIn;
   var setIsLoggedIn = restOfProps.setIsLoggedIn;
+
+  if (isLoggedIn == null) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+      children: "Loading..."
+    });
+  }
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route, _objectSpread(_objectSpread({}, restOfProps), {}, {
     render: function render(props) {
       return !isLoggedIn ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Component, _objectSpread(_objectSpread({}, props), {}, {
@@ -5952,8 +5968,105 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var Dashboard = function Dashboard() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {});
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "container",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "row align-items-md-stretch",
+        style: {
+          marginTop: "5%"
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+          style: {
+            textAlign: "center"
+          },
+          children: "What would you like to do today?"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "col-md-6",
+          style: {
+            marginTop: "15px"
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "p-5 text-white bg-dark rounded-3",
+            style: {
+              border: "1px solid #E3F2FD"
+            },
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+              children: "Manage existing servers"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              children: "Perform powerful one click actions on servers with ease"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                className: "btn btn-outline-light",
+                type: "button",
+                children: "List servers"
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "col-md-6",
+          style: {
+            marginTop: "15px"
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "p-5 text-white bg-dark rounded-3",
+            style: {
+              border: "1px solid #E3F2FD"
+            },
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+              children: "Add new servers"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              children: "Add new servers to our database so that you can perform actions on them."
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                className: "btn btn-outline-light",
+                type: "button",
+                children: "Add servers"
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "col-sm-3"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "col-md-6",
+          style: {
+            marginTop: "15px"
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "p-5 text-white bg-dark rounded-3",
+            style: {
+              border: "1px solid #E3F2FD"
+            },
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+              children: "Manage API"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              children: "Add, remove or modify existing API keys."
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                className: "btn btn-outline-light",
+                type: "button",
+                children: "Modify existing API"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                className: "btn btn-outline-light",
+                type: "button",
+                children: "Add new API"
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "col-sm-3"
+        })]
+      })
+    })
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
