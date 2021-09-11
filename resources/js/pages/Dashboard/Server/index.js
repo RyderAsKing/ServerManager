@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Paginator } from "react-paginator-responsive";
 
 const DashboardServer = () => {
@@ -74,37 +75,37 @@ const DashboardServer = () => {
                                 : "Pterodactyl"}
                             <br />
                         </p>
-                        <a href="" className="btn btn-success">
+                        <Link to="" className="btn btn-success">
                             <i className="fas fa-play text-white"></i>
-                        </a>
-                        <a
-                            href=""
+                        </Link>
+                        <Link
+                            to=""
                             className="btn btn-danger"
                             style={{ marginLeft: "2px" }}
                         >
                             <i className="fas fa-stop text-white"></i>
-                        </a>
-                        <a
-                            href=""
+                        </Link>
+                        <Link
+                            to=""
                             className="btn btn-warning"
                             style={{ marginLeft: "2px" }}
                         >
                             <i className="fas fa-redo text-black"></i>
-                        </a>
-                        <a
-                            href=""
+                        </Link>
+                        <Link
+                            to=""
                             className="btn btn-danger"
                             style={{ marginLeft: "2px" }}
                         >
                             <i className="fas fa-power-off text-white"></i>
-                        </a>
-                        <a
-                            href=""
+                        </Link>
+                        <Link
+                            to={`/dashboard/server/${value.id}`}
                             className="btn btn-primary"
                             style={{ marginLeft: "2px" }}
                         >
                             <i className="fas fa-external-link-alt text-white"></i>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -121,14 +122,14 @@ const DashboardServer = () => {
                             Add new servers to our database so that you can
                             perform actions on them.
                         </p>
-                        <a href="">
+                        <Link to="">
                             <button
                                 className="btn btn-outline-light"
                                 type="button"
                             >
                                 Add servers
                             </button>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -158,11 +159,11 @@ const DashboardServer = () => {
                     Add new servers to our database so that you can perform
                     actions on them.
                 </p>
-                <a href="">
+                <Link to="">
                     <button className="btn btn-outline-light" type="button">
                         Add servers
                     </button>
-                </a>
+                </Link>
             </div>
         );
     }
@@ -205,11 +206,11 @@ const DashboardServer = () => {
                         Add new servers to our database so that you can perform
                         actions on them.
                     </p>
-                    <a href="">
+                    <Link to="">
                         <button className="btn btn-outline-light" type="button">
                             Add servers
                         </button>
-                    </a>
+                    </Link>
                 </div>
                 @endif */}
             </div>
