@@ -13,6 +13,7 @@
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
 
         <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/ReactToastify.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">

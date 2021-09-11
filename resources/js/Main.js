@@ -19,9 +19,9 @@ axios.defaults.headers.post["Accept"] = "application/json";
 
 const Main = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const updateApiToken = (token) => {
+    const updateApiToken = () => {
         axios.defaults.headers.common = {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("api_token")}`,
         };
     };
     useEffect(() => {
@@ -36,7 +36,7 @@ const Main = () => {
 
     useEffect(() => {
         if (isLoggedIn == null) return;
-        updateApiToken(localStorage.getItem("api_token"));
+        updateApiToken();
     }, [isLoggedIn]);
 
     const basicRoutes = BasicRoutes.map(({ path, Component, exact }, index) => (
@@ -71,6 +71,7 @@ const Main = () => {
                 key={index}
                 component={Component}
                 isLoggedIn={isLoggedIn}
+                updateApiToken={updateApiToken}
                 name={name}
             ></AuthProtectedRoute>
         )
