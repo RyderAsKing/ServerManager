@@ -43,6 +43,7 @@ const DashboardServer = () => {
         paginatorButtonSelectedColor: "#fff",
         paginatorButtonHoverColor: "#F0F8FF",
         lateralMargin: "0 2rem",
+        iconColor: "#fff",
     };
 
     var items;
@@ -140,6 +141,7 @@ const DashboardServer = () => {
                     <Paginator
                         page={pageNumber}
                         pageSize={paginatorValues.itemsPerPage}
+                        pageGroupSize={5}
                         totalItems={paginatorValues.totalItems}
                         items={paginatorValues.items}
                         callback={handlePageChange}
@@ -190,29 +192,9 @@ const DashboardServer = () => {
                             {items}
                             {listEnding}
                         </div>
-                        {paginator}{" "}
                     </>
                 )}
-
-                {/* @else
-                <div
-                    className="p-5 text-white bg-dark rounded-3"
-                    style={{ textAlign: "center", marginTop: "10%" }}
-                >
-                    <h4>
-                        Seems like you have no servers, how about adding one?
-                    </h4>
-                    <p>
-                        Add new servers to our database so that you can perform
-                        actions on them.
-                    </p>
-                    <Link to="">
-                        <button className="btn btn-outline-light" type="button">
-                            Add servers
-                        </button>
-                    </Link>
-                </div>
-                @endif */}
+                {paginator}
             </div>
         </>
     );

@@ -6407,7 +6407,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 react_topbar_progress_indicator__WEBPACK_IMPORTED_MODULE_1___default().config({
   barColors: {
     0: "#fff",
-    "1.0": "#fff"
+    "1.0": "#212529"
   },
   shadowBlur: 5
 });
@@ -6936,7 +6936,8 @@ var DashboardServer = function DashboardServer() {
     paginatorButtonBackgroundColor: "#fff",
     paginatorButtonSelectedColor: "#fff",
     paginatorButtonHoverColor: "#F0F8FF",
-    lateralMargin: "0 2rem"
+    lateralMargin: "0 2rem",
+    iconColor: "#fff"
   };
   var items;
   var listEnding;
@@ -7054,6 +7055,7 @@ var DashboardServer = function DashboardServer() {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_2__.Paginator, {
           page: pageNumber,
           pageSize: paginatorValues.itemsPerPage,
+          pageGroupSize: 5,
           totalItems: paginatorValues.totalItems,
           items: paginatorValues.items,
           callback: handlePageChange,
@@ -7104,12 +7106,12 @@ var DashboardServer = function DashboardServer() {
             })
           })
         })
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "row",
           children: [items, listEnding]
-        }), paginator, " "]
-      })]
+        })
+      }), paginator]
     })
   });
 };
