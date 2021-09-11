@@ -6858,10 +6858,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -6883,34 +6883,40 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var DashboardServer = function DashboardServer() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
-      _useState2 = _slicedToArray(_useState, 2),
-      pageNumber = _useState2[0],
-      setPageNumber = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+var DashboardServer = function DashboardServer() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      actionsDisabled = _useState2[0],
+      setActionsDisabled = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+      _useState4 = _slicedToArray(_useState3, 2),
+      pageNumber = _useState4[0],
+      setPageNumber = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     itemsPerPage: 0,
     totalPage: 0,
     totalItems: 0,
     items: []
   }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      paginatorValues = _useState4[0],
-      setPaginatorValues = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      loading = _useState6[0],
-      setLoading = _useState6[1];
+      paginatorValues = _useState6[0],
+      setPaginatorValues = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      loading = _useState8[0],
+      setLoading = _useState8[1];
 
   var getServers = function getServers(pageNumber) {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/server/?page=".concat(pageNumber)).then(function (response) {
+    (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListServers)(pageNumber).then(function (response) {
       setPaginatorValues({
-        itemsPerPage: response.data.per_page,
-        totalPage: response.data.last_page,
-        totalItems: response.data.total,
-        items: response.data.data
+        itemsPerPage: response.per_page,
+        totalPage: response.last_page,
+        totalItems: response.total,
+        items: response.data
       });
       setLoading(false);
     });
@@ -6927,6 +6933,20 @@ var DashboardServer = function DashboardServer() {
     }
 
     setPageNumber(newPage);
+  };
+
+  var handlePowerAction = function handlePowerAction(e) {
+    setActionsDisabled(true);
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.PowerActions)(e.target.dataset.db_id, e.target.dataset.action);
+    react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.promise(response, {
+      pending: "Sending power action",
+      success: "Sent a power signal",
+      error: "Signal rejected"
+    });
+    response.then(function (response) {
+      console.log(response);
+    });
+    setActionsDisabled(false);
   };
 
   var styles = {
@@ -6972,40 +6992,58 @@ var DashboardServer = function DashboardServer() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
               className: "card-text",
               children: ["Type:", " ", value.server_type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {})]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-              to: "",
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-success",
+              "data-db_id": value.id,
+              "data-action": "start",
+              onClick: handlePowerAction,
+              disabled: actionsDisabled,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                className: "fas fa-play text-white"
+                className: "fas fa-play text-white",
+                "data-db_id": value.id,
+                "data-action": "start"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-              to: "",
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-danger",
+              "data-db_id": value.id,
+              "data-action": "stop",
+              onClick: handlePowerAction,
               style: {
                 marginLeft: "2px"
               },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                className: "fas fa-stop text-white"
+                className: "fas fa-stop text-white",
+                "data-db_id": value.id,
+                "data-action": "stop"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-              to: "",
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-warning",
+              "data-db_id": value.id,
+              "data-action": "restart",
+              onClick: handlePowerAction,
               style: {
                 marginLeft: "2px"
               },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                className: "fas fa-redo text-black"
+                className: "fas fa-redo text-black",
+                "data-db_id": value.id,
+                "data-action": "restart"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               to: "",
               className: "btn btn-danger",
+              "data-db_id": value.id,
+              "data-action": "kill",
+              onClick: handlePowerAction,
               style: {
                 marginLeft: "2px"
               },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                className: "fas fa-power-off text-white"
+                className: "fas fa-power-off text-white",
+                "data-db_id": value.id,
+                "data-action": "kill"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
               to: "/dashboard/server/".concat(value.id),
               className: "btn btn-primary",
               style: {
@@ -7035,7 +7073,7 @@ var DashboardServer = function DashboardServer() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             className: "card-text",
             children: "Add new servers to our database so that you can perform actions on them."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
             to: "",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-outline-light",
@@ -7052,7 +7090,7 @@ var DashboardServer = function DashboardServer() {
         style: {
           "float": "right"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_2__.Paginator, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
           page: pageNumber,
           pageSize: paginatorValues.itemsPerPage,
           pageGroupSize: 5,
@@ -7074,7 +7112,7 @@ var DashboardServer = function DashboardServer() {
         children: "Seems like you have no servers, how about adding one?"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
         children: "Add new servers to our database so that you can perform actions on them."
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
         to: "",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
           className: "btn btn-outline-light",
@@ -7751,6 +7789,44 @@ var Register = function Register(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Register);
+
+/***/ }),
+
+/***/ "./resources/js/plugins/ApiCalls.js":
+/*!******************************************!*\
+  !*** ./resources/js/plugins/ApiCalls.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ListServers": () => (/* binding */ ListServers),
+/* harmony export */   "PowerActions": () => (/* binding */ PowerActions)
+/* harmony export */ });
+var ListServers = function ListServers() {
+  var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+  return axios.get("/api/server/?page=".concat(pageNumber)).then(function (response) {
+    return response.data;
+  });
+};
+
+var PowerActions = function PowerActions(db_id, action) {
+  if (action != "start" && action != "stop" && action != "restart" && action != "kill") {
+    return {
+      error: true,
+      error_message: "Invalid method"
+    };
+  } else {
+    return axios.post("/api/server/".concat(db_id, "/power"), {
+      action: action
+    }).then(function (response) {
+      return response.data;
+    });
+  }
+};
+
+
 
 /***/ }),
 

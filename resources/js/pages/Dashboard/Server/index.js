@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
-
+import { ListServers, PowerActions } from "../../../plugins/ApiCalls";
 const DashboardServer = () => {
+    const [actionsDisabled, setActionsDisabled] = useState(false);
     const [pageNumber, setPageNumber] = useState(1);
     const [paginatorValues, setPaginatorValues] = useState({
         itemsPerPage: 0,
@@ -13,12 +14,12 @@ const DashboardServer = () => {
     });
     const [loading, setLoading] = useState(false);
     const getServers = (pageNumber) => {
-        axios.get(`/api/server/?page=${pageNumber}`).then(function (response) {
+        ListServers(pageNumber).then((response) => {
             setPaginatorValues({
-                itemsPerPage: response.data.per_page,
-                totalPage: response.data.last_page,
-                totalItems: response.data.total,
-                items: response.data.data,
+                itemsPerPage: response.per_page,
+                totalPage: response.last_page,
+                totalItems: response.total,
+                items: response.data,
             });
             setLoading(false);
         });
@@ -35,6 +36,24 @@ const DashboardServer = () => {
         }
         setPageNumber(newPage);
     };
+
+    const handlePowerAction = (e) => {
+        setActionsDisabled(true);
+        var response = PowerActions(
+            e.target.dataset.db_id,
+            e.target.dataset.action
+        );
+        toast.promise(response, {
+            pending: "Sending power action",
+            success: "Sent a power signal",
+            error: "Signal rejected",
+        });
+        response.then((response) => {
+            console.log(response);
+        });
+        setActionsDisabled(false);
+    };
+
     const styles = {
         hideBackNextButtonText: false,
         backAndNextTextButtonColor: "white",
@@ -76,30 +95,59 @@ const DashboardServer = () => {
                                 : "Pterodactyl"}
                             <br />
                         </p>
-                        <Link to="" className="btn btn-success">
-                            <i className="fas fa-play text-white"></i>
-                        </Link>
-                        <Link
-                            to=""
+                        <button
+                            className="btn btn-success"
+                            data-db_id={value.id}
+                            data-action="start"
+                            onClick={handlePowerAction}
+                            disabled={actionsDisabled}
+                        >
+                            <i
+                                className="fas fa-play text-white"
+                                data-db_id={value.id}
+                                data-action="start"
+                            ></i>
+                        </button>
+                        <button
                             className="btn btn-danger"
+                            data-db_id={value.id}
+                            data-action="stop"
+                            onClick={handlePowerAction}
                             style={{ marginLeft: "2px" }}
                         >
-                            <i className="fas fa-stop text-white"></i>
-                        </Link>
-                        <Link
-                            to=""
+                            <i
+                                className="fas fa-stop text-white"
+                                data-db_id={value.id}
+                                data-action="stop"
+                            ></i>
+                        </button>
+                        <button
                             className="btn btn-warning"
+                            data-db_id={value.id}
+                            data-action="restart"
+                            onClick={handlePowerAction}
                             style={{ marginLeft: "2px" }}
                         >
-                            <i className="fas fa-redo text-black"></i>
-                        </Link>
-                        <Link
+                            <i
+                                className="fas fa-redo text-black"
+                                data-db_id={value.id}
+                                data-action="restart"
+                            ></i>
+                        </button>
+                        <button
                             to=""
                             className="btn btn-danger"
+                            data-db_id={value.id}
+                            data-action="kill"
+                            onClick={handlePowerAction}
                             style={{ marginLeft: "2px" }}
                         >
-                            <i className="fas fa-power-off text-white"></i>
-                        </Link>
+                            <i
+                                className="fas fa-power-off text-white"
+                                data-db_id={value.id}
+                                data-action="kill"
+                            ></i>
+                        </button>
                         <Link
                             to={`/dashboard/server/${value.id}`}
                             className="btn btn-primary"

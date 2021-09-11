@@ -15,7 +15,7 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized']);
         }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $servers = $user->server()->paginate(5);
@@ -25,7 +25,7 @@ class ServerController extends Controller
     public function information(Request $request, $id)
     {
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized']);
         }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['id' => $id])->firstOrFail();
@@ -50,7 +50,7 @@ class ServerController extends Controller
     public function power(Request $request, $id)
     {
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized']);
         }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['id' => $id])->firstOrFail();
@@ -60,7 +60,7 @@ class ServerController extends Controller
         $response = array();
 
         if ($action != 'start' && $action != 'stop' && $action != 'restart' &&  $action != 'kill') {
-            return response()->json(["message" => "Invalid method"], 404);
+            return response()->json(["message" => "Invalid method"]);
         }
 
         if ($type == 1) {
@@ -89,7 +89,7 @@ class ServerController extends Controller
     public function destroy(Request $request, $id)
     {
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized']);
         }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $server = $user->server()->where(['id' => $id])->firstOrFail();
