@@ -19,8 +19,11 @@ axios.defaults.headers.post["Accept"] = "application/json";
 
 const Main = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const [apiToken, setApiToken] = useState(null);
-
+    const updateApiToken = (token) => {
+        axios.defaults.headers.common = {
+            Authorization: `Bearer ${token}`,
+        };
+    };
     useEffect(() => {
         if (isLoggedIn == null) {
             if (localStorage.getItem("api_token")) {
@@ -32,12 +35,9 @@ const Main = () => {
     });
 
     useEffect(() => {
-        setApiToken(localStorage.getItem("api_token"));
+        if (isLoggedIn == null) return;
+        updateApiToken(localStorage.getItem("api_token"));
     }, [isLoggedIn]);
-
-    useEffect(() => {
-        axios.defaults.headers.common = { Authorization: `Bearer ${apiToken}` };
-    }, [apiToken]);
 
     const basicRoutes = BasicRoutes.map(({ path, Component, exact }, index) => (
         <Route

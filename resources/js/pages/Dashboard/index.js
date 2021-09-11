@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Dashboard = () => {
     return (
         <>
@@ -21,14 +21,14 @@ const Dashboard = () => {
                                 Perform powerful one click actions on servers
                                 with ease
                             </p>
-                            <a href="">
+                            <Link to="/dashboard/server">
                                 <button
                                     className="btn btn-outline-light"
                                     type="button"
                                 >
                                     List servers
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-md-6" style={{ marginTop: "15px" }}>
@@ -41,14 +41,14 @@ const Dashboard = () => {
                                 Add new servers to our database so that you can
                                 perform actions on them.
                             </p>
-                            <a href="">
+                            <Link to="/dashboard/server/add">
                                 <button
                                     className="btn btn-outline-light"
                                     type="button"
                                 >
                                     Add servers
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-sm-3"></div>
@@ -59,22 +59,23 @@ const Dashboard = () => {
                         >
                             <h2>Manage API</h2>
                             <p>Add, remove or modify existing API keys.</p>
-                            <a href="">
+                            <Link to="/dashboard/api">
                                 <button
                                     className="btn btn-outline-light"
                                     type="button"
                                 >
                                     Modify existing API
                                 </button>
-                            </a>
-                            <a href="">
+                            </Link>
+                            <Link to="/dashboard/api/add">
                                 <button
                                     className="btn btn-outline-light"
                                     type="button"
+                                    style={{ marginLeft: "5px" }}
                                 >
                                     Add new API
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-sm-3"></div>
