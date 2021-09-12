@@ -38,20 +38,36 @@ const DashboardServer = () => {
     };
 
     const handlePowerAction = (e) => {
-        setActionsDisabled(true);
+        const powerNotification = toast.loading("Sending power action", {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
         var response = PowerActions(
             e.target.dataset.db_id,
             e.target.dataset.action
         );
-        toast.promise(response, {
-            pending: "Sending power action",
-            success: "Sent a power signal",
-            error: "Signal rejected",
-        });
         response.then((response) => {
-            console.log(response);
+            if (response.status != 200) {
+                toast.update(powerNotification, {
+                    render: response.message,
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            } else {
+                toast.update(powerNotification, {
+                    render: response.message,
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            }
         });
-        setActionsDisabled(false);
     };
 
     const styles = {
@@ -72,6 +88,23 @@ const DashboardServer = () => {
         if (loading == false) {
             setLoading(true);
         }
+    }
+    if (paginatorValues.totalPage > 1) {
+        paginator = (
+            <div className="col-12 col-lg-12">
+                <div style={{ float: "right" }}>
+                    <Paginator
+                        page={pageNumber}
+                        pageSize={paginatorValues.itemsPerPage}
+                        pageGroupSize={5}
+                        totalItems={paginatorValues.totalItems}
+                        items={paginatorValues.items}
+                        callback={handlePageChange}
+                        styles={styles}
+                    />
+                </div>
+            </div>
+        );
     }
     if (paginatorValues.items.length > 0) {
         items = paginatorValues.items.map((value) => (
@@ -180,21 +213,6 @@ const DashboardServer = () => {
                             </button>
                         </Link>
                     </div>
-                </div>
-            </div>
-        );
-        paginator = (
-            <div className="col-12 col-lg-12">
-                <div style={{ float: "right" }}>
-                    <Paginator
-                        page={pageNumber}
-                        pageSize={paginatorValues.itemsPerPage}
-                        pageGroupSize={5}
-                        totalItems={paginatorValues.totalItems}
-                        items={paginatorValues.items}
-                        callback={handlePageChange}
-                        styles={styles}
-                    />
                 </div>
             </div>
         );
