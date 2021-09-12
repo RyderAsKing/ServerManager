@@ -20,6 +20,14 @@
     display: inline-block;
 }
 
+.loading {
+    height: 15px;
+    width: 15px;
+    background-color: rgb(146, 137, 137);
+    border-radius: 50%;
+    display: inline-block;
+}
+
 .hidden {
     display: none;
 }
