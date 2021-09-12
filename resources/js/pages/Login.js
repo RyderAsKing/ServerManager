@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ExchangeToken } from "../plugins/ApiCalls";
+
 const Login = (props) => {
     const history = useHistory();
     const [submitButton, setSubmitButton] = useState(
@@ -20,6 +22,9 @@ const Login = (props) => {
         errorList: [],
     });
 
+    const resetErrors = () => {
+        setLoginInput({ ...loginInput, errorMessage: "", errorList: [] });
+    };
     const setLoading = () => {
         setSubmitButton(
             <>
@@ -33,7 +38,6 @@ const Login = (props) => {
                 </button>
             </>
         );
-        setLoginInput({ ...loginInput, errorMessage: "", errorList: [] });
     };
     const setLogin = () => {
         setSubmitButton(
@@ -55,6 +59,7 @@ const Login = (props) => {
     };
 
     const loginSubmit = (e) => {
+        resetErrors();
         setLoading();
         e.preventDefault();
 
@@ -62,13 +67,13 @@ const Login = (props) => {
             email: loginInput.email,
             password: loginInput.password,
         };
-
-        axios.post(`/api/user/login`, data).then((res) => {
-            if (res.data.status == 200) {
-                localStorage.setItem("api_token", res.data.api_token);
-                localStorage.setItem("name", res.data.name);
-                localStorage.setItem("email", res.data.email);
-                toast.success(res.data.message, {
+        var response = ExchangeToken(data.email, data.password);
+        response.then((response) => {
+            if (response.status == 200) {
+                localStorage.setItem("api_token", response.api_token);
+                localStorage.setItem("name", response.name);
+                localStorage.setItem("email", response.email);
+                toast.success(response.message, {
                     position: "bottom-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -82,9 +87,9 @@ const Login = (props) => {
             } else {
                 var tempErrorMessage = "";
                 var tempErrorList = [];
-                if (res.data.error_message != null) {
-                    tempErrorMessage = res.data.error_message;
-                    toast.error(res.data.error_message, {
+                if (response.error_message != null) {
+                    tempErrorMessage = response.error_message;
+                    toast.error(response.error_message, {
                         position: "bottom-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -94,8 +99,8 @@ const Login = (props) => {
                         progress: undefined,
                     });
                 }
-                if (res.data.validation_errors != null) {
-                    tempErrorList = res.data.validation_errors;
+                if (response.validation_errors != null) {
+                    tempErrorList = response.validation_errors;
                 }
                 setLoginInput({
                     ...loginInput,

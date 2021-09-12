@@ -37,6 +37,38 @@ const DashboardApi = () => {
         setPageNumber(newPage);
     };
 
+    const handleDeleteAction = (e) => {
+        setLoading(true);
+        const deleteNotification = toast.loading("Deleting API", {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
+        var response = DestroyApi(e.target.dataset.db_id);
+        response.then((response) => {
+            if (response.status != 200) {
+                toast.update(deleteNotification, {
+                    render: response.error_message,
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            } else {
+                toast.update(deleteNotification, {
+                    render: response.message,
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            }
+            getApis(pageNumber);
+        });
+    };
+
     const styles = {
         hideBackNextButtonText: false,
         backAndNextTextButtonColor: "white",
@@ -59,7 +91,7 @@ const DashboardApi = () => {
     if (paginatorValues.totalPage > 1) {
         paginator = (
             <div className="col-12 col-lg-12">
-                <div style={{ float: "right" }}>
+                <div style={{ float: "right", marginBottom: "10px" }}>
                     <Paginator
                         page={pageNumber}
                         pageSize={paginatorValues.itemsPerPage}
@@ -93,14 +125,14 @@ const DashboardApi = () => {
                             {value.type == 0 ? "Virtualizor" : "Pterodactyl"}
                             <br /> Created {value.created_at}
                         </p>
-                        <a href="">
-                            <button
-                                className="btn btn-outline-danger"
-                                type="button"
-                            >
-                                Delete
-                            </button>
-                        </a>
+                        <button
+                            className="btn btn-outline-danger"
+                            type="button"
+                            data-db_id={value.id}
+                            onClick={handleDeleteAction}
+                        >
+                            Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -117,14 +149,14 @@ const DashboardApi = () => {
                             Add new API's to our database so that you can add
                             servers and then perform actions on them.
                         </p>
-                        <a href="">
+                        <Link to="/dashboard/api/add">
                             <button
                                 className="btn btn-outline-light"
                                 type="button"
                             >
                                 Add API
                             </button>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -140,7 +172,7 @@ const DashboardApi = () => {
                     Add new API's to our database so that you can add servers
                     and then perform actions on them.
                 </p>
-                <Link to="">
+                <Link to="/dashboard/api/add">
                     <button className="btn btn-outline-light" type="button">
                         Add API
                     </button>

@@ -6757,14 +6757,298 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var DashboardApiAdd = function DashboardApiAdd() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {});
+
+
+
+
+
+
+var DashboardApiAdd = function DashboardApiAdd(props) {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useHistory)();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    type: "submit",
+    className: "btn btn-primary text-white",
+    style: {
+      marginTop: "10px"
+    },
+    children: "Add API"
+  })),
+      _useState2 = _slicedToArray(_useState, 2),
+      submitButton = _useState2[0],
+      setSubmitButton = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+    type: 0,
+    api: "",
+    api_pass: "",
+    name: "",
+    hostname: "",
+    protocol: 0,
+    errorMessage: "",
+    errorList: []
+  }),
+      _useState4 = _slicedToArray(_useState3, 2),
+      createInput = _useState4[0],
+      setCreateInput = _useState4[1];
+
+  var resetErrors = function resetErrors() {
+    setCreateInput(_objectSpread(_objectSpread({}, createInput), {}, {
+      errorMessage: "",
+      errorList: []
+    }));
+  };
+
+  var setLoading = function setLoading() {
+    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        type: "submit",
+        className: "btn btn-primary text-white",
+        style: {
+          marginTop: "10px"
+        },
+        disabled: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "spinner-border"
+        })
+      })
+    }));
+  };
+
+  var setCreate = function setCreate() {
+    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+      type: "submit",
+      className: "btn btn-primary text-white",
+      style: {
+        marginTop: "10px"
+      },
+      children: "Add API"
+    }));
+  };
+
+  var handleInput = function handleInput(e) {
+    setCreateInput(_objectSpread(_objectSpread({}, createInput), {}, _defineProperty({}, e.target.name, e.target.value)));
+    console.log(createInput);
+  };
+
+  var createSubmit = function createSubmit(e) {
+    setLoading();
+    resetErrors();
+    e.preventDefault();
+    var data = {
+      type: createInput.type,
+      api: createInput.api,
+      api_pass: createInput.api_pass,
+      name: createInput.name,
+      hostname: createInput.hostname,
+      protocol: createInput.protocol
+    };
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.CreateApi)(data.type, data.api, data.api_pass, data.name, data.hostname, data.protocol);
+    response.then(function (response) {
+      if (response.status === 200) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success(response.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+        history.push("/dashboard/api");
+      } else {
+        var tempErrorMessage = "";
+        var tempErrorList = [];
+
+        if (response.error_message != null) {
+          tempErrorMessage = response.error_message;
+          react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error(response.error_message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          });
+        }
+
+        if (response.validation_errors != null) {
+          tempErrorList = response.validation_errors;
+        }
+
+        setCreateInput(_objectSpread(_objectSpread({}, createInput), {}, {
+          errorMessage: tempErrorMessage,
+          errorList: tempErrorList
+        }));
+        setCreate();
+      }
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "container text-white",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+        children: "Login"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+        method: "post",
+        onSubmit: createSubmit,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "type",
+            className: "form-label",
+            children: "API Type"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+            className: "form-select",
+            name: "type",
+            defaultValue: 0,
+            onChange: handleInput,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: 0,
+              children: "Virtualizor"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: 1,
+              children: "Pterodactyl"
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          style: {
+            color: "red"
+          }
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "name",
+            className: "form-label",
+            children: "Name"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            className: "form-control",
+            id: "name",
+            name: "name",
+            placeholder: "Give your API a cute name",
+            onChange: handleInput
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          style: {
+            color: "red"
+          },
+          children: createInput.errorList.name
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "api",
+            className: "form-label",
+            children: "API Key"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            className: "form-control",
+            id: "api",
+            name: "api",
+            placeholder: "Enter your API Key",
+            onChange: handleInput
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          style: {
+            color: "red"
+          },
+          children: createInput.errorList.api
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "api_pass",
+            className: "form-label",
+            children: "API Pass"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            className: "form-control",
+            id: "api_pass",
+            name: "api_pass",
+            placeholder: "Enter your API Pass (if required)",
+            onChange: handleInput
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          style: {
+            color: "red"
+          },
+          children: createInput.errorList.api_pass
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "hostname",
+            className: "form-label",
+            children: "Hostname or IP"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            className: "form-control",
+            id: "hostname",
+            name: "hostname",
+            placeholder: "Enter the API providers hostname or IP address",
+            onChange: handleInput
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          style: {
+            color: "red"
+          },
+          children: createInput.errorList.hostname
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "protocol",
+            className: "form-label",
+            children: "Protocol"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+            className: "form-select",
+            name: "protocol",
+            defaultValue: 0,
+            onChange: handleInput,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: 0,
+              children: "HTTP"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: 1,
+              children: "HTTPs"
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          style: {
+            color: "red"
+          },
+          children: createInput.errorList.protocol
+        }), submitButton]
+      })]
+    })
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DashboardApiAdd);
@@ -6783,7 +7067,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -6854,6 +7139,38 @@ var DashboardApi = function DashboardApi() {
     setPageNumber(newPage);
   };
 
+  var handleDeleteAction = function handleDeleteAction(e) {
+    setLoading(true);
+    var deleteNotification = react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.loading("Deleting API", {
+      position: "bottom-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    });
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.DestroyApi)(e.target.dataset.db_id);
+    response.then(function (response) {
+      if (response.status != 200) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(deleteNotification, {
+          render: response.error_message,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000
+        });
+      } else {
+        react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(deleteNotification, {
+          render: response.message,
+          type: "success",
+          isLoading: false,
+          autoClose: 5000
+        });
+      }
+
+      getApis(pageNumber);
+    });
+  };
+
   var styles = {
     hideBackNextButtonText: false,
     backAndNextTextButtonColor: "white",
@@ -6879,7 +7196,8 @@ var DashboardApi = function DashboardApi() {
       className: "col-12 col-lg-12",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         style: {
-          "float": "right"
+          "float": "right",
+          marginBottom: "10px"
         },
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
           page: pageNumber,
@@ -6922,13 +7240,12 @@ var DashboardApi = function DashboardApi() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
               className: "card-text",
               children: ["Type:", " ", value.type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), " Created ", value.created_at]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-              href: "",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                className: "btn btn-outline-danger",
-                type: "button",
-                children: "Delete"
-              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              className: "btn btn-outline-danger",
+              type: "button",
+              "data-db_id": value.id,
+              onClick: handleDeleteAction,
+              children: "Delete"
             })]
           })
         })
@@ -6950,8 +7267,8 @@ var DashboardApi = function DashboardApi() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             className: "card-text",
             children: "Add new API's to our database so that you can add servers and then perform actions on them."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-            href: "",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+            to: "/dashboard/api/add",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-outline-light",
               type: "button",
@@ -6972,8 +7289,8 @@ var DashboardApi = function DashboardApi() {
         children: "Seems like you have no API, how about adding one?"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
         children: "Add new API's to our database so that you can add servers and then perform actions on them."
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-        to: "",
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+        to: "/dashboard/api/add",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
           className: "btn btn-outline-light",
           type: "button",
@@ -7170,7 +7487,7 @@ var DashboardServer = function DashboardServer() {
     response.then(function (response) {
       if (response.status != 200) {
         react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(powerNotification, {
-          render: response.message,
+          render: response.error_message,
           type: "error",
           isLoading: false,
           autoClose: 5000
@@ -7331,7 +7648,7 @@ var DashboardServer = function DashboardServer() {
             className: "card-text",
             children: "Add new servers to our database so that you can perform actions on them."
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
-            to: "",
+            to: "/dashboard/server/add",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               className: "btn btn-outline-light",
               type: "button",
@@ -7353,7 +7670,7 @@ var DashboardServer = function DashboardServer() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
         children: "Add new servers to our database so that you can perform actions on them."
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
-        to: "",
+        to: "/dashboard/server/add",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
           className: "btn btn-outline-light",
           type: "button",
@@ -7590,9 +7907,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -7619,10 +7937,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var Login = function Login(props) {
-  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useHistory)();
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+var Login = function Login(props) {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useHistory)();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
     type: "submit",
     className: "btn btn-primary text-white",
     style: {
@@ -7644,28 +7963,31 @@ var Login = function Login(props) {
       loginInput = _useState4[0],
       setLoginInput = _useState4[1];
 
-  var setLoading = function setLoading() {
-    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-        type: "submit",
-        className: "btn btn-primary text-white",
-        style: {
-          marginTop: "10px"
-        },
-        disabled: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          className: "spinner-border"
-        })
-      })
-    }));
+  var resetErrors = function resetErrors() {
     setLoginInput(_objectSpread(_objectSpread({}, loginInput), {}, {
       errorMessage: "",
       errorList: []
     }));
   };
 
+  var setLoading = function setLoading() {
+    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        type: "submit",
+        className: "btn btn-primary text-white",
+        style: {
+          marginTop: "10px"
+        },
+        disabled: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "spinner-border"
+        })
+      })
+    }));
+  };
+
   var setLogin = function setLogin() {
-    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       type: "submit",
       className: "btn btn-primary text-white",
       style: {
@@ -7680,18 +8002,20 @@ var Login = function Login(props) {
   };
 
   var loginSubmit = function loginSubmit(e) {
+    resetErrors();
     setLoading();
     e.preventDefault();
     var data = {
       email: loginInput.email,
       password: loginInput.password
     };
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/user/login", data).then(function (res) {
-      if (res.data.status == 200) {
-        localStorage.setItem("api_token", res.data.api_token);
-        localStorage.setItem("name", res.data.name);
-        localStorage.setItem("email", res.data.email);
-        react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.success(res.data.message, {
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ExchangeToken)(data.email, data.password);
+    response.then(function (response) {
+      if (response.status == 200) {
+        localStorage.setItem("api_token", response.api_token);
+        localStorage.setItem("name", response.name);
+        localStorage.setItem("email", response.email);
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success(response.message, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -7706,9 +8030,9 @@ var Login = function Login(props) {
         var tempErrorMessage = "";
         var tempErrorList = [];
 
-        if (res.data.error_message != null) {
-          tempErrorMessage = res.data.error_message;
-          react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.error(res.data.error_message, {
+        if (response.error_message != null) {
+          tempErrorMessage = response.error_message;
+          react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error(response.error_message, {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -7719,8 +8043,8 @@ var Login = function Login(props) {
           });
         }
 
-        if (res.data.validation_errors != null) {
-          tempErrorList = res.data.validation_errors;
+        if (response.validation_errors != null) {
+          tempErrorList = response.validation_errors;
         }
 
         setLoginInput(_objectSpread(_objectSpread({}, loginInput), {}, {
@@ -7732,20 +8056,20 @@ var Login = function Login(props) {
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "container text-white",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
         children: "Login"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
         onSubmit: loginSubmit,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "mb-3",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
             htmlFor: "email",
             className: "form-label",
             children: "Email address"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             type: "email",
             className: "form-control",
             id: "email",
@@ -7753,23 +8077,23 @@ var Login = function Login(props) {
             onChange: handleInput,
             value: loginInput.email,
             placeholder: "Enter your email address"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             id: "emailHelp",
             className: "form-text",
             children: "We'll never share your email with anyone else."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             style: {
               color: "red"
             },
             children: loginInput.errorList.email
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "mb-3",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
             htmlFor: "password",
             className: "form-label",
             children: "Password"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
             type: "password",
             className: "form-control",
             id: "password",
@@ -7777,7 +8101,7 @@ var Login = function Login(props) {
             onChange: handleInput,
             value: loginInput.password,
             placeholder: "Enter your password"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             style: {
               color: "red"
             },
@@ -8041,10 +8365,22 @@ var Register = function Register(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ExchangeToken": () => (/* binding */ ExchangeToken),
 /* harmony export */   "ListServers": () => (/* binding */ ListServers),
 /* harmony export */   "PowerActions": () => (/* binding */ PowerActions),
-/* harmony export */   "ListApis": () => (/* binding */ ListApis)
+/* harmony export */   "ListApis": () => (/* binding */ ListApis),
+/* harmony export */   "CreateApi": () => (/* binding */ CreateApi),
+/* harmony export */   "DestroyApi": () => (/* binding */ DestroyApi)
 /* harmony export */ });
+var ExchangeToken = function ExchangeToken(email, password) {
+  return axios.post("/api/user/login", {
+    email: email,
+    password: password
+  }).then(function (response) {
+    return response.data;
+  });
+};
+
 var ListServers = function ListServers() {
   var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return axios.get("/api/server/?page=".concat(pageNumber)).then(function (response) {
@@ -8070,6 +8406,25 @@ var PowerActions = function PowerActions(db_id, action) {
 var ListApis = function ListApis() {
   var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return axios.get("/api/api/?page=".concat(pageNumber)).then(function (response) {
+    return response.data;
+  });
+};
+
+var DestroyApi = function DestroyApi(db_id) {
+  return axios.get("/api/api/".concat(db_id, "/destroy")).then(function (response) {
+    return response.data;
+  });
+};
+
+var CreateApi = function CreateApi(type, api, api_pass, name, hostname, protocol) {
+  return axios.post("/api/api/add", {
+    type: type,
+    api: api,
+    api_pass: api_pass,
+    name: name,
+    hostname: hostname,
+    protocol: protocol
+  }).then(function (response) {
     return response.data;
   });
 };

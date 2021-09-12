@@ -54,7 +54,7 @@ const DashboardServer = () => {
         response.then((response) => {
             if (response.status != 200) {
                 toast.update(powerNotification, {
-                    render: response.message,
+                    render: response.error_message,
                     type: "error",
                     isLoading: false,
                     autoClose: 5000,
@@ -204,7 +204,7 @@ const DashboardServer = () => {
                             Add new servers to our database so that you can
                             perform actions on them.
                         </p>
-                        <Link to="">
+                        <Link to="/dashboard/server/add">
                             <button
                                 className="btn btn-outline-light"
                                 type="button"
@@ -227,7 +227,7 @@ const DashboardServer = () => {
                     Add new servers to our database so that you can perform
                     actions on them.
                 </p>
-                <Link to="">
+                <Link to="/dashboard/server/add">
                     <button className="btn btn-outline-light" type="button">
                         Add servers
                     </button>
