@@ -6988,7 +6988,7 @@ var DashboardApi = function DashboardApi() {
       className: "container text-white",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
         className: "text-center",
-        children: "Manage API's"
+        children: "Manage APIs"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
         className: "text-center",
         children: "Add API's to our database so that you can add servers and then perform actions on them"

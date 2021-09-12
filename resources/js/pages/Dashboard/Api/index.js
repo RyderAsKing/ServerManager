@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
 import { ListApis, DestroyApi } from "../../../plugins/ApiCalls";
+
 const DashboardApi = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [paginatorValues, setPaginatorValues] = useState({
@@ -151,7 +152,7 @@ const DashboardApi = () => {
     return (
         <>
             <div className="container text-white">
-                <h3 className="text-center">Manage API's</h3>
+                <h3 className="text-center">Manage APIs</h3>
                 <p className="text-center">
                     Add API's to our database so that you can add servers and
                     then perform actions on them
