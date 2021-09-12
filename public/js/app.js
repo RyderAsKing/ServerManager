@@ -7372,13 +7372,148 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var DashboardServerCurrent = function DashboardServerCurrent() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {});
+
+
+
+var DashboardServerCurrent = function DashboardServerCurrent(props) {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState2 = _slicedToArray(_useState, 2),
+      loading = _useState2[0],
+      setLoading = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      serverInformation = _useState4[0],
+      setServerInformation = _useState4[1];
+
+  var currentServer = props.match.params.id;
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (loading == true && serverInformation == null) {
+      var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.GetServerInformation)(currentServer);
+      response.then(function (response) {
+        setServerInformation(response);
+      });
+    }
+  }, [loading]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (serverInformation != null) {
+      setLoading(false);
+    }
+  }, [serverInformation]);
+
+  var handlePowerAction = function handlePowerAction(e) {
+    console.log(e);
+  };
+
+  var basic;
+
+  if (serverInformation != null) {
+    basic = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "col-sm-12",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "card bg-dark",
+        style: {
+          margin: "5px",
+          border: "1px solid white",
+          marginTop: "5%"
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "card-body",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h5", {
+            className: "card-title",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+              className: "offline"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+              className: "online"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+            className: "card-text"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "btn btn-success",
+            "data-db_id": serverInformation.id,
+            "data-action": "start",
+            onClick: handlePowerAction,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fas fa-play text-white",
+              "data-db_id": serverInformation.id,
+              "data-action": "start"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "btn btn-danger",
+            "data-db_id": serverInformation.id,
+            "data-action": "stop",
+            onClick: handlePowerAction,
+            style: {
+              marginLeft: "2px"
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fas fa-stop text-white",
+              "data-db_id": serverInformation.id,
+              "data-action": "stop"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "btn btn-warning",
+            "data-db_id": serverInformation.id,
+            "data-action": "restart",
+            onClick: handlePowerAction,
+            style: {
+              marginLeft: "2px"
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fas fa-redo text-black",
+              "data-db_id": serverInformation.id,
+              "data-action": "restart"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            to: "",
+            className: "btn btn-danger",
+            "data-db_id": serverInformation.id,
+            "data-action": "kill",
+            onClick: handlePowerAction,
+            style: {
+              marginLeft: "2px"
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fas fa-power-off text-white",
+              "data-db_id": serverInformation.id,
+              "data-action": "kill"
+            })
+          })]
+        })
+      })
+    });
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "text-center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "spinner-border",
+        role: "status",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          className: "sr-only",
+          children: "Loading..."
+        })
+      })
+    }) : basic
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DashboardServerCurrent);
@@ -7424,30 +7559,25 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var DashboardServer = function DashboardServer() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
       _useState2 = _slicedToArray(_useState, 2),
-      actionsDisabled = _useState2[0],
-      setActionsDisabled = _useState2[1];
+      pageNumber = _useState2[0],
+      setPageNumber = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
-      _useState4 = _slicedToArray(_useState3, 2),
-      pageNumber = _useState4[0],
-      setPageNumber = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     itemsPerPage: 0,
     totalPage: 0,
     totalItems: 0,
     items: []
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      paginatorValues = _useState6[0],
-      setPaginatorValues = _useState6[1];
+      _useState4 = _slicedToArray(_useState3, 2),
+      paginatorValues = _useState4[0],
+      setPaginatorValues = _useState4[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState8 = _slicedToArray(_useState7, 2),
-      loading = _useState8[0],
-      setLoading = _useState8[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      loading = _useState6[0],
+      setLoading = _useState6[1];
 
   var getServers = function getServers(pageNumber) {
     (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListServers)(pageNumber).then(function (response) {
@@ -7571,7 +7701,6 @@ var DashboardServer = function DashboardServer() {
               "data-db_id": value.id,
               "data-action": "start",
               onClick: handlePowerAction,
-              disabled: actionsDisabled,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                 className: "fas fa-play text-white",
                 "data-db_id": value.id,
@@ -8368,6 +8497,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ExchangeToken": () => (/* binding */ ExchangeToken),
 /* harmony export */   "ListServers": () => (/* binding */ ListServers),
 /* harmony export */   "PowerActions": () => (/* binding */ PowerActions),
+/* harmony export */   "GetServerInformation": () => (/* binding */ GetServerInformation),
 /* harmony export */   "ListApis": () => (/* binding */ ListApis),
 /* harmony export */   "CreateApi": () => (/* binding */ CreateApi),
 /* harmony export */   "DestroyApi": () => (/* binding */ DestroyApi)
@@ -8401,6 +8531,12 @@ var PowerActions = function PowerActions(db_id, action) {
       return response.data;
     });
   }
+};
+
+var GetServerInformation = function GetServerInformation(db_id) {
+  return axios.get("/api/server/".concat(db_id)).then(function (response) {
+    return response.data;
+  });
 };
 
 var ListApis = function ListApis() {

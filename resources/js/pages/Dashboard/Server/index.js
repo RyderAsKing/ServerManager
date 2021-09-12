@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
 import { ListServers, PowerActions } from "../../../plugins/ApiCalls";
 const DashboardServer = () => {
-    const [actionsDisabled, setActionsDisabled] = useState(false);
     const [pageNumber, setPageNumber] = useState(1);
     const [paginatorValues, setPaginatorValues] = useState({
         itemsPerPage: 0,
@@ -133,7 +132,6 @@ const DashboardServer = () => {
                             data-db_id={value.id}
                             data-action="start"
                             onClick={handlePowerAction}
-                            disabled={actionsDisabled}
                         >
                             <i
                                 className="fas fa-play text-white"

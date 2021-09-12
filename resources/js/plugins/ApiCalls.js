@@ -31,6 +31,12 @@ const PowerActions = (db_id, action) => {
     }
 };
 
+const GetServerInformation = (db_id) => {
+    return axios.get(`/api/server/${db_id}`).then((response) => {
+        return response.data;
+    });
+};
+
 const ListApis = (pageNumber = 1) => {
     return axios.get(`/api/api/?page=${pageNumber}`).then((response) => {
         return response.data;
@@ -62,6 +68,7 @@ export {
     ExchangeToken,
     ListServers,
     PowerActions,
+    GetServerInformation,
     ListApis,
     CreateApi,
     DestroyApi,
