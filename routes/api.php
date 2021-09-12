@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ServerController;
 use App\Http\Controllers\Api\PterodactylServerController;
@@ -31,3 +32,7 @@ Route::middleware('auth:api')->get('/server', [ServerController::class, 'index']
 Route::middleware('auth:api')->get('/server/{id}', [ServerController::class, 'information']);
 Route::middleware('auth:api')->post('/server/{id}/power', [ServerController::class, 'power']);
 Route::middleware('auth:api')->post('/server/{id}/destroy', [ServerController::class, 'destroy']);
+
+/* Api Management */
+Route::middleware('auth:api')->get('/api', [ApiController::class, 'index']);
+Route::middleware('auth:api')->get('/api/{id}/destroy', [ApiController::class, 'index']);
