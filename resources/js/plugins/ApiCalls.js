@@ -23,4 +23,9 @@ const PowerActions = (db_id, action) => {
     }
 };
 
-export { ListServers, PowerActions };
+const ListApis = (pageNumber = 1) => {
+    return axios.get(`/api/api/?page=${pageNumber}`).then((response) => {
+        return response.data;
+    });
+};
+export { ListServers, PowerActions, ListApis };
