@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GetServerInformation } from "../../../plugins/ApiCalls";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { toast } from "react-toastify";
+import { PowerActions } from "../../../plugins/ApiCalls";
 
 const DashboardServerCurrent = (props) => {
     const [loading, setLoading] = useState(true);
@@ -31,7 +32,36 @@ const DashboardServerCurrent = (props) => {
     }, [serverInformation]);
 
     const handlePowerAction = (e) => {
-        console.log(e);
+        const powerNotification = toast.loading("Sending power action", {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
+        var response = PowerActions(
+            e.target.dataset.db_id,
+            e.target.dataset.action
+        );
+        response.then((response) => {
+            if (response.status != 200) {
+                toast.update(powerNotification, {
+                    render: response.error_message,
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            } else {
+                toast.update(powerNotification, {
+                    render: response.message,
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            }
+        });
     };
     var common;
     var server_type_0;

@@ -7373,6 +7373,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -7385,6 +7386,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -7432,7 +7434,32 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
   }, [serverInformation]);
 
   var handlePowerAction = function handlePowerAction(e) {
-    console.log(e);
+    var powerNotification = react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast.loading("Sending power action", {
+      position: "bottom-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    });
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.PowerActions)(e.target.dataset.db_id, e.target.dataset.action);
+    response.then(function (response) {
+      if (response.status != 200) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast.update(powerNotification, {
+          render: response.error_message,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000
+        });
+      } else {
+        react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast.update(powerNotification, {
+          render: response.message,
+          type: "success",
+          isLoading: false,
+          autoClose: 5000
+        });
+      }
+    });
   };
 
   var common;
