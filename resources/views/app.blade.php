@@ -22,7 +22,9 @@
 
     <body class="bg-dark text-white">
         <div id="app"></div>
-
+        <script>
+            var websocket_url = "{{ env('WEBSOCKET_URL') }}";
+        </script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 
