@@ -276,7 +276,7 @@ const DashboardServerCurrent = (props) => {
                             ? server_type_0
                             : serverInformation.server_type == 1
                             ? server_type_1
-                            : server_type_1}
+                            : ""}
                     </div>
                 )}
             </div>
