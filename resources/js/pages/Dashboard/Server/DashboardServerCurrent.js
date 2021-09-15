@@ -66,6 +66,7 @@ const DashboardServerCurrent = (props) => {
     var common;
     var server_type_0;
     var server_type_1;
+    var terminal;
     if (serverInformation != null) {
         common = (
             <div className="col-sm-12">
@@ -252,6 +253,14 @@ const DashboardServerCurrent = (props) => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </>
+        );
+
+        server_type_1 = (
+            <>
+                <div className="container" id="console">
+                    {terminal}
                 </div>
             </>
         );

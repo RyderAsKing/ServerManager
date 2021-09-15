@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/ReactToastify.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
     </head>
 
     <body class="bg-dark text-white">

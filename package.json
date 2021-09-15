@@ -62,7 +62,6 @@
         "redux-persist": "^6.0.0",
         "redux-thunk": "^2.3.0",
         "ree-validate": "3.0.2",
-        "resolve-url-loader": "^4.0.0",
-        "xterm": "^4.14.1"
+        "resolve-url-loader": "^4.0.0"
     }
 }

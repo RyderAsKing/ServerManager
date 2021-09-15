@@ -7465,6 +7465,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
   var common;
   var server_type_0;
   var server_type_1;
+  var terminal;
 
   if (serverInformation != null) {
     common = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -7695,6 +7696,13 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
         })
       })]
     });
+    server_type_1 = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "container",
+        id: "console",
+        children: terminal
+      })
+    });
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
@@ -7718,7 +7726,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
         })
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "container",
-        children: [common, serverInformation.server_type == 0 ? server_type_0 : serverInformation.server_type == 1 ? server_type_1 : server_type_1]
+        children: [common, serverInformation.server_type == 0 ? server_type_0 : serverInformation.server_type == 1 ? server_type_1 : ""]
       })
     })]
   });
@@ -43235,6 +43243,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************************!*\
   !*** ./node_modules/react-toastify/dist/ReactToastify.css ***!
   \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./node_modules/xterm/css/xterm.css":
+/*!******************************************!*\
+  !*** ./node_modules/xterm/css/xterm.css ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -82695,6 +82716,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0,
+/******/ 			"css/xterm": 0,
 /******/ 			"css/ReactToastify": 0
 /******/ 		};
 /******/ 		
@@ -82745,9 +82767,10 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/ReactToastify"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/ReactToastify"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/ReactToastify"], () => (__webpack_require__("./node_modules/react-toastify/dist/ReactToastify.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/xterm","css/ReactToastify"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/xterm","css/ReactToastify"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/xterm","css/ReactToastify"], () => (__webpack_require__("./node_modules/react-toastify/dist/ReactToastify.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/xterm","css/ReactToastify"], () => (__webpack_require__("./node_modules/xterm/css/xterm.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
