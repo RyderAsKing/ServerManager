@@ -6656,25 +6656,58 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
 
 
 var PowerButtons = function PowerButtons(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: props.type == "with_text" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+  var handlePowerAction = function handlePowerAction(e) {
+    var powerNotification = react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast.loading("Sending power action", {
+      position: "bottom-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    });
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.PowerActions)(e.target.dataset.db_id, e.target.dataset.action);
+    response.then(function (response) {
+      if (response.status != 200) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast.update(powerNotification, {
+          render: response.error_message,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000
+        });
+      } else {
+        react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast.update(powerNotification, {
+          render: response.message,
+          type: "success",
+          isLoading: false,
+          autoClose: 5000
+        });
+      }
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: props.type == "with_text" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
         className: "btn btn-success",
         "data-db_id": props.id,
         "data-action": "start",
-        onClick: props.handlePowerAction,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        onClick: handlePowerAction,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-play text-white",
           "data-db_id": props.id,
           "data-action": "start"
-        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
           style: {
             color: "white"
           },
@@ -6682,19 +6715,19 @@ var PowerButtons = function PowerButtons(props) {
           "data-action": "start",
           children: "Start"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
         className: "btn btn-danger",
         "data-db_id": props.id,
         "data-action": "stop",
-        onClick: props.handlePowerAction,
+        onClick: handlePowerAction,
         style: {
           marginLeft: "2px"
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-stop text-white",
           "data-db_id": props.id,
           "data-action": "stop"
-        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
           style: {
             color: "white"
           },
@@ -6702,19 +6735,19 @@ var PowerButtons = function PowerButtons(props) {
           "data-action": "stop",
           children: "Stop"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
         className: "btn btn-warning",
         "data-db_id": props.id,
         "data-action": "restart",
-        onClick: props.handlePowerAction,
+        onClick: handlePowerAction,
         style: {
           marginLeft: "2px"
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-redo text-black",
           "data-db_id": props.id,
           "data-action": "restart"
-        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
           style: {
             color: "black"
           },
@@ -6722,19 +6755,19 @@ var PowerButtons = function PowerButtons(props) {
           "data-action": "restart",
           children: "Restart"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
         className: "btn btn-danger",
         "data-db_id": props.id,
         "data-action": "kill",
-        onClick: props.handlePowerAction,
+        onClick: handlePowerAction,
         style: {
           marginLeft: "2px"
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-power-off text-white",
           "data-db_id": props.id,
           "data-action": "kill"
-        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
           style: {
             color: "white"
           },
@@ -6743,53 +6776,53 @@ var PowerButtons = function PowerButtons(props) {
           children: "Power Off"
         })]
       })]
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         className: "btn btn-success",
         "data-db_id": props.id,
         "data-action": "start",
-        onClick: props.handlePowerAction,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        onClick: handlePowerAction,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-play text-white",
           "data-db_id": props.id,
           "data-action": "start"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         className: "btn btn-danger",
         "data-db_id": props.id,
         "data-action": "stop",
-        onClick: props.handlePowerAction,
+        onClick: handlePowerAction,
         style: {
           marginLeft: "2px"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-stop text-white",
           "data-db_id": props.id,
           "data-action": "stop"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         className: "btn btn-warning",
         "data-db_id": props.id,
         "data-action": "restart",
-        onClick: props.handlePowerAction,
+        onClick: handlePowerAction,
         style: {
           marginLeft: "2px"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-redo text-black",
           "data-db_id": props.id,
           "data-action": "restart"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         to: "",
         className: "btn btn-danger",
         "data-db_id": props.id,
         "data-action": "kill",
-        onClick: props.handlePowerAction,
+        onClick: handlePowerAction,
         style: {
           marginLeft: "2px"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-power-off text-white",
           "data-db_id": props.id,
           "data-action": "kill"
@@ -7565,7 +7598,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var _components_PowerButtons___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PowerButtons/ */ "./resources/js/components/PowerButtons/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -7580,7 +7612,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -7645,39 +7676,6 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
       }
     }
   }, [serverInformation]);
-
-  var handlePowerAction = function handlePowerAction(e) {
-    var powerNotification = react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.loading("Sending power action", {
-      position: "bottom-right",
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined
-    });
-    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.PowerActions)(e.target.dataset.db_id, e.target.dataset.action);
-    console.log(response);
-    response.then(function (response) {
-      console.log(response);
-
-      if (response.status != 200) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.update(powerNotification, {
-          render: response.error_message,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000
-        });
-      } else {
-        react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.update(powerNotification, {
-          render: response.message,
-          type: "success",
-          isLoading: false,
-          autoClose: 5000
-        });
-      }
-    });
-  };
-
   var common;
   var container;
 
@@ -7713,8 +7711,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
             className: "card-text"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_PowerButtons___WEBPACK_IMPORTED_MODULE_3__["default"], {
             type: "with_text",
-            id: serverInformation.id,
-            handlePowerAction: handlePowerAction
+            id: serverInformation.id
           })]
         })
       })
@@ -7933,8 +7930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
@@ -8009,35 +8005,6 @@ var DashboardServer = function DashboardServer() {
     setPageNumber(newPage);
   };
 
-  var handlePowerAction = function handlePowerAction(e) {
-    var powerNotification = react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.loading("Sending power action", {
-      position: "bottom-right",
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined
-    });
-    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.PowerActions)(e.target.dataset.db_id, e.target.dataset.action);
-    response.then(function (response) {
-      if (response.status != 200) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.update(powerNotification, {
-          render: response.error_message,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000
-        });
-      } else {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.update(powerNotification, {
-          render: response.message,
-          type: "success",
-          isLoading: false,
-          autoClose: 5000
-        });
-      }
-    });
-  };
-
   var styles = {
     hideBackNextButtonText: false,
     backAndNextTextButtonColor: "white",
@@ -8102,9 +8069,8 @@ var DashboardServer = function DashboardServer() {
               className: "card-text",
               children: ["Type:", " ", value.server_type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {})]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_PowerButtons___WEBPACK_IMPORTED_MODULE_4__["default"], {
-              id: value.id,
-              handlePowerAction: handlePowerAction
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+              id: value.id
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
               to: "/dashboard/server/".concat(value.id),
               className: "btn btn-primary",
               style: {
@@ -8134,7 +8100,7 @@ var DashboardServer = function DashboardServer() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
             className: "card-text",
             children: "Add new servers to our database so that you can perform actions on them."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
             to: "/dashboard/server/add",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "btn btn-outline-light",
@@ -8156,7 +8122,7 @@ var DashboardServer = function DashboardServer() {
         children: "Seems like you have no servers, how about adding one?"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
         children: "Add new servers to our database so that you can perform actions on them."
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
         to: "/dashboard/server/add",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           className: "btn btn-outline-light",

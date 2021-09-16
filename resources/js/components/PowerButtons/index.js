@@ -1,6 +1,39 @@
 import React from "react";
-
+import { toast } from "react-toastify";
+import { PowerActions } from "../../plugins/ApiCalls";
 const PowerButtons = (props) => {
+    const handlePowerAction = (e) => {
+        const powerNotification = toast.loading("Sending power action", {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+
+        var response = PowerActions(
+            e.target.dataset.db_id,
+            e.target.dataset.action
+        );
+        response.then((response) => {
+            if (response.status != 200) {
+                toast.update(powerNotification, {
+                    render: response.error_message,
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            } else {
+                toast.update(powerNotification, {
+                    render: response.message,
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            }
+        });
+    };
     return (
         <>
             {props.type == "with_text" ? (
@@ -9,7 +42,7 @@ const PowerButtons = (props) => {
                         className="btn btn-success"
                         data-db_id={props.id}
                         data-action="start"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                     >
                         <i
                             className="fas fa-play text-white"
@@ -28,7 +61,7 @@ const PowerButtons = (props) => {
                         className="btn btn-danger"
                         data-db_id={props.id}
                         data-action="stop"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -48,7 +81,7 @@ const PowerButtons = (props) => {
                         className="btn btn-warning"
                         data-db_id={props.id}
                         data-action="restart"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -68,7 +101,7 @@ const PowerButtons = (props) => {
                         className="btn btn-danger"
                         data-db_id={props.id}
                         data-action="kill"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -91,7 +124,7 @@ const PowerButtons = (props) => {
                         className="btn btn-success"
                         data-db_id={props.id}
                         data-action="start"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                     >
                         <i
                             className="fas fa-play text-white"
@@ -103,7 +136,7 @@ const PowerButtons = (props) => {
                         className="btn btn-danger"
                         data-db_id={props.id}
                         data-action="stop"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -116,7 +149,7 @@ const PowerButtons = (props) => {
                         className="btn btn-warning"
                         data-db_id={props.id}
                         data-action="restart"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -130,7 +163,7 @@ const PowerButtons = (props) => {
                         className="btn btn-danger"
                         data-db_id={props.id}
                         data-action="kill"
-                        onClick={props.handlePowerAction}
+                        onClick={handlePowerAction}
                         style={{ marginLeft: "2px" }}
                     >
                         <i

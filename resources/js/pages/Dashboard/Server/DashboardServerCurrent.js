@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GetServerInformation } from "../../../plugins/ApiCalls";
 import { toast } from "react-toastify";
-import { PowerActions } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
 
@@ -51,40 +50,6 @@ const DashboardServerCurrent = (props) => {
         }
     }, [serverInformation]);
 
-    const handlePowerAction = (e) => {
-        const powerNotification = toast.loading("Sending power action", {
-            position: "bottom-right",
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-
-        var response = PowerActions(
-            e.target.dataset.db_id,
-            e.target.dataset.action
-        );
-        console.log(response);
-        response.then((response) => {
-            console.log(response);
-            if (response.status != 200) {
-                toast.update(powerNotification, {
-                    render: response.error_message,
-                    type: "error",
-                    isLoading: false,
-                    autoClose: 5000,
-                });
-            } else {
-                toast.update(powerNotification, {
-                    render: response.message,
-                    type: "success",
-                    isLoading: false,
-                    autoClose: 5000,
-                });
-            }
-        });
-    };
     var common;
     var container;
     if (serverInformation != null) {
@@ -121,7 +86,6 @@ const DashboardServerCurrent = (props) => {
                         <PowerButtons
                             type="with_text"
                             id={serverInformation.id}
-                            handlePowerAction={handlePowerAction}
                         ></PowerButtons>
                     </div>
                 </div>

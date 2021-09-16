@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
-import { ListServers, PowerActions } from "../../../plugins/ApiCalls";
+import { ListServers } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
 
@@ -37,39 +37,6 @@ const DashboardServer = () => {
             return;
         }
         setPageNumber(newPage);
-    };
-
-    const handlePowerAction = (e) => {
-        const powerNotification = toast.loading("Sending power action", {
-            position: "bottom-right",
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-
-        var response = PowerActions(
-            e.target.dataset.db_id,
-            e.target.dataset.action
-        );
-        response.then((response) => {
-            if (response.status != 200) {
-                toast.update(powerNotification, {
-                    render: response.error_message,
-                    type: "error",
-                    isLoading: false,
-                    autoClose: 5000,
-                });
-            } else {
-                toast.update(powerNotification, {
-                    render: response.message,
-                    type: "success",
-                    isLoading: false,
-                    autoClose: 5000,
-                });
-            }
-        });
     };
 
     const styles = {
@@ -131,10 +98,7 @@ const DashboardServer = () => {
                             <br />
                         </p>
 
-                        <PowerButtons
-                            id={value.id}
-                            handlePowerAction={handlePowerAction}
-                        ></PowerButtons>
+                        <PowerButtons id={value.id}></PowerButtons>
 
                         <Link
                             to={`/dashboard/server/${value.id}`}
