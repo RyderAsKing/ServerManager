@@ -3,11 +3,35 @@ import { GetServerInformation } from "../../../plugins/ApiCalls";
 import { toast } from "react-toastify";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
+import BorderCard from "./../../../components/Cards/BorderCard";
+// Charts
+import Memory from "../../../components/Charts/Memory";
+import CPU from "./../../../components/Charts/Cpu";
+import Network from "./../../../components/Charts/Network";
 
 const DashboardServerCurrent = (props) => {
     const [loading, setLoading] = useState(true);
     const [serverInformation, setServerInformation] = useState(null);
     const [serverStatus, setServerStatus] = useState(null);
+    const timeformat = (date) => {
+        var h = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+        var x = h >= 12 ? "" : "";
+        h = h % 12;
+        h = h ? h : 12;
+        m = m < 10 ? "0" + m : m;
+        var mytime = h + ":" + m + ":" + s;
+        return mytime;
+    };
+    const [chartData, setChartData] = useState({
+        memoryData: Array(25).fill(0.01),
+        cpuData: Array(25).fill(0.01),
+        diskData: Array(25).fill(0.01),
+        networkData: { tx: Array(5).fill(0.01), rx: Array(5).fill(0.01) },
+        max: { memory: 0, disk: 0, cpu: 0 },
+        timeData: Array(25).fill(timeformat(new Date())),
+    });
 
     var currentServer = props.match.params.id;
 
@@ -27,7 +51,14 @@ const DashboardServerCurrent = (props) => {
                 setServerStatus(serverInformation[0].status);
             }
             if (serverInformation.server_type == 1) {
-                // Pterodactyl (do nothing)
+                setChartData({
+                    ...chartData,
+                    max: {
+                        memory: serverInformation[0].memory,
+                        cpu: serverInformation[0].cpu,
+                        disk: serverInformation[0].disk,
+                    },
+                });
                 var apiToken = axios.defaults.headers.common.Authorization;
                 var apiToken = apiToken.replace("Bearer ", "");
                 const uri = encodeURI(
@@ -35,11 +66,56 @@ const DashboardServerCurrent = (props) => {
                 );
                 const websocket = new WebSocket(uri);
                 websocket.onmessage = (event) => {
-                    // TODO
                     const data = JSON.parse(event.data);
-                    console.log(data);
 
                     if (data.event == "stats") {
+                        // Conver the string into JSON
+                        var stats = JSON.parse(data.args[0]);
+
+                        var memory = chartData.memoryData;
+                        var cpu = chartData.cpuData;
+                        var disk = chartData.diskData;
+
+                        var tx = chartData.networkData.tx;
+                        var rx = chartData.networkData.rx;
+
+                        var time = chartData.timeData;
+                        if (memory.length > 25) {
+                            memory.shift();
+                        }
+                        if (cpu.length > 25) {
+                            cpu.shift();
+                        }
+                        if (disk.length > 25) {
+                            disk.shift();
+                        }
+                        if (tx.length > 4) {
+                            tx.shift();
+                        }
+                        if (rx.length > 4) {
+                            rx.shift();
+                        }
+                        if (time.length > 25) {
+                            time.shift();
+                        }
+                        memory.push(
+                            Math.round(stats.memory_bytes / 1024 / 1024)
+                        );
+                        cpu.push(stats.cpu_absolute);
+                        disk.push(stats.disk_bytes);
+                        tx.push(stats.network.tx_bytes / 1024 / 1024);
+                        rx.push(stats.network.rx_bytes / 1024 / 1024);
+
+                        time.push(timeformat(new Date()));
+                        var tempChartData = {
+                            ...chartData,
+                            memoryData: memory,
+                            cpuData: cpu,
+                            diskData: disk,
+                            networkData: { tx: tx, rx: rx },
+                            timeData: time,
+                        };
+                        setChartData(tempChartData);
                     }
                     if (data.event == "console output") {
                     }
@@ -211,40 +287,65 @@ const DashboardServerCurrent = (props) => {
         if (serverInformation.server_type == 1) {
             container = (
                 <>
-                    <div
-                        className="container"
-                        style={{
-                            margin: "5px",
-                            border: "1px solid white",
-                        }}
-                    >
-                        <div id="terminal-body">
+                    <div className="row">
+                        <div className="col-lg-8 col-md-12">
                             <div
-                                id="terminal"
+                                className="container"
                                 style={{
-                                    maxHeight: "none !important",
+                                    margin: "5px",
+                                    border: "1px solid white",
                                 }}
-                            ></div>
-                            <div
-                                id="terminal_input"
-                                className="form-group no-margin"
                             >
-                                <div className="input-group">
-                                    <div className="input-group-addon terminal_input--prompt">
-                                        container:~/$
+                                <div id="terminal-body">
+                                    <div
+                                        id="terminal"
+                                        style={{
+                                            maxHeight: "none !important",
+                                        }}
+                                    ></div>
+                                    <div
+                                        id="terminal_input"
+                                        className="form-group no-margin"
+                                    >
+                                        <div className="input-group">
+                                            <div className="input-group-addon terminal_input--prompt">
+                                                container:~/$
+                                            </div>
+                                            <input
+                                                type="text"
+                                                className="form-control terminal_input--input text-white"
+                                                style={{ marginLeft: "5px" }}
+                                            />
+                                        </div>
                                     </div>
-                                    <input
-                                        type="text"
-                                        className="form-control terminal_input--input text-white"
-                                        style={{ marginLeft: "5px" }}
-                                    />
+                                    <div
+                                        id="terminalNotify"
+                                        className="terminal-notify hidden"
+                                    >
+                                        <i className="fa fa-bell"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <div
-                                id="terminalNotify"
-                                className="terminal-notify hidden"
-                            >
-                                <i className="fa fa-bell"></i>
+                        </div>
+                        <div className="col-lg-4 col-md-12">
+                            <div className="row">
+                                <BorderCard>
+                                    <Memory
+                                        data={chartData.memoryData}
+                                        time={chartData.timeData}
+                                    ></Memory>
+                                </BorderCard>
+                                <BorderCard>
+                                    <CPU
+                                        data={chartData.cpuData}
+                                        time={chartData.timeData}
+                                    ></CPU>
+                                </BorderCard>
+                                <BorderCard>
+                                    <Network
+                                        data={chartData.networkData}
+                                    ></Network>
+                                </BorderCard>
                             </div>
                         </div>
                     </div>

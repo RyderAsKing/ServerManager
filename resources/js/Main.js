@@ -8,6 +8,7 @@ import { BasicRoutes, GuestRoutes, AuthRoutes } from "./Routes";
 // Custom Componenets
 import CustomSwitch from "./components/CustomSwitch/";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer/";
 import { ToastContainer } from "react-toastify";
 
 // Protected Route Componenets
@@ -90,6 +91,7 @@ const Main = () => {
                     {guestRoutes}
                     {authRoutes}
                 </CustomSwitch>
+                <Footer></Footer>
             </Router>
         </>
     );

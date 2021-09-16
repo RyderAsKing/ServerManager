@@ -46,6 +46,9 @@ app.ws("/pterodactyl/console", async (socket, req) => {
             setTimeout(() => {
                 serverWS.send('{"event":"send logs","args":[null]}');
             }, 1000);
+            setInterval(() => {
+                serverWS.send('{"event":"send stats","args":[null]}');
+            }, 3000);
             socket.on("message", (msg) => {
                 let se = JSON.parse(msg.toString());
                 serverWS.send(
