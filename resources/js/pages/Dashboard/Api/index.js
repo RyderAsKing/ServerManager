@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
 import { ListApis, DestroyApi } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
+import MessageDiv from "./../../../components/MessageDiv/";
+import BorderCard from "./../../../components/Cards/BorderCard";
 
 const DashboardApi = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -109,10 +111,7 @@ const DashboardApi = () => {
     if (paginatorValues.items.length > 0) {
         items = paginatorValues.items.map((value) => (
             <div className="col-12 col-lg-6" key={value.id}>
-                <div
-                    className="card bg-dark"
-                    style={{ margin: "5px", border: "1px solid white" }}
-                >
+                <BorderCard>
                     <div className="card-body">
                         <h5 className="card-title">Nickname: {value.nick}</h5>
                         <h5 className="card-title">
@@ -135,15 +134,12 @@ const DashboardApi = () => {
                             Delete
                         </button>
                     </div>
-                </div>
+                </BorderCard>
             </div>
         ));
         listEnding = (
             <div className="col-12 col-lg-6">
-                <div
-                    className="card bg-dark"
-                    style={{ margin: "5px", border: "1px solid white" }}
-                >
+                <BorderCard>
                     <div className="card-body">
                         <h5 className="card-title">Add more API's?</h5>
                         <p className="card-text">
@@ -159,26 +155,18 @@ const DashboardApi = () => {
                             </button>
                         </Link>
                     </div>
-                </div>
+                </BorderCard>
             </div>
         );
     } else {
         items = (
-            <div
-                className="p-5 text-white bg-dark rounded-3"
-                style={{ textAlign: "center", marginTop: "10%" }}
-            >
-                <h4>Seems like you have no API, how about adding one?</h4>
-                <p>
-                    Add new API's to our database so that you can add servers
-                    and then perform actions on them.
-                </p>
-                <Link to="/dashboard/api/add">
-                    <button className="btn btn-outline-light" type="button">
-                        Add API
-                    </button>
-                </Link>
-            </div>
+            <MessageDiv
+                name="Seems like you have no API, how about adding one?"
+                text="Add new API's to our database so that you can add servers
+                    and then perform actions on them."
+                buttonText="Add API"
+                buttonUrl="/dashboard/api/add"
+            ></MessageDiv>
         );
     }
 

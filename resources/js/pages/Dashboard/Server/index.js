@@ -5,6 +5,8 @@ import { Paginator } from "react-paginator-responsive";
 import { ListServers } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
+import MessageDiv from "./../../../components/MessageDiv/";
+import BorderCard from "./../../../components/Cards/BorderCard";
 
 const DashboardServer = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -78,13 +80,7 @@ const DashboardServer = () => {
     if (paginatorValues.items.length > 0) {
         items = paginatorValues.items.map((value) => (
             <div className="col-12 col-lg-6" key={value.id}>
-                <div
-                    className="card bg-dark"
-                    style={{
-                        margin: "5px",
-                        border: "1px solid white",
-                    }}
-                >
+                <BorderCard>
                     <div className="card-body">
                         <h5 className="card-title">
                             {value.server_id} - <code>{value.hostname}</code>
@@ -108,15 +104,12 @@ const DashboardServer = () => {
                             <i className="fas fa-external-link-alt text-white"></i>
                         </Link>
                     </div>
-                </div>
+                </BorderCard>
             </div>
         ));
         listEnding = (
             <div className="col-12 col-lg-6">
-                <div
-                    className="card bg-dark"
-                    style={{ margin: "5px", border: "1px solid white" }}
-                >
+                <BorderCard>
                     <div className="card-body">
                         <h5 className="card-title">Add more servers?</h5>
                         <p className="card-text">
@@ -132,26 +125,18 @@ const DashboardServer = () => {
                             </button>
                         </Link>
                     </div>
-                </div>
+                </BorderCard>
             </div>
         );
     } else {
         items = (
-            <div
-                className="p-5 text-white bg-dark rounded-3"
-                style={{ textAlign: "center", marginTop: "10%" }}
-            >
-                <h4>Seems like you have no servers, how about adding one?</h4>
-                <p>
-                    Add new servers to our database so that you can perform
-                    actions on them.
-                </p>
-                <Link to="/dashboard/server/add">
-                    <button className="btn btn-outline-light" type="button">
-                        Add servers
-                    </button>
-                </Link>
-            </div>
+            <MessageDiv
+                name="Seems like you have no servers, how about adding one?"
+                text="Add new servers to our database so that you can perform
+                    actions on them."
+                buttonText="Add servers"
+                buttonUrl="/dashboard/server/add"
+            ></MessageDiv>
         );
     }
 
