@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import PageLayout from "./../components/PageLayout/";
+
 const Register = (props) => {
     const history = useHistory();
     const [submitButton, setSubmitButton] = useState(
@@ -111,8 +113,10 @@ const Register = (props) => {
     };
     return (
         <>
-            <div className="container">
-                <h3>Register</h3>
+            <PageLayout
+                name="Register"
+                text="Register your account on the server manager to manage your servers"
+            >
                 <form onSubmit={registerSubmit}>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">
@@ -170,7 +174,7 @@ const Register = (props) => {
                     </div>
                     {submitButton}
                 </form>
-            </div>
+            </PageLayout>
         </>
     );
 };

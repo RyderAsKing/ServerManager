@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
 import { ListServers, PowerActions } from "../../../plugins/ApiCalls";
+import PageLayout from "./../../../components/PageLayout/";
+import PowerButtons from "./../../../components/PowerButtons/";
+
 const DashboardServer = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [paginatorValues, setPaginatorValues] = useState({
@@ -127,58 +130,12 @@ const DashboardServer = () => {
                                 : "Pterodactyl"}
                             <br />
                         </p>
-                        <button
-                            className="btn btn-success"
-                            data-db_id={value.id}
-                            data-action="start"
-                            onClick={handlePowerAction}
-                        >
-                            <i
-                                className="fas fa-play text-white"
-                                data-db_id={value.id}
-                                data-action="start"
-                            ></i>
-                        </button>
-                        <button
-                            className="btn btn-danger"
-                            data-db_id={value.id}
-                            data-action="stop"
-                            onClick={handlePowerAction}
-                            style={{ marginLeft: "2px" }}
-                        >
-                            <i
-                                className="fas fa-stop text-white"
-                                data-db_id={value.id}
-                                data-action="stop"
-                            ></i>
-                        </button>
-                        <button
-                            className="btn btn-warning"
-                            data-db_id={value.id}
-                            data-action="restart"
-                            onClick={handlePowerAction}
-                            style={{ marginLeft: "2px" }}
-                        >
-                            <i
-                                className="fas fa-redo text-black"
-                                data-db_id={value.id}
-                                data-action="restart"
-                            ></i>
-                        </button>
-                        <button
-                            to=""
-                            className="btn btn-danger"
-                            data-db_id={value.id}
-                            data-action="kill"
-                            onClick={handlePowerAction}
-                            style={{ marginLeft: "2px" }}
-                        >
-                            <i
-                                className="fas fa-power-off text-white"
-                                data-db_id={value.id}
-                                data-action="kill"
-                            ></i>
-                        </button>
+
+                        <PowerButtons
+                            id={value.id}
+                            handlePowerAction={handlePowerAction}
+                        ></PowerButtons>
+
                         <Link
                             to={`/dashboard/server/${value.id}`}
                             className="btn btn-primary"
@@ -236,12 +193,10 @@ const DashboardServer = () => {
 
     return (
         <>
-            <div className="container text-white">
-                <h3 className="text-center">Manage Servers</h3>
-                <p className="text-center">
-                    Perform powerful one click actions on servers with ease
-                </p>
-
+            <PageLayout
+                name="Manage Servers"
+                text="Perform powerful one click actions on servers with ease"
+            >
                 {loading == true ? (
                     <>
                         <div className="text-center">
@@ -259,7 +214,7 @@ const DashboardServer = () => {
                     </>
                 )}
                 {paginator}
-            </div>
+            </PageLayout>
         </>
     );
 };

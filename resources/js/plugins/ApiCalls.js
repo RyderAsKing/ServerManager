@@ -19,7 +19,11 @@ const PowerActions = (db_id, action) => {
         action != "restart" &&
         action != "kill"
     ) {
-        return { error: true, error_message: "Invalid method" };
+        return {
+            error: true,
+            error_message: "Invalid method",
+            action_passed: action,
+        };
     } else {
         return axios
             .post(`/api/server/${db_id}/power`, {

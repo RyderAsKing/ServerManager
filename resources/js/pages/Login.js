@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ExchangeToken } from "../plugins/ApiCalls";
+import PageLayout from "./../components/PageLayout/";
 
 const Login = (props) => {
     const history = useHistory();
@@ -114,8 +114,10 @@ const Login = (props) => {
 
     return (
         <>
-            <div className="container text-white">
-                <h3>Login</h3>
+            <PageLayout
+                name="Login"
+                text="Log into your account on the server manager to manage your servers"
+            >
                 <form onSubmit={loginSubmit}>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">
@@ -156,7 +158,7 @@ const Login = (props) => {
                     </div>
                     {submitButton}
                 </form>
-            </div>
+            </PageLayout>
         </>
     );
 };

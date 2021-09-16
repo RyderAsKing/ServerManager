@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { GetServerInformation } from "../../../plugins/ApiCalls";
 import { toast } from "react-toastify";
 import { PowerActions } from "../../../plugins/ApiCalls";
+import PageLayout from "./../../../components/PageLayout/";
+import PowerButtons from "./../../../components/PowerButtons/";
 
 const DashboardServerCurrent = (props) => {
     const [loading, setLoading] = useState(true);
@@ -63,7 +65,9 @@ const DashboardServerCurrent = (props) => {
             e.target.dataset.db_id,
             e.target.dataset.action
         );
+        console.log(response);
         response.then((response) => {
+            console.log(response);
             if (response.status != 200) {
                 toast.update(powerNotification, {
                     render: response.error_message,
@@ -114,62 +118,11 @@ const DashboardServerCurrent = (props) => {
                             <code>{serverInformation.ipv4}</code>
                         </h5>
                         <p className="card-text"></p>
-                        <button
-                            className="btn btn-success"
-                            data-db_id={serverInformation.id}
-                            data-action="start"
-                            onClick={handlePowerAction}
-                        >
-                            <i
-                                className="fas fa-play text-white"
-                                data-db_id={serverInformation.id}
-                                data-action="start"
-                            ></i>{" "}
-                            <span style={{ color: "white" }}>Start</span>
-                        </button>
-                        <button
-                            className="btn btn-danger"
-                            data-db_id={serverInformation.id}
-                            data-action="stop"
-                            onClick={handlePowerAction}
-                            style={{ marginLeft: "2px" }}
-                        >
-                            <i
-                                className="fas fa-stop text-white"
-                                data-db_id={serverInformation.id}
-                                data-action="stop"
-                            ></i>{" "}
-                            <span style={{ color: "white" }}>Stop</span>
-                        </button>
-                        <button
-                            className="btn btn-warning"
-                            data-db_id={serverInformation.id}
-                            data-action="restart"
-                            onClick={handlePowerAction}
-                            style={{ marginLeft: "2px" }}
-                        >
-                            <i
-                                className="fas fa-redo text-black"
-                                data-db_id={serverInformation.id}
-                                data-action="restart"
-                            ></i>{" "}
-                            <span style={{ color: "black" }}>Restart</span>
-                        </button>
-                        <button
-                            to=""
-                            className="btn btn-danger"
-                            data-db_id={serverInformation.id}
-                            data-action="kill"
-                            onClick={handlePowerAction}
-                            style={{ marginLeft: "2px" }}
-                        >
-                            <i
-                                className="fas fa-power-off text-white"
-                                data-db_id={serverInformation.id}
-                                data-action="kill"
-                            ></i>{" "}
-                            <span style={{ color: "white" }}>Power Off</span>
-                        </button>
+                        <PowerButtons
+                            type="with_text"
+                            id={serverInformation.id}
+                            handlePowerAction={handlePowerAction}
+                        ></PowerButtons>
                     </div>
                 </div>
             </div>
@@ -337,24 +290,25 @@ const DashboardServerCurrent = (props) => {
     }
     return (
         <>
-            <h3 className="text-center">Manage Server</h3>
-            <p className="text-center">
-                Perform powerful one click actions on the server with ease
-            </p>
-            <div className="container">
-                {loading == true || loading == null ? (
-                    <div className="text-center">
-                        <div className="spinner-border" role="status">
-                            <span className="sr-only">Loading...</span>
+            <PageLayout
+                name="Manage Server"
+                text="Perform powerful one click actions on the server with ease"
+            >
+                <div className="container">
+                    {loading == true || loading == null ? (
+                        <div className="text-center">
+                            <div className="spinner-border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className="container">
-                        {common}
-                        {container}
-                    </div>
-                )}
-            </div>
+                    ) : (
+                        <div className="container">
+                            {common}
+                            {container}
+                        </div>
+                    )}
+                </div>
+            </PageLayout>
         </>
     );
 };

@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PageLayout from "./../../components/PageLayout/";
+
 const Dashboard = () => {
     return (
         <>
-            <div className="container">
-                <div
-                    className="row align-items-md-stretch"
-                    style={{ marginTop: "5%" }}
-                >
-                    <h3 style={{ textAlign: "center" }}>
-                        What would you like to do today?
-                    </h3>
+            <PageLayout
+                name="What would you like to do today?"
+                text=""
+                style={{ marginTop: "4%" }}
+            >
+                <div className="row align-items-md-stretch">
                     <div className="col-md-6" style={{ marginTop: "15px" }}>
                         <div
                             className="p-5 text-white bg-dark rounded-3"
@@ -80,7 +80,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col-sm-3"></div>
                 </div>
-            </div>
+            </PageLayout>
         </>
     );
 };

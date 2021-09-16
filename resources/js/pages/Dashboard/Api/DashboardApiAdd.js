@@ -1,8 +1,9 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CreateApi } from "../../../plugins/ApiCalls";
+import PageLayout from "./../../../components/PageLayout/";
+
 const DashboardApiAdd = (props) => {
     const history = useHistory();
     const [submitButton, setSubmitButton] = useState(
@@ -130,8 +131,11 @@ const DashboardApiAdd = (props) => {
 
     return (
         <>
-            <div className="container text-white">
-                <h3>Login</h3>
+            <PageLayout
+                name="Add a API"
+                text="Add API's to our database so that you can add servers and
+                    then perform actions on them"
+            >
                 <form method="post" onSubmit={createSubmit}>
                     <div className="mb-3">
                         <label htmlFor="type" className="form-label">
@@ -231,7 +235,7 @@ const DashboardApiAdd = (props) => {
                     </div>
                     {submitButton}
                 </form>
-            </div>
+            </PageLayout>
         </>
     );
 };
