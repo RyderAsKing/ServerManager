@@ -42,7 +42,6 @@ app.ws("/pterodactyl/console", async (socket, req) => {
     };
     const useForeignSocket = async (serverWs) => {
         serverWS.on("open", () => {
-            console.log(`connected to ${foreign_socket}`);
             serverWS.send(`{"event":"auth","args":["${foreign_token}"]}`);
             setTimeout(() => {
                 serverWS.send('{"event":"send logs","args":[null]}');
@@ -56,19 +55,22 @@ app.ws("/pterodactyl/console", async (socket, req) => {
             serverWS.on("message", (data) => {
                 let pa = JSON.parse(data.toString());
                 if (pa.event == "console output") {
-                    socket.send(
+                    var message = JSON.stringify(
                         `{"event": "console output", "args": ["${pa.args[0]}"]}`
                     );
+                    socket.send(message);
                 }
                 if (pa.event == "stats") {
-                    socket.send(
+                    var message = JSON.stringify(
                         `{"event": "stats", "args": ["${pa.args[0]}"]}`
                     );
+                    socket.send(message);
                 }
                 if (pa.event == "status") {
-                    socket.send(
+                    var message = JSON.stringify(
                         `{"event": "status", "args": ["${pa.args[0]}"]}`
                     );
+                    socket.send(message);
                 }
                 if (pa.event == "token expiring") {
                     async () => {
