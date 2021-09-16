@@ -55,21 +55,24 @@ app.ws("/pterodactyl/console", async (socket, req) => {
             serverWS.on("message", (data) => {
                 let pa = JSON.parse(data.toString());
                 if (pa.event == "console output") {
-                    var message = JSON.stringify(
-                        `{"event": "console output", "args": ["${pa.args[0]}"]}`
-                    );
+                    var message = JSON.stringify({
+                        event: "console output",
+                        args: [`${pa.args[0]}`],
+                    });
                     socket.send(message);
                 }
                 if (pa.event == "stats") {
-                    var message = JSON.stringify(
-                        `{"event": "stats", "args": ["${pa.args[0]}"]}`
-                    );
+                    var message = JSON.stringify({
+                        event: "stats",
+                        args: [`${pa.args[0]}`],
+                    });
                     socket.send(message);
                 }
                 if (pa.event == "status") {
-                    var message = JSON.stringify(
-                        `{"event": "status", "args": ["${pa.args[0]}"]}`
-                    );
+                    var message = JSON.stringify({
+                        event: "status",
+                        args: [`${pa.args[0]}`],
+                    });
                     socket.send(message);
                 }
                 if (pa.event == "token expiring") {

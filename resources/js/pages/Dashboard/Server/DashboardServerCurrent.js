@@ -37,6 +37,13 @@ const DashboardServerCurrent = (props) => {
                     // TODO
                     const data = JSON.parse(event.data);
                     console.log(data);
+
+                    if (data.event == "stats") {
+                    }
+                    if (data.event == "console output") {
+                    }
+                    if (data.event == "status") {
+                    }
                 };
             }
         }
