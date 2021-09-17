@@ -8342,7 +8342,6 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
 
   var keyDownInputHandler = function keyDownInputHandler(e) {
     if (e.key === "Enter") {
-      console.log("enter");
       var message = JSON.stringify({
         event: "send command",
         args: ["".concat(terminalInput)]
