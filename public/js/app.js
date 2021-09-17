@@ -8209,7 +8209,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
       chartData = _useState8[0],
       setChartData = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["..."]),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["\x1B[1m\x1B[33mcontainer~/ \x1B[0m" + "Server manager (https://github.com/RyderAsKing/ServerManager)"]),
       _useState10 = _slicedToArray(_useState9, 2),
       consoleLogs = _useState10[0],
       setConsoleLogs = _useState10[1];
@@ -8255,7 +8255,9 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
 
         var _websocket = new WebSocket(uri);
 
-        setWebSocket(_websocket);
+        _websocket.onopen = function (event) {
+          setWebSocket(_websocket);
+        };
 
         _websocket.onmessage = function (event) {
           var data = JSON.parse(event.data);
@@ -8321,6 +8323,12 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
           }
 
           if (data.event == "status") {
+            if (data.args[0] == "running") {
+              setServerStatus(1);
+            } else {
+              setServerStatus(0);
+            }
+
             setConsoleLogs(["\x1B[1m\x1B[33mcontainer~/ \x1B[0m" + "Server marked as ".concat(data.args[0])]);
           }
         };
@@ -8514,9 +8522,19 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
     }
 
     if (serverInformation.server_type == 1) {
-      container = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "row",
+      container = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        className: "row",
+        children: websocket == null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+          className: "text-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            className: "spinner-border",
+            role: "status",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+              className: "sr-only",
+              children: "Loading..."
+            })
+          })
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Fragment, {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
             className: "col-lg-8 col-md-12",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_Console_index__WEBPACK_IMPORTED_MODULE_5__["default"], {

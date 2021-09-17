@@ -33,7 +33,10 @@ const DashboardServerCurrent = (props) => {
         max: { memory: 0, disk: 0, cpu: 0 },
         timeData: Array(25).fill(timeformat(new Date())),
     });
-    const [consoleLogs, setConsoleLogs] = useState(["..."]);
+    const [consoleLogs, setConsoleLogs] = useState([
+        "\u001b[1m\u001b[33mcontainer~/ \u001b[0m" +
+            "Server manager (https://github.com/RyderAsKing/ServerManager)",
+    ]);
     const [terminalInput, setTerminalInput] = useState("");
     var [websocket, setWebSocket] = useState(null);
     var currentServer = props.match.params.id;
@@ -68,7 +71,9 @@ const DashboardServerCurrent = (props) => {
                     `ws://${websocket_url}/pterodactyl/console/?db_id=${serverInformation.id}&api_token=${apiToken}`
                 );
                 const websocket = new WebSocket(uri);
-                setWebSocket(websocket);
+                websocket.onopen = (event) => {
+                    setWebSocket(websocket);
+                };
                 websocket.onmessage = (event) => {
                     const data = JSON.parse(event.data);
 
@@ -126,6 +131,11 @@ const DashboardServerCurrent = (props) => {
                         setConsoleLogs([logs]);
                     }
                     if (data.event == "status") {
+                        if (data.args[0] == "running") {
+                            setServerStatus(1);
+                        } else {
+                            setServerStatus(0);
+                        }
                         setConsoleLogs([
                             "\u001b[1m\u001b[33mcontainer~/ \u001b[0m" +
                                 `Server marked as ${data.args[0]}`,
@@ -312,72 +322,51 @@ const DashboardServerCurrent = (props) => {
         }
         if (serverInformation.server_type == 1) {
             container = (
-                <>
-                    <div className="row">
-                        <div className="col-lg-8 col-md-12">
-                            <Console
-                                data={consoleLogs}
-                                style={{
-                                    border: "1px solid white",
-                                    margin: "5px",
-                                }}
-                                height="100%"
-                                width="100%"
-                                inputEvent={terminalInputHandler}
-                                inputValue={terminalInput}
-                                keyEvent={keyDownInputHandler}
-                            ></Console>
-
-                            {/* <div id="terminal-body">
-                                    <div
-                                        id="terminal"
-                                        style={{
-                                            maxHeight: "none !important",
-                                        }}
-
-                                    ></div>
-                                    <div
-                                        id="terminal_input"
-                                        className="form-group no-margin"
-                                    >
-                                        <div className="input-group">
-                                            <div className="input-group-addon terminal_input--prompt">
-                                                container:~/$
-                                            </div>
-                                            <input
-                                                type="text"
-                                                className="form-control terminal_input--input text-white"
-                                                style={{ marginLeft: "5px" }}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div
-                                        id="terminalNotify"
-                                        className="terminal-notify hidden"
-                                    >
-                                        <i className="fa fa-bell"></i>
-                                    </div>
-                                </div> */}
+                <div className="row">
+                    {websocket == null ? (
+                        <div className="text-center">
+                            <div className="spinner-border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
                         </div>
-                        <div className="col-lg-4 col-md-12">
-                            <BorderCard>
-                                <Memory
-                                    data={chartData.memoryData}
-                                    time={chartData.timeData}
-                                ></Memory>
-                            </BorderCard>
-                            <BorderCard>
-                                <CPU
-                                    data={chartData.cpuData}
-                                    time={chartData.timeData}
-                                ></CPU>
-                            </BorderCard>
-                            <BorderCard>
-                                <Network data={chartData.networkData}></Network>
-                            </BorderCard>
-                        </div>
-                    </div>
-                </>
+                    ) : (
+                        <>
+                            <div className="col-lg-8 col-md-12">
+                                <Console
+                                    data={consoleLogs}
+                                    style={{
+                                        border: "1px solid white",
+                                        margin: "5px",
+                                    }}
+                                    height="100%"
+                                    width="100%"
+                                    inputEvent={terminalInputHandler}
+                                    inputValue={terminalInput}
+                                    keyEvent={keyDownInputHandler}
+                                ></Console>
+                            </div>
+                            <div className="col-lg-4 col-md-12">
+                                <BorderCard>
+                                    <Memory
+                                        data={chartData.memoryData}
+                                        time={chartData.timeData}
+                                    ></Memory>
+                                </BorderCard>
+                                <BorderCard>
+                                    <CPU
+                                        data={chartData.cpuData}
+                                        time={chartData.timeData}
+                                    ></CPU>
+                                </BorderCard>
+                                <BorderCard>
+                                    <Network
+                                        data={chartData.networkData}
+                                    ></Network>
+                                </BorderCard>
+                            </div>
+                        </>
+                    )}
+                </div>
             );
         }
     }
