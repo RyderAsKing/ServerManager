@@ -9,14 +9,17 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Server Manager</title>
 
+        <!-- Scripts -->
         <script src="{{ asset('js/jquery.min.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/xterm.js') }}"></script>
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/ReactToastify.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/xterm.css') }}">
 
     </head>
 

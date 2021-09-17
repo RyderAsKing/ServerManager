@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
 import BorderCard from "./../../../components/Cards/BorderCard";
+import Console from "./../../../components/Console/index";
 // Charts
 import Memory from "../../../components/Charts/Memory";
 import CPU from "./../../../components/Charts/Cpu";
@@ -32,7 +33,9 @@ const DashboardServerCurrent = (props) => {
         max: { memory: 0, disk: 0, cpu: 0 },
         timeData: Array(25).fill(timeformat(new Date())),
     });
-
+    const [consoleLogs, setConsoleLogs] = useState(["..."]);
+    const [terminalInput, setTerminalInput] = useState("");
+    var [websocket, setWebSocket] = useState(null);
     var currentServer = props.match.params.id;
 
     useEffect(() => {
@@ -65,6 +68,7 @@ const DashboardServerCurrent = (props) => {
                     `ws://${websocket_url}/pterodactyl/console/?db_id=${serverInformation.id}&api_token=${apiToken}`
                 );
                 const websocket = new WebSocket(uri);
+                setWebSocket(websocket);
                 websocket.onmessage = (event) => {
                     const data = JSON.parse(event.data);
 
@@ -118,13 +122,35 @@ const DashboardServerCurrent = (props) => {
                         setChartData(tempChartData);
                     }
                     if (data.event == "console output") {
+                        var logs = data.args[0];
+                        setConsoleLogs([logs]);
                     }
                     if (data.event == "status") {
+                        setConsoleLogs([
+                            "\u001b[1m\u001b[33mcontainer~/ \u001b[0m" +
+                                `Server marked as ${data.args[0]}`,
+                        ]);
                     }
                 };
             }
         }
     }, [serverInformation]);
+
+    const terminalInputHandler = (e) => {
+        setTerminalInput(e.target.value);
+    };
+
+    const keyDownInputHandler = (e) => {
+        if (e.key === "Enter") {
+            console.log("enter");
+            var message = JSON.stringify({
+                event: "send command",
+                args: [`${terminalInput}`],
+            });
+            websocket.send(message);
+            setTerminalInput("");
+        }
+    };
 
     var common;
     var container;
@@ -289,19 +315,26 @@ const DashboardServerCurrent = (props) => {
                 <>
                     <div className="row">
                         <div className="col-lg-8 col-md-12">
-                            <div
-                                className="container"
+                            <Console
+                                data={consoleLogs}
                                 style={{
-                                    margin: "5px",
                                     border: "1px solid white",
+                                    margin: "5px",
                                 }}
-                            >
-                                <div id="terminal-body">
+                                height="100%"
+                                width="100%"
+                                inputEvent={terminalInputHandler}
+                                inputValue={terminalInput}
+                                keyEvent={keyDownInputHandler}
+                            ></Console>
+
+                            {/* <div id="terminal-body">
                                     <div
                                         id="terminal"
                                         style={{
                                             maxHeight: "none !important",
                                         }}
+
                                     ></div>
                                     <div
                                         id="terminal_input"
@@ -324,29 +357,24 @@ const DashboardServerCurrent = (props) => {
                                     >
                                         <i className="fa fa-bell"></i>
                                     </div>
-                                </div>
-                            </div>
+                                </div> */}
                         </div>
                         <div className="col-lg-4 col-md-12">
-                            <div className="row">
-                                <BorderCard>
-                                    <Memory
-                                        data={chartData.memoryData}
-                                        time={chartData.timeData}
-                                    ></Memory>
-                                </BorderCard>
-                                <BorderCard>
-                                    <CPU
-                                        data={chartData.cpuData}
-                                        time={chartData.timeData}
-                                    ></CPU>
-                                </BorderCard>
-                                <BorderCard>
-                                    <Network
-                                        data={chartData.networkData}
-                                    ></Network>
-                                </BorderCard>
-                            </div>
+                            <BorderCard>
+                                <Memory
+                                    data={chartData.memoryData}
+                                    time={chartData.timeData}
+                                ></Memory>
+                            </BorderCard>
+                            <BorderCard>
+                                <CPU
+                                    data={chartData.cpuData}
+                                    time={chartData.timeData}
+                                ></CPU>
+                            </BorderCard>
+                            <BorderCard>
+                                <Network data={chartData.networkData}></Network>
+                            </BorderCard>
                         </div>
                     </div>
                 </>

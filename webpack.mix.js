@@ -14,7 +14,6 @@ const mix = require("laravel-mix");
 mix.js("resources/js/app.js", "public/js")
     .react()
     .sass("resources/sass/app.scss", "public/css")
-    .postCss(
-        "node_modules/react-toastify/dist/ReactToastify.css",
-        "public/css"
-    );
+    .postCss("node_modules/react-toastify/dist/ReactToastify.css", "public/css")
+    .postCss("node_modules/xterm/css/xterm.css", "public/css")
+    .js("node_modules/xterm/lib/xterm.js", "public/js");

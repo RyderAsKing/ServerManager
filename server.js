@@ -51,9 +51,11 @@ app.ws("/pterodactyl/console", async (socket, req) => {
             }, 3000);
             socket.on("message", (msg) => {
                 let se = JSON.parse(msg.toString());
-                serverWS.send(
-                    `{"event":"${se.event}","args":["${se.args[0]}"]}`
-                );
+                var message = JSON.stringify({
+                    event: se.event,
+                    args: [`${se.args[0]}`],
+                });
+                serverWS.send(message);
             });
             serverWS.on("message", (data) => {
                 let pa = JSON.parse(data.toString());
