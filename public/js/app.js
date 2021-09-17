@@ -6932,7 +6932,7 @@ var Footer = function Footer() {
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "footer-copyright text-center py-3",
-        children: ["\xA9 2021 Copyright", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+        children: ["Powered by", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "https://github.com/RyderAsKing/ServerManager",
           children: "Server Manager"
         })]
@@ -8379,7 +8379,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
               children: ["( ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
                 className: "online"
               }), " )"]
-            }), " ", serverInformation.server_id, " -", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("code", {
+            }), " ", serverInformation.hostname, " ", serverInformation.server_id, " -", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("code", {
               children: serverInformation.ipv4
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {

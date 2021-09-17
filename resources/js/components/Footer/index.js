@@ -8,7 +8,7 @@ const Footer = () => {
                 style={{ marginTop: "5px" }}
             >
                 <div className="footer-copyright text-center py-3">
-                    © 2021 Copyright{" "}
+                    Powered by{" "}
                     <a href="https://github.com/RyderAsKing/ServerManager">
                         Server Manager
                     </a>

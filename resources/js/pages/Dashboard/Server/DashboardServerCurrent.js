@@ -190,6 +190,7 @@ const DashboardServerCurrent = (props) => {
                                     ( <span className="online"></span> )
                                 </>
                             )}{" "}
+                            {serverInformation.hostname}{" "}
                             {serverInformation.server_id} -{" "}
                             <code>{serverInformation.ipv4}</code>
                         </h5>

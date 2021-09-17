@@ -92,7 +92,11 @@ app.ws("/pterodactyl/console", async (socket, req) => {
                     };
                 }
                 if (pa.event == "jwt error") {
-                    socket.send("ERR_JWT_NOT_VALID");
+                    var message = JSON.stringify({
+                        event: "error",
+                        args: [`ERR_JWT_NOT_VALID`],
+                    });
+                    socket.send(message);
                 }
             });
         });
