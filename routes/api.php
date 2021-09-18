@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ServerController;
 use App\Http\Controllers\Api\PterodactylServerController;
@@ -32,12 +33,7 @@ Route::middleware('auth:api')->get('/server/{id}', [ServerController::class, 'in
 Route::middleware('auth:api')->post('/server/{id}/power', [ServerController::class, 'power']);
 Route::middleware('auth:api')->post('/server/{id}/destroy', [ServerController::class, 'destroy']);
 
-/* Pterodactyl API */
-
-Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}', [PterodactylServerController::class, 'information']);
-Route::middleware('auth:api')->get('/server/pterodactyl/{server_id}/resources', [PterodactylServerController::class, 'resources']);
-Route::middleware('auth:api')->post('/server/pterodactyl/{server_id}/power', [PterodactylServerController::class, 'power']);
-
-/* Virtualizor API */
-Route::middleware('auth:api')->get('/server/virtualizor/{server_id}', [VirtualizorServerController::class, 'information']);
-Route::middleware('auth:api')->post('/server/virtualizor/{server_id}/power', [VirtualizorServerController::class, 'power']);
+/* Api Management */
+Route::middleware('auth:api')->get('/api', [ApiController::class, 'index']);
+Route::middleware('auth:api')->get('/api/{id}/destroy', [ApiController::class, 'destroy']);
+Route::middleware('auth:api')->post('/api/add', [ApiController::class, 'store']);

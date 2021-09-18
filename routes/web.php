@@ -20,6 +20,12 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
+
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');
+
+/*
 Route::get('/', function () {
     return view('home');
 })->name("home");
@@ -53,3 +59,4 @@ Route::get('/dashboard/api', [ApiManagementController::class, 'index'])->name("d
 Route::get('/dashboard/api/add', [ApiManagementController::class, 'add'])->name("dashboard.api.add"); //show a form
 Route::post('/dashboard/api/add', [ApiManagementController::class, 'store']); //request (when form filled)
 Route::get('/dashboard/api/{api}/destroy', [ApiManagementController::class, 'destroy'])->name("dashboard.api.destroy"); //particular api
+*/
