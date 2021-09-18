@@ -5,11 +5,14 @@ const ExchangeToken = (email, password) => {
             return response.data;
         });
 };
-
 const ListServers = (pageNumber = 1) => {
     return axios.get(`/api/server/?page=${pageNumber}`).then((response) => {
         return response.data;
     });
+};
+
+const AddServer = (server_id, api_id, server_type) => {
+    return true;
 };
 
 const PowerActions = (db_id, action) => {
@@ -47,6 +50,12 @@ const ListApis = (pageNumber = 1) => {
     });
 };
 
+const ListAllApis = () => {
+    return axios.get(`/api/api/all`).then((response) => {
+        return response.data;
+    });
+};
+
 const DestroyApi = (db_id) => {
     return axios.get(`/api/api/${db_id}/destroy`).then((response) => {
         return response.data;
@@ -71,9 +80,11 @@ const CreateApi = (type, api, api_pass, name, hostname, protocol) => {
 export {
     ExchangeToken,
     ListServers,
+    AddServer,
     PowerActions,
     GetServerInformation,
     ListApis,
+    ListAllApis,
     CreateApi,
     DestroyApi,
 };

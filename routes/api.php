@@ -35,5 +35,6 @@ Route::middleware('auth:api')->post('/server/{id}/destroy', [ServerController::c
 
 /* Api Management */
 Route::middleware('auth:api')->get('/api', [ApiController::class, 'index']);
+Route::middleware('auth:api')->get('/api/all', [ApiController::class, 'all']);
 Route::middleware('auth:api')->get('/api/{id}/destroy', [ApiController::class, 'destroy']);
 Route::middleware('auth:api')->post('/api/add', [ApiController::class, 'store']);

@@ -30,7 +30,7 @@ const AuthRoutes = [
     },
     {
         name: "home",
-        path: "/dashboard/serveer/add",
+        path: "/dashboard/server/add",
         exact: true,
         Component: DashboardServerAdd,
     },

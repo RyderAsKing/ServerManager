@@ -20,6 +20,16 @@ class ApiController extends Controller
         return response()->json($apis);
     }
 
+    public function all(Request $request)
+    {
+        if (empty($request->bearerToken())) {
+            return response()->json(['message' => 'Unauthorized']);
+        }
+        $user = ApiFunctions::returnUser($request->bearerToken());
+        $apis = $user->api()->get();
+        return response()->json($apis);
+    }
+
     public function destroy(Request $request, $id)
     {
         if (empty($request->bearerToken())) {

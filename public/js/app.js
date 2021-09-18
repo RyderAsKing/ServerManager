@@ -6317,7 +6317,7 @@ var AuthRoutes = [{
   Component: _pages_Dashboard_Server__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   name: "home",
-  path: "/dashboard/serveer/add",
+  path: "/dashboard/server/add",
   exact: true,
   Component: _pages_Dashboard_Server_DashboardServerAdd__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
@@ -8095,13 +8095,255 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var _components_PageLayout_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../components/PageLayout/index */ "./resources/js/components/PageLayout/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var DashboardServerAdd = function DashboardServerAdd() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {});
+
+
+
+
+
+
+var DashboardServerAdd = function DashboardServerAdd(props) {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useHistory)();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      apis = _useState2[0],
+      setApis = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(apis);
+
+    if (apis === null) {
+      (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.ListAllApis)().then(function (response) {
+        setApis(response);
+      });
+    }
+  }, [apis]);
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    type: "submit",
+    className: "btn btn-primary text-white",
+    style: {
+      marginTop: "10px"
+    },
+    children: "Add Server"
+  })),
+      _useState4 = _slicedToArray(_useState3, 2),
+      submitButton = _useState4[0],
+      setSubmitButton = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    server_id: "",
+    api_id: "",
+    server_type: "",
+    errorMessage: "",
+    errorList: []
+  }),
+      _useState6 = _slicedToArray(_useState5, 2),
+      serverInput = _useState6[0],
+      setServerInput = _useState6[1];
+
+  var resetErrors = function resetErrors() {
+    setServerInput(_objectSpread(_objectSpread({}, serverInput), {}, {
+      errorMessage: "",
+      errorList: []
+    }));
+  };
+
+  var setLoading = function setLoading() {
+    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        type: "submit",
+        className: "btn btn-primary text-white",
+        style: {
+          marginTop: "10px"
+        },
+        disabled: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "spinner-border"
+        })
+      })
+    }));
+  };
+
+  var setServer = function setServer() {
+    setSubmitButton( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+      type: "submit",
+      className: "btn btn-primary text-white",
+      style: {
+        marginTop: "10px"
+      },
+      children: "Add Server"
+    }));
+  };
+
+  var handleInput = function handleInput(e) {
+    console.log(e.target.value);
+    setServerInput(_objectSpread(_objectSpread({}, serverInput), {}, _defineProperty({}, e.target.name, e.target.value)));
+  };
+
+  var serverSubmit = function serverSubmit(e) {
+    resetErrors();
+    setLoading();
+    e.preventDefault();
+    var data = {
+      server_id: serverInput.server_id,
+      api_id: serverInput.api_id
+    };
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.AddServer)(data.server_id, data.api_id);
+    response.then(function (response) {
+      if (response.status == 200) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success(response.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+        history.push("/dashboard/server");
+      } else {
+        var tempErrorMessage = "";
+        var tempErrorList = [];
+
+        if (response.error_message != null) {
+          tempErrorMessage = response.error_message;
+          react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error(response.error_message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          });
+        }
+
+        if (response.validation_errors != null) {
+          tempErrorList = response.validation_errors;
+        }
+
+        setServerInput(_objectSpread(_objectSpread({}, serverInput), {}, {
+          errorMessage: tempErrorMessage,
+          errorList: tempErrorList
+        }));
+        setSubmit();
+      }
+    });
+  };
+
+  var options;
+
+  if (apis != null && apis.length > 0) {
+    options = apis.map(function (api) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("option", {
+        value: api.id,
+        children: [api.nick, " | ", api.api, " |", " ", api.type == 0 ? "Virtualizor" : api.type == 1 ? "Pterodactyl" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {})]
+      }, api.id);
+    });
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_PageLayout_index__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      name: "Add Server",
+      text: "Add servers to the server manager and perform powerful on click actions on them",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+        onSubmit: serverSubmit,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "server_type",
+            className: "form-label",
+            children: "Server Type"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+            className: "form-select",
+            name: "server_type",
+            defaultValue: 0,
+            onChange: handleInput,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: 0,
+              children: "Pterodactyl"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: 1,
+              children: "Virtualizor"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            style: {
+              color: "red"
+            },
+            children: serverInput.errorList.server_type
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "email",
+            className: "form-label",
+            children: "Server ID"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "text",
+            className: "form-control",
+            id: "server_id",
+            name: "server_id",
+            onChange: handleInput,
+            value: serverInput.server_id,
+            placeholder: "Enter your server ID"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            style: {
+              color: "red"
+            },
+            children: serverInput.errorList.server_id
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            htmlFor: "api_id",
+            className: "form-label",
+            children: "API"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+            className: "form-select",
+            name: "api_id",
+            defaultValue: 0,
+            onChange: handleInput,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              value: "none",
+              children: "Select one"
+            }), options]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            style: {
+              color: "red"
+            },
+            children: serverInput.errorList.api_id
+          })]
+        }), submitButton]
+      })
+    })
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DashboardServerAdd);
@@ -9475,9 +9717,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ExchangeToken": () => (/* binding */ ExchangeToken),
 /* harmony export */   "ListServers": () => (/* binding */ ListServers),
+/* harmony export */   "AddServer": () => (/* binding */ AddServer),
 /* harmony export */   "PowerActions": () => (/* binding */ PowerActions),
 /* harmony export */   "GetServerInformation": () => (/* binding */ GetServerInformation),
 /* harmony export */   "ListApis": () => (/* binding */ ListApis),
+/* harmony export */   "ListAllApis": () => (/* binding */ ListAllApis),
 /* harmony export */   "CreateApi": () => (/* binding */ CreateApi),
 /* harmony export */   "DestroyApi": () => (/* binding */ DestroyApi)
 /* harmony export */ });
@@ -9495,6 +9739,10 @@ var ListServers = function ListServers() {
   return axios.get("/api/server/?page=".concat(pageNumber)).then(function (response) {
     return response.data;
   });
+};
+
+var AddServer = function AddServer(server_id, api_id, server_type) {
+  return true;
 };
 
 var PowerActions = function PowerActions(db_id, action) {
@@ -9522,6 +9770,12 @@ var GetServerInformation = function GetServerInformation(db_id) {
 var ListApis = function ListApis() {
   var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return axios.get("/api/api/?page=".concat(pageNumber)).then(function (response) {
+    return response.data;
+  });
+};
+
+var ListAllApis = function ListAllApis() {
+  return axios.get("/api/api/all").then(function (response) {
     return response.data;
   });
 };
