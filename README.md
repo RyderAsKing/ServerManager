@@ -216,6 +216,10 @@ sudo php artisan config:clear
 sudo composer install --no-dev --optimize-autoloader
 ```
 
+```bash
+npm install
+```
+
 ### Updating permissions
 
 ```bash
@@ -233,6 +237,18 @@ sudo php artisan queue:restart
 ```bash
 sudo php artisan up
 ```
+
+# Debugging
+
+Get the past 100 logs
+
+```bash
+tail -n 100 /var/www/manager/storage/logs/laravel.log | nc termbin.com 99
+```
+
+Paste the URL in the support discord server at https://discord.gg/6ET3NPYn3a
+
+Do note that this is a open source project and we are not obligated to provide support.
 
 # Finishing up
 
