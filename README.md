@@ -243,7 +243,7 @@ sudo php artisan up
 Get the past 100 logs
 
 ```bash
-tail -n 100 /var/www/manager/storage/logs/laravel.log | nc termbin.com 99
+tail -n 100 /var/www/manager/storage/logs/laravel.log | nc termbin.com 9999
 ```
 
 Paste the URL in the support discord server at https://discord.gg/6ET3NPYn3a
