@@ -8468,7 +8468,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
         }));
         var apiToken = axios.defaults.headers.common.Authorization;
         var apiToken = apiToken.replace("Bearer ", "");
-        var uri = encodeURI("ws://".concat(websocket_url, "/pterodactyl/console/?db_id=").concat(serverInformation.id, "&api_token=").concat(apiToken));
+        var uri = encodeURI("".concat(websocket_url, "/pterodactyl/console/?db_id=").concat(serverInformation.id, "&api_token=").concat(apiToken));
 
         var _websocket = new WebSocket(uri);
 

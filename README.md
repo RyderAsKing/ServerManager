@@ -84,7 +84,7 @@ cp .env.example .env
 composer install --no-dev --optimize-autoloader
 
 # NPM install
-npm install
+npm install express express-ws ws axios
 
 # Only run the command below if you are installing this Panel for the first time
 php artisan key:generate --force

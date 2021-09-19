@@ -68,7 +68,7 @@ const DashboardServerCurrent = (props) => {
                 var apiToken = axios.defaults.headers.common.Authorization;
                 var apiToken = apiToken.replace("Bearer ", "");
                 const uri = encodeURI(
-                    `ws://${websocket_url}/pterodactyl/console/?db_id=${serverInformation.id}&api_token=${apiToken}`
+                    `${websocket_url}/pterodactyl/console/?db_id=${serverInformation.id}&api_token=${apiToken}`
                 );
                 const websocket = new WebSocket(uri);
                 websocket.onopen = (event) => {
