@@ -29,7 +29,6 @@ const DashboardServerAdd = (props) => {
     const [serverInput, setServerInput] = useState({
         server_id: "",
         api_id: "",
-        server_type: "",
         errorMessage: "",
         errorList: [],
     });
@@ -148,23 +147,6 @@ const DashboardServerAdd = (props) => {
                 text="Add servers to the server manager and perform powerful on click actions on them"
             >
                 <form onSubmit={serverSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="server_type" className="form-label">
-                            Server Type
-                        </label>
-                        <select
-                            className="form-select"
-                            name="server_type"
-                            defaultValue={0}
-                            onChange={handleInput}
-                        >
-                            <option value={0}>Pterodactyl</option>
-                            <option value={1}>Virtualizor</option>
-                        </select>
-                        <div style={{ color: "red" }}>
-                            {serverInput.errorList.server_type}
-                        </div>
-                    </div>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">
                             Server ID

@@ -46,8 +46,6 @@ class ServerViewController extends Controller
         $this->authorize('use_api', $api);
 
         // Get API type
-
-        // 0 = Virtualizor
         $type = $api->type;
         $host_ip  = $api->hostname;
 
@@ -59,6 +57,9 @@ class ServerViewController extends Controller
         } else {
             $protocol = 'https';
         }
+
+        // 0 = Virtualizor
+
 
         if ($type == 0) {
             if (Auth::user()->server()->where(['server_id' => $request->server_id, 'api_id' => $request->api_id])->count() > 0) {

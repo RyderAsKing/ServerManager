@@ -88,11 +88,11 @@ class PterodactylFunctions
         curl_close($ch);
         if (isset($result['errors'])) {
             if ($result['errors'][0]['status'] == 403) {
-                return back()->with('status', 'The API key and password are incorrect');
+                return array(['status' => 'The API key and password are incorrect']);
             } elseif ($result['errors'][0]['status'] == 404) {
-                return back()->with('status', 'The requested server was not found');
+                return array(['status' => 'The requested server was not found']);
             }
-            return back()->with('status', 'There was an error adding the server');
+            return array(['status' => 'An unkown error occurred']);
         }
         $hostname = $result['attributes']['name'];
         $ipv4 = $result['attributes']['sftp_details']['ip'];

@@ -30,6 +30,7 @@ Route::get('/user/{api_token}', [UserController::class, 'check']);
 /* Server Management */
 Route::middleware('auth:api')->get('/server', [ServerController::class, 'index']);
 Route::middleware('auth:api')->get('/server/{id}', [ServerController::class, 'information']);
+Route::middleware('auth:api')->post('/server/add', [ServerController::class, 'store']);
 Route::middleware('auth:api')->post('/server/{id}/power', [ServerController::class, 'power']);
 Route::middleware('auth:api')->post('/server/{id}/destroy', [ServerController::class, 'destroy']);
 
