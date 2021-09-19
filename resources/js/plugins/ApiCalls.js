@@ -11,8 +11,12 @@ const ListServers = (pageNumber = 1) => {
     });
 };
 
-const AddServer = (server_id, api_id, server_type) => {
-    return true;
+const AddServer = (server_id, api_id) => {
+    return axios
+        .post(`/api/server/add`, { server_id: server_id, api_id: api_id })
+        .then((response) => {
+            return response.data;
+        });
 };
 
 const PowerActions = (db_id, action) => {

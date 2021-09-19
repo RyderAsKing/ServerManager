@@ -117,7 +117,7 @@ const DashboardServerAdd = (props) => {
                     errorMessage: tempErrorMessage,
                     errorList: tempErrorList,
                 });
-                setSubmit();
+                setServer();
             }
         });
     };

@@ -67,7 +67,7 @@ class ServerController extends Controller
         $user = ApiFunctions::returnUser($request->bearerToken());
 
         if ($user->server()->where(['server_id' => $request->server_id, 'api_id' => $request->api_id])->count() > 0) {
-            return response()->json(['satus' => 419, 'error' => true,  "error_message" => "This server already exists in our database"]);
+            return response()->json(['status' => 419, 'error' => true,  "error_message" => "This server already exists in our database"]);
         }
 
         $api_instance = $user->api()->where(['id' => $request->api_id])->firstOrFail();
@@ -76,7 +76,6 @@ class ServerController extends Controller
         $host_ip  = $api_instance->hostname;
 
         $key = $api_instance->api;
-        $key_pass = $api_instance->api_pass;
         $protocol = "";
         if ($api_instance->protocol == 0) {
             $protocol = 'http';
@@ -96,16 +95,16 @@ class ServerController extends Controller
             }
 
             if (empty($current_information) || $current_information == null) {
-                return response()->json(['satus' => 419, 'error' => true,  "error_message" => "The requested server was not found'"]);
+                return response()->json(['status' => 419, 'error' => true,  "error_message" => "The requested server was not found"]);
             }
             if ($current_information['uid'] == -1) {
-                return response()->json(['satus' => 419, 'error' => true,  "error_message" => "The API key and password are incorrect'"]);
+                return response()->json(['status' => 419, 'error' => true,  "error_message" => "The API key and password are incorrect'"]);
             }
             $hostname = $current_information['info']['hostname'];
             $ipv4 = $current_information['info']['ip'][0];
 
-            if (!$user()->server()->create(['server_type' => 0, 'server_id' => $request->server_id, 'hostname' => $hostname, 'ipv4' => $ipv4, 'api_id' => $request->api_id])) {
-                return response()->json(['satus' => 419, 'error' => true,  "error_message" => "There was an error adding the server'"]);
+            if (!$user->server()->create(['server_type' => 0, 'server_id' => $request->server_id, 'hostname' => $hostname, 'ipv4' => $ipv4, 'api_id' => $request->api_id])) {
+                return response()->json(['status' => 419, 'error' => true,  "error_message" => "There was an error adding the server'"]);
             }
             return response()->json(['status' => 200, 'message' => 'Server added successfully']);
         }
@@ -133,17 +132,17 @@ class ServerController extends Controller
             curl_close($ch);
             if (isset($result['errors'])) {
                 if ($result['errors'][0]['status'] == 403) {
-                    return response()->json(['status' => 'The API key and password are incorrect']);
+                    return response()->json(['status' => 419, 'error' => true,  "error_message" => "The API key and password are incorrect"]);
                 } elseif ($result['errors'][0]['status'] == 404) {
-                    return response()->json(['status' => 'The requested server was not found']);
+                    return response()->json(['status' => 419, 'error' => true,  "error_message" => "The requested server was not found"]);
                 }
-                return response()->json(['status' => 'An unkown error occurred']);
+                return response()->json(['status' => 419, 'error' => true,  "error_message" => "An unkown error occurred"]);
             }
             $hostname = $result['attributes']['name'];
             $ipv4 = $result['attributes']['sftp_details']['ip'];
 
             if (!$user->server()->create(['server_type' => 1, 'server_id' => $request->server_id, 'hostname' => $hostname, 'ipv4' => $ipv4, 'api_id' => $request->api_id])) {
-                return response()->json(['satus' => 419, 'error' => true,  "error_message" => "There was an error adding the server'"]);
+                return response()->json(['status' => 419, 'error' => true,  "error_message" => "There was an error adding the server'"]);
             }
             return response()->json(['status' => 200, 'message' => 'Server added successfully']);
         }
@@ -162,7 +161,7 @@ class ServerController extends Controller
         $response = array();
 
         if ($action != 'start' && $action != 'stop' && $action != 'restart' &&  $action != 'kill') {
-            return response()->json(['satus' => 404, 'error' => true,  "error_message" => "Invalid method"]);
+            return response()->json(['status' => 404, 'error' => true,  "error_message" => "Invalid method"]);
         }
 
         if ($type == 1) {

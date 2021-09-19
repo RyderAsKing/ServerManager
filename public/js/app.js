@@ -8160,7 +8160,6 @@ var DashboardServerAdd = function DashboardServerAdd(props) {
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     server_id: "",
     api_id: "",
-    server_type: "",
     errorMessage: "",
     errorList: []
   }),
@@ -8253,7 +8252,7 @@ var DashboardServerAdd = function DashboardServerAdd(props) {
           errorMessage: tempErrorMessage,
           errorList: tempErrorList
         }));
-        setSubmit();
+        setServer();
       }
     });
   };
@@ -8276,30 +8275,6 @@ var DashboardServerAdd = function DashboardServerAdd(props) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
         onSubmit: serverSubmit,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "mb-3",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-            htmlFor: "server_type",
-            className: "form-label",
-            children: "Server Type"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
-            className: "form-select",
-            name: "server_type",
-            defaultValue: 0,
-            onChange: handleInput,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
-              value: 0,
-              children: "Pterodactyl"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
-              value: 1,
-              children: "Virtualizor"
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            style: {
-              color: "red"
-            },
-            children: serverInput.errorList.server_type
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "mb-3",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
             htmlFor: "email",
@@ -9741,8 +9716,13 @@ var ListServers = function ListServers() {
   });
 };
 
-var AddServer = function AddServer(server_id, api_id, server_type) {
-  return true;
+var AddServer = function AddServer(server_id, api_id) {
+  return axios.post("/api/server/add", {
+    server_id: server_id,
+    api_id: api_id
+  }).then(function (response) {
+    return response.data;
+  });
 };
 
 var PowerActions = function PowerActions(db_id, action) {
