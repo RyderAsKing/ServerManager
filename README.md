@@ -56,7 +56,7 @@ curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 ### Install Dependencies
 
 ```bash
-apt -y install php8.0 php8.0-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server
+apt -y install php8.0 php8.0-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server npm
 ```
 
 ### Composer
@@ -74,7 +74,7 @@ git clone https://github.com/RyderAsKing/ServerManager.git ./
 chmod -R 755 storage/* bootstrap/cache/
 ```
 
-### Storage setup, API setup and Composer Installation
+### Storage setup, Key setup, Packages install using composer and NPM
 
 ```bash
 # Copy .env.example to .env
@@ -82,6 +82,9 @@ cp .env.example .env
 
 # Composer install
 composer install --no-dev --optimize-autoloader
+
+# NPM install
+npm install
 
 # Only run the command below if you are installing this Panel for the first time
 php artisan key:generate --force
