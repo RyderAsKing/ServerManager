@@ -220,7 +220,7 @@ sudo composer install --no-dev --optimize-autoloader
 ```
 
 ```bash
-npm install
+npm install express express-ws ws axios
 ```
 
 ### Updating permissions
