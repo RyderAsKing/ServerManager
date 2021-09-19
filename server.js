@@ -1,14 +1,34 @@
 var express = require("express");
 var app = express();
-var expressWs = require("express-ws")(app);
-const wsClient = require("ws");
 const axios = require("axios");
+const fs = require("fs");
+// Servers
+const http = require("http");
+const https = require("https");
 require("dotenv").config();
+// Websocket (client and server)
+var expressWs;
+const wsClient = require("ws");
 
-app.get("/pterodactyl/console", function (req, res, next) {
-    console.log("get route", req.testing);
-    res.end();
-});
+if (process.env.WEBSOCKET_TYPE == "ws://") {
+    const httpServer = http.createServer(app);
+
+    httpServer.listen(3000);
+    expressWs = require("express-ws")(app, httpServer);
+} else {
+    const privateKey = fs.readFileSync(process.env.PRIVATE_KEY, "utf8");
+    const certificate = fs.readFileSync(process.env.CERTIFICATE, "utf8");
+    const ca = fs.readFileSync(process.env.CHAIN, "utf8");
+    const credentials = {
+        key: privateKey,
+        cert: certificate,
+        ca: ca,
+    };
+    const httpsServer = https.createServer(credentials, app);
+
+    httpsServer.listen(3000);
+    expressWs = require("express-ws")(app, httpsServer);
+}
 
 app.ws("/pterodactyl/console", async (socket, req) => {
     let db_id = req.query.db_id;
@@ -106,5 +126,3 @@ app.ws("/pterodactyl/console", async (socket, req) => {
     var serverWS = returnForeignSocket(foreign_socket, foreign_origin);
     useForeignSocket(serverWS);
 });
-
-app.listen(3000);

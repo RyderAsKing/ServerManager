@@ -26,7 +26,10 @@
     <body class="bg-dark text-white">
         <div id="app"></div>
         <script>
-            var websocket_url = "{{ env('WEBSOCKET_URL') }}";
+            var websocket_type = "{{ env('WEBSOCKET_TYPE') }}";
+            var websocket_domain = "{{ env('WEBSOCKET_DOMAIN') }}";
+            var websocket_port = "{{ env('WEBSOCKET_PORT') }}";
+            var websocket_url = websocket_type + websocket_domain + ":" + websocket_port;
         </script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
