@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { GetServerInformation } from "../../../plugins/ApiCalls";
-import { toast } from "react-toastify";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
 import BorderCard from "./../../../components/Cards/BorderCard";
