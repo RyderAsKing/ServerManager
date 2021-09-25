@@ -52,6 +52,7 @@ app.ws("/pterodactyl/console", async (socket, req) => {
                 }
             });
     };
+
     const returnForeignSocket = (foreign_socket, foreign_origin) => {
         const serverWS = new wsClient(foreign_socket, {
             headers: {
@@ -60,6 +61,7 @@ app.ws("/pterodactyl/console", async (socket, req) => {
         });
         return serverWS;
     };
+
     const useForeignSocket = async (serverWs) => {
         serverWS.on("open", () => {
             serverWS.send(`{"event":"auth","args":["${foreign_token}"]}`);

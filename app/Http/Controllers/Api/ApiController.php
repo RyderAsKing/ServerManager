@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Custom\Functions\ApiFunctions;
 use Illuminate\Support\Facades\Validator;
+use App\Custom\Functions\PterodactylFunctions;
 
 class ApiController extends Controller
 {
@@ -62,16 +63,34 @@ class ApiController extends Controller
         return response()->json(['status' => 200, 'message' => 'API added successfully']);
     }
 
-    public function servers(Request $request)
+    public function servers(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), ['api_id' => 'required|integer']);
-        if ($validator->fails()) {
-            return response()->json(['status' => 400, 'error' => true, 'validation_errors' => $validator->messages()]);
-        }
         if (empty($request->bearerToken())) {
             return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
         }
         $user = ApiFunctions::returnUser($request->bearerToken());
-        $api = $user->api()->findOrFail($request->api_id);
+        $api = $user->api()->findOrFail($id);
+
+        if ($api->type == 0) {
+            return response()->json(['status' => 200, 'message' => 'This has not been added yet.']);
+        }
+        if ($api->type == 1) {
+            $pterodactyl_response = PterodactylFunctions::getPterodactyServers($api);
+            $response = [];
+            if (isset($pterodactyl_response['error']) && $pterodactyl_response['error'] == true) {
+                return response()->json($pterodactyl_response);
+            } else {
+                $response = ['status' => 200];
+                foreach ($pterodactyl_response['data'] as $server) {
+                    $exists = false;
+                    if ($user->server()->where(['server_id' => $server['attributes']['identifier']])->exists()) {
+                        $exists = true;
+                    }
+                    $semi_array = ['identifier' => $server['attributes']['identifier'], 'name' => $server['attributes']['name'], 'uuid' => $server['attributes']['uuid'], 'imported' => $exists];
+                    array_push($response, $semi_array);
+                }
+                return response()->json($response);
+            }
+        }
     }
 }

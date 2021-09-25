@@ -45,6 +45,7 @@ const DashboardServerCurrent = (props) => {
             var response = GetServerInformation(currentServer);
             response.then((response) => {
                 setServerInformation(response);
+                console.log(response);
             });
         }
     }, [loading]);
