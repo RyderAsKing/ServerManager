@@ -43,6 +43,9 @@ class ApiController extends Controller
 
     public function store(Request $request)
     {
+        if (empty($request->bearerToken())) {
+            return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
+        }
         $validator = Validator::make($request->all(), ['type' => 'required|integer', 'api' => 'required|min:16', 'name' => 'required|max:64', 'hostname' => 'required|max:32', 'protocol' => 'required|max:32']);
         if ($validator->fails()) {
             return response()->json(['status' => 400, 'error' => true, 'validation_errors' => $validator->messages()]);
@@ -57,5 +60,18 @@ class ApiController extends Controller
 
         $user->api()->create(['type' => $request->type, 'api' => $request->api, 'api_pass' => $request->api_pass, 'nick' => $request->name, 'hostname' => $request->hostname, 'protocol' => $request->protocol]);
         return response()->json(['status' => 200, 'message' => 'API added successfully']);
+    }
+
+    public function servers(Request $request)
+    {
+        $validator = Validator::make($request->all(), ['api_id' => 'required|integer']);
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'error' => true, 'validation_errors' => $validator->messages()]);
+        }
+        if (empty($request->bearerToken())) {
+            return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
+        }
+        $user = ApiFunctions::returnUser($request->bearerToken());
+        $api = $user->api()->findOrFail($request->api_id);
     }
 }
