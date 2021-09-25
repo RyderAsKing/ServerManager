@@ -111,12 +111,19 @@ FLUSH PRIVILEGES;
 ```
 
 ### Configuration
-
+Note that you can ignore PRIVATE_KEY, CERTIFICATE and CHAIN if not using HTTPS. 
 ```bash
 nano .env
 #Example .env vars
 APP_NAME=ServerManager
-APP_URL=https://manager.yourdomain.com #The URL your site is located at
+APP_URL="http://yourdomain.com"
+WEBSOCKET_TYPE="ws://"
+WEBSOCKET_DOMAIN="yourdomain.com"
+WEBSOCKET_PORT="3000"
+
+PRIVATE_KEY="/etc/letsencrypt/live/yourdomain.com/privkey.pem"
+CERTIFICATE="/etc/letsencrypt/live/yourdomain.com/cert.pem"
+CHAIN="/etc/letsencrypt/live/yourdomain.com/chain.pem"
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
