@@ -158,14 +158,7 @@ const DashboardServerAdd = () => {
                                             <code>{value.name}</code>
                                         </h5>
                                         <p className="card-text">
-                                            {value.uuid}
-                                        </p>
-                                        <p className="card-text">
-                                            Type:{" "}
-                                            {value.server_type == 0
-                                                ? "Virtualizor"
-                                                : "Pterodactyl"}
-                                            <br />
+                                            UUID - <code>{value.uuid}</code>
                                         </p>
                                         {importList.buttonLoading == false ? (
                                             value.imported == true ? (
