@@ -76,7 +76,6 @@ class ApiController extends Controller
         if ($api->type == 0) {
             $v = VirtualizorFunctions::createVirtualizorClient($api);
             $server_list = $v->listvs();
-            print_r($server_list);
             if (empty($server_list)) {
                 return response()->json(['status' => 419, 'error' => true, 'error_message' => 'Unkown error']);
             }
@@ -92,7 +91,6 @@ class ApiController extends Controller
         }
         if ($api->type == 1) {
             $pterodactyl_response = PterodactylFunctions::getPterodactyServers($api);
-            $response = [];
             if (isset($pterodactyl_response['error']) && $pterodactyl_response['error'] == true) {
                 return response()->json($pterodactyl_response);
             } else {

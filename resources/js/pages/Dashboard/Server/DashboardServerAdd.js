@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
     AddServer,
@@ -9,8 +8,7 @@ import {
 import PageLayout from "./../../../components/PageLayout/";
 import BorderCard from "./../../../components/Cards/BorderCard";
 
-const DashboardServerAdd = (props) => {
-    const history = useHistory();
+const DashboardServerAdd = () => {
     const [apis, setApis] = useState(null);
     const [importList, setImportList] = useState({
         api_id: null,
@@ -27,28 +25,24 @@ const DashboardServerAdd = (props) => {
         }
     }, [apis]);
 
-    const [submitButton, setSubmitButton] = useState(
-        <button
-            type="submit"
-            className="btn btn-primary text-white"
-            style={{ marginTop: "10px" }}
-        >
-            Add Server
-        </button>
-    );
     const [serverInput, setServerInput] = useState({
-        server_id: "",
         api_id: "",
-        errorMessage: "",
-        errorList: [],
     });
 
     const getServerList = (api_id) => {
         setIsLoading(true);
         var response = ListServersFromApi(api_id);
         response.then((response) => {
-            console.log(response);
             if (response.error != null) {
+                toast.error(response.error_message, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setImportList({
                     api_id: api_id,
                     list: {},
@@ -70,37 +64,6 @@ const DashboardServerAdd = (props) => {
         if (importList.api_id == serverInput.api_id) return;
         getServerList(serverInput.api_id);
     }, [serverInput.api_id]);
-
-    const resetErrors = () => {
-        setServerInput({ ...serverInput, errorMessage: "", errorList: [] });
-    };
-
-    const setLoading = () => {
-        setSubmitButton(
-            <>
-                <button
-                    type="submit"
-                    className="btn btn-primary text-white"
-                    style={{ marginTop: "10px" }}
-                    disabled
-                >
-                    <span className="spinner-border"></span>
-                </button>
-            </>
-        );
-    };
-
-    const setServer = () => {
-        setSubmitButton(
-            <button
-                type="submit"
-                className="btn btn-primary text-white"
-                style={{ marginTop: "10px" }}
-            >
-                Add Server
-            </button>
-        );
-    };
 
     const handleInput = (e) => {
         setServerInput({
@@ -129,7 +92,6 @@ const DashboardServerAdd = (props) => {
                 });
             } else {
                 if (response.error_message != null) {
-                    tempErrorMessage = response.error_message;
                     toast.error(response.error_message, {
                         position: "bottom-right",
                         autoClose: 5000,
@@ -140,56 +102,6 @@ const DashboardServerAdd = (props) => {
                         progress: undefined,
                     });
                 }
-            }
-        });
-    };
-
-    const serverSubmit = (e) => {
-        resetErrors();
-        setLoading();
-        e.preventDefault();
-
-        const data = {
-            server_id: serverInput.server_id,
-            api_id: serverInput.api_id,
-        };
-        var response = AddServer(data.server_id, data.api_id);
-        response.then((response) => {
-            if (response.status == 200) {
-                toast.success(response.message, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                history.push("/dashboard/server");
-            } else {
-                var tempErrorMessage = "";
-                var tempErrorList = [];
-                if (response.error_message != null) {
-                    tempErrorMessage = response.error_message;
-                    toast.error(response.error_message, {
-                        position: "bottom-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }
-                if (response.validation_errors != null) {
-                    tempErrorList = response.validation_errors;
-                }
-                setServerInput({
-                    ...serverInput,
-                    errorMessage: tempErrorMessage,
-                    errorList: tempErrorList,
-                });
-                setServer();
             }
         });
     };
@@ -218,24 +130,7 @@ const DashboardServerAdd = (props) => {
                 name="Add Server"
                 text="Add servers to the server manager and perform powerful on click actions on them"
             >
-                <form onSubmit={serverSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
-                            Server ID
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="server_id"
-                            name="server_id"
-                            onChange={handleInput}
-                            value={serverInput.server_id}
-                            placeholder="Enter your server ID"
-                        />
-                        <div style={{ color: "red" }}>
-                            {serverInput.errorList.server_id}
-                        </div>
-                    </div>
+                <form>
                     <div className="mb-3">
                         <label htmlFor="api_id" className="form-label">
                             API
@@ -249,15 +144,10 @@ const DashboardServerAdd = (props) => {
                             <option value="none">Select one</option>
                             {options}
                         </select>
-                        <div style={{ color: "red" }}>
-                            {serverInput.errorList.api_id}
-                        </div>
                     </div>
-                    {submitButton}
                 </form>
                 <hr />
                 <div className="row">
-                    <h4 style={{ textAlign: "center" }}>Import List</h4>
                     {importList != null && importList.list.length > 0 ? (
                         importList.list.map((value) => (
                             <div className="col-12 col-lg-6" key={value.uuid}>
