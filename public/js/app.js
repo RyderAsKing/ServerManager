@@ -7255,7 +7255,12 @@ var PowerButtons = function PowerButtons(props) {
           isLoading: false,
           autoClose: 5000
         });
-        history.push("/dashboard/server");
+
+        if (props.with_text == "true") {
+          history.push("/dashboard/server");
+        } else {
+          window.location.reload();
+        }
       }
     });
   };
@@ -7449,6 +7454,18 @@ var PowerButtons = function PowerButtons(props) {
           "data-db_id": props.id,
           "data-action": "kill"
         })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+        className: "btn btn-danger",
+        "data-db_id": props.id,
+        onClick: handleDestroy,
+        disabled: disabled,
+        style: {
+          marginLeft: "2px"
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "fas fa-trash-alt text-white",
+          "data-db_id": props.id
+        }), " "]
       })]
     })
   });
@@ -8937,7 +8954,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 

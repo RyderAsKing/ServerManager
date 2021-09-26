@@ -34,7 +34,11 @@ const PowerButtons = (props) => {
                     isLoading: false,
                     autoClose: 5000,
                 });
-                history.push("/dashboard/server");
+                if (props.with_text == "true") {
+                    history.push("/dashboard/server");
+                } else {
+                    window.location.reload();
+                }
             }
         });
     };
@@ -232,6 +236,18 @@ const PowerButtons = (props) => {
                             data-db_id={props.id}
                             data-action="kill"
                         ></i>
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        data-db_id={props.id}
+                        onClick={handleDestroy}
+                        disabled={disabled}
+                        style={{ marginLeft: "2px" }}
+                    >
+                        <i
+                            className="fas fa-trash-alt text-white"
+                            data-db_id={props.id}
+                        ></i>{" "}
                     </button>
                 </>
             )}
