@@ -72,7 +72,7 @@ class ApiController extends Controller
         $api = $user->api()->findOrFail($id);
 
         if ($api->type == 0) {
-            return response()->json(['status' => 200, 'message' => 'This has not been added yet.']);
+            return response()->json(['error' => true, 'status' => 419, 'error_message' => 'This has not been added yet.']);
         }
         if ($api->type == 1) {
             $pterodactyl_response = PterodactylFunctions::getPterodactyServers($api);
@@ -80,14 +80,14 @@ class ApiController extends Controller
             if (isset($pterodactyl_response['error']) && $pterodactyl_response['error'] == true) {
                 return response()->json($pterodactyl_response);
             } else {
-                $response = ['status' => 200];
+                $response = ['status' => 200, 'data' => []];
                 foreach ($pterodactyl_response['data'] as $server) {
                     $exists = false;
                     if ($user->server()->where(['server_id' => $server['attributes']['identifier']])->exists()) {
                         $exists = true;
                     }
                     $semi_array = ['identifier' => $server['attributes']['identifier'], 'name' => $server['attributes']['name'], 'uuid' => $server['attributes']['uuid'], 'imported' => $exists];
-                    array_push($response, $semi_array);
+                    array_push($response['data'], $semi_array);
                 }
                 return response()->json($response);
             }

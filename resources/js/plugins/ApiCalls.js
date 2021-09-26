@@ -5,6 +5,13 @@ const ExchangeToken = (email, password) => {
             return response.data;
         });
 };
+
+const ListServersFromApi = (api_id) => {
+    return axios.get(`/api/api/${api_id}/servers`).then((response) => {
+        return response.data;
+    });
+};
+
 const ListServers = (pageNumber = 1) => {
     return axios.get(`/api/server/?page=${pageNumber}`).then((response) => {
         return response.data;
@@ -83,6 +90,7 @@ const CreateApi = (type, api, api_pass, name, hostname, protocol) => {
 
 export {
     ExchangeToken,
+    ListServersFromApi,
     ListServers,
     AddServer,
     PowerActions,

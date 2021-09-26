@@ -34,9 +34,9 @@ class PterodactylFunctions
 
         $result = curl_exec($ch);
         $result = json_decode($result, true);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
+        // if (curl_errno($ch)) {
+        //     echo 'Error:' . curl_error($ch);
+        // }
         curl_close($ch);
         if (isset($result['errors'])) {
             if ($result['errors'][0]['status'] == 403) {
@@ -86,9 +86,9 @@ class PterodactylFunctions
 
         $result = curl_exec($ch);
         $result = json_decode($result, true);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
+        // if (curl_errno($ch)) {
+        //     echo 'Error:' . curl_error($ch);
+        // }
         curl_close($ch);
         if (isset($result['errors'])) {
             if ($result['errors'][0]['status'] == 403) {
@@ -124,9 +124,9 @@ class PterodactylFunctions
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
+        // if (curl_errno($ch)) {
+        //     echo 'Error:' . curl_error($ch);
+        // }
         curl_close($ch);
         $result = json_decode($result, true);
         $token = $result['data']['token'];
@@ -162,9 +162,9 @@ class PterodactylFunctions
 
         $result = curl_exec($ch);
         $result = json_decode($result, true);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
+        // if (curl_errno($ch)) {
+        //     echo 'Error:' . curl_error($ch);
+        // }
         curl_close($ch);
         return;
     }
@@ -196,9 +196,9 @@ class PterodactylFunctions
 
         $result = curl_exec($ch);
         $result = json_decode($result, true);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
+        // if (curl_errno($ch)) {
+        //     echo 'Error:' . curl_error($ch);
+        // }
         curl_close($ch);
         if (isset($result['errors'])) {
             if ($result['errors'][0]['status'] == 403) {
@@ -208,7 +208,7 @@ class PterodactylFunctions
             }
             return ['status' => 419, 'error' => true, 'error_message' => 'An unkown error occurred'];
         }
-        if (empty($result['object']) || $result['object'] != 'server') {
+        if (empty($result['object']) || $result['object'] != 'list') {
             return ['status' => 419, 'error' => true, 'error_message' => 'An unkown error occurred'];
         }
         return $result;
