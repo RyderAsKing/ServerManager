@@ -1,8 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PowerActions } from "../../plugins/ApiCalls";
+import { DestroyServer, PowerActions } from "../../plugins/ApiCalls";
 const PowerButtons = (props) => {
+    const [disabled, setDisabled] = useState(false);
+    const history = useHistory();
+    const handleDestroy = (e) => {
+        const destroyNotification = toast.loading(
+            "Removing server from the server manager...",
+            {
+                position: "bottom-right",
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            }
+        );
+
+        var response = DestroyServer(e.target.dataset.db_id);
+        response.then((response) => {
+            if (response.status != 200) {
+                toast.update(destroyNotification, {
+                    render: response.error_message,
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+            } else {
+                toast.update(destroyNotification, {
+                    render: response.message,
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 5000,
+                });
+                history.push("/dashboard/server");
+            }
+        });
+    };
     const handlePowerAction = (e) => {
+        setDisabled(true);
         const powerNotification = toast.loading("Sending power action", {
             position: "bottom-right",
             hideProgressBar: false,
@@ -32,6 +69,7 @@ const PowerButtons = (props) => {
                     autoClose: 5000,
                 });
             }
+            setDisabled(false);
         });
     };
     return (
@@ -43,6 +81,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="start"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                     >
                         <i
                             className="fas fa-play text-white"
@@ -62,6 +101,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="stop"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -82,6 +122,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="restart"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -102,6 +143,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="kill"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -117,6 +159,21 @@ const PowerButtons = (props) => {
                             Power Off
                         </span>
                     </button>
+                    <button
+                        className="btn btn-danger"
+                        data-db_id={props.id}
+                        onClick={handleDestroy}
+                        disabled={disabled}
+                        style={{ marginLeft: "2px" }}
+                    >
+                        <i
+                            className="fas fa-trash-alt text-white"
+                            data-db_id={props.id}
+                        ></i>{" "}
+                        <span style={{ color: "white" }} data-db_id={props.id}>
+                            Delete
+                        </span>
+                    </button>
                 </>
             ) : (
                 <>
@@ -125,6 +182,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="start"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                     >
                         <i
                             className="fas fa-play text-white"
@@ -137,6 +195,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="stop"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -150,6 +209,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="restart"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
@@ -164,6 +224,7 @@ const PowerButtons = (props) => {
                         data-db_id={props.id}
                         data-action="kill"
                         onClick={handlePowerAction}
+                        disabled={disabled}
                         style={{ marginLeft: "2px" }}
                     >
                         <i
