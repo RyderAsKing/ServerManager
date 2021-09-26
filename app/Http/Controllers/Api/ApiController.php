@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Custom\Functions\ApiFunctions;
 use Illuminate\Support\Facades\Validator;
 use App\Custom\Functions\PterodactylFunctions;
+use App\Custom\Functions\VirtualizorFunctions;
 
 class ApiController extends Controller
 {
@@ -70,9 +71,24 @@ class ApiController extends Controller
         }
         $user = ApiFunctions::returnUser($request->bearerToken());
         $api = $user->api()->findOrFail($id);
+        $response = ['status' => 200, 'data' => []];
 
         if ($api->type == 0) {
-            return response()->json(['error' => true, 'status' => 419, 'error_message' => 'This has not been added yet.']);
+            $v = VirtualizorFunctions::createVirtualizorClient($api);
+            $server_list = $v->listvs();
+            print_r($server_list);
+            if (empty($server_list)) {
+                return response()->json(['status' => 419, 'error' => true, 'error_message' => 'Unkown error']);
+            }
+            foreach ($server_list as $server) {
+                $exists = false;
+                if ($user->server()->where(['server_id' => $server['vpsid']])->exists()) {
+                    $exists = true;
+                }
+                $semi_array = ['identifier' => $server['vpsid'], 'name' => $server['hostname'], 'uuid' => $server['uuid'], 'imported' => $exists];
+                array_push($response['data'], $semi_array);
+            }
+            return response()->json($response);
         }
         if ($api->type == 1) {
             $pterodactyl_response = PterodactylFunctions::getPterodactyServers($api);
@@ -80,7 +96,6 @@ class ApiController extends Controller
             if (isset($pterodactyl_response['error']) && $pterodactyl_response['error'] == true) {
                 return response()->json($pterodactyl_response);
             } else {
-                $response = ['status' => 200, 'data' => []];
                 foreach ($pterodactyl_response['data'] as $server) {
                     $exists = false;
                     if ($user->server()->where(['server_id' => $server['attributes']['identifier']])->exists()) {
