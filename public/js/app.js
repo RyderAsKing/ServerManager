@@ -9831,6 +9831,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ExchangeToken": () => (/* binding */ ExchangeToken),
 /* harmony export */   "ListServersFromApi": () => (/* binding */ ListServersFromApi),
 /* harmony export */   "ListServers": () => (/* binding */ ListServers),
+/* harmony export */   "DestroyServer": () => (/* binding */ DestroyServer),
 /* harmony export */   "AddServer": () => (/* binding */ AddServer),
 /* harmony export */   "PowerActions": () => (/* binding */ PowerActions),
 /* harmony export */   "GetServerInformation": () => (/* binding */ GetServerInformation),
@@ -9857,6 +9858,12 @@ var ListServersFromApi = function ListServersFromApi(api_id) {
 var ListServers = function ListServers() {
   var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return axios.get("/api/server/?page=".concat(pageNumber)).then(function (response) {
+    return response.data;
+  });
+};
+
+var DestroyServer = function DestroyServer(server_id) {
+  return axios.get("/api/server/".concat(server_id, "/destroy")).then(function (response) {
     return response.data;
   });
 };

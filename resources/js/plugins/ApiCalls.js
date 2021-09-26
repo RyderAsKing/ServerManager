@@ -18,6 +18,12 @@ const ListServers = (pageNumber = 1) => {
     });
 };
 
+const DestroyServer = (server_id) => {
+    return axios.get(`/api/server/${server_id}/destroy`).then((response) => {
+        return response.data;
+    });
+};
+
 const AddServer = (server_id, api_id) => {
     return axios
         .post(`/api/server/add`, { server_id: server_id, api_id: api_id })
@@ -92,6 +98,7 @@ export {
     ExchangeToken,
     ListServersFromApi,
     ListServers,
+    DestroyServer,
     AddServer,
     PowerActions,
     GetServerInformation,
