@@ -92,6 +92,11 @@ const Navbar = (props) => {
                                 List API's
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/dashboard/users">
+                                List Subuser's
+                            </Link>
+                        </li>
                     </ul>
                     <div className="ml-auto">{authButtons}</div>
                 </div>

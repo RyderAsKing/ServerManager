@@ -23,4 +23,13 @@ class ApiFunctions
         $user = User::where('api_token', $bearerToken)->first();
         return $user;
     }
+    public static function isParent($bearerToken)
+    {
+        $user = User::where('api_token', $bearerToken)->first();
+        if (isset($user->parent_id) && $user->parent_id != null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

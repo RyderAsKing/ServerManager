@@ -6,6 +6,12 @@ const ExchangeToken = (email, password) => {
         });
 };
 
+const ListSubUsers = (pageNumber = 1) => {
+    return axios.get(`/api/user/subusers`).then((response) => {
+        return response.data;
+    });
+};
+
 const ListServersFromApi = (api_id) => {
     return axios.get(`/api/api/${api_id}/servers`).then((response) => {
         return response.data;
@@ -14,6 +20,12 @@ const ListServersFromApi = (api_id) => {
 
 const ListServers = (pageNumber = 1) => {
     return axios.get(`/api/server/?page=${pageNumber}`).then((response) => {
+        return response.data;
+    });
+};
+
+const ListAllServers = () => {
+    return axios.get(`/api/server/all`).then((response) => {
         return response.data;
     });
 };
@@ -96,8 +108,10 @@ const CreateApi = (type, api, api_pass, name, hostname, protocol) => {
 
 export {
     ExchangeToken,
+    ListSubUsers,
     ListServersFromApi,
     ListServers,
+    ListAllServers,
     DestroyServer,
     AddServer,
     PowerActions,

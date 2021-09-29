@@ -23,6 +23,16 @@ class ServerController extends Controller
         return response()->json($servers);
     }
 
+    public function all(Request $request)
+    {
+        if (empty($request->bearerToken())) {
+            return response()->json(['message' => 'Unauthorized']);
+        }
+        $user = ApiFunctions::returnUser($request->bearerToken());
+        $apis = $user->server()->get();
+        return response()->json($apis);
+    }
+
     public function information(Request $request, $id)
     {
         if (empty($request->bearerToken())) {

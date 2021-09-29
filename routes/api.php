@@ -25,10 +25,12 @@ use App\Http\Controllers\Api\VirtualizorServerController;
 
 Route::post('/user/login', [UserController::class, 'login']);
 Route::post('/user/register', [UserController::class, 'register']);
+Route::get('/user/subusers', [UserController::class, 'subuser_list']);
 Route::get('/user/{api_token}', [UserController::class, 'check']);
 
 /* Server Management */
 Route::middleware('auth:api')->get('/server', [ServerController::class, 'index']);
+Route::middleware('auth:api')->get('/server/all', [ServerController::class, 'all']);
 Route::middleware('auth:api')->get('/server/{id}', [ServerController::class, 'information']);
 Route::middleware('auth:api')->get('/server/{id}/destroy', [ServerController::class, 'destroy']);
 Route::middleware('auth:api')->post('/server/add', [ServerController::class, 'store']);

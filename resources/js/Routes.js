@@ -14,6 +14,8 @@ import DashboardServerCurrent from "./pages/Dashboard/Server/DashboardServerCurr
 /// Dashboard API
 import DashboardApi from "./pages/Dashboard/Api";
 import DashboardApiAdd from "./pages/Dashboard/Api/DashboardApiAdd";
+import DashboardUsers from "./pages/Dashboard/Users";
+import DashboardUsersAdd from "./pages/Dashboard/Users/DashboardUsersAdd";
 
 const BasicRoutes = [{ name: "home", path: "/", exact: true, Component: Home }];
 const GuestRoutes = [
@@ -51,6 +53,18 @@ const AuthRoutes = [
         path: "/dashboard/api/add",
         exact: true,
         Component: DashboardApiAdd,
+    },
+    {
+        name: "home",
+        path: "/dashboard/users",
+        exact: true,
+        Component: DashboardUsers,
+    },
+    {
+        name: "home",
+        path: "/dashboard/users/add",
+        exact: true,
+        Component: DashboardUsersAdd,
     },
 ];
 export { BasicRoutes, GuestRoutes, AuthRoutes };
