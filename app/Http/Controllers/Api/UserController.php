@@ -62,7 +62,7 @@ class UserController extends Controller
 
                 $user = ApiFunctions::returnUser($request->bearerToken());
 
-                User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->password), 'api_token' => $api_token, 'parent_id' => $user->id, 'servers' => json_encode($request->servers)]);
+                User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->password), 'api_token' => $api_token, 'parent_id' => $user->id, 'servers' => $request->servers]);
                 $response = array('status' => 200, 'name' => $request->name, 'email' => $request->email, 'api_token' => $api_token, 'message' => "Registered successfully");
                 return $response;
             } else {

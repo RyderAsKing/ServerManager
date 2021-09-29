@@ -23,6 +23,12 @@ class ApiFunctions
         $user = User::where('api_token', $bearerToken)->first();
         return $user;
     }
+    public static function returnParent($bearerToken)
+    {
+        $user = User::where('api_token', $bearerToken)->first();
+        $parent = User::where('id', $user->parent_id)->first();
+        return $parent;
+    }
     public static function isParent($bearerToken)
     {
         $user = User::where('api_token', $bearerToken)->first();
@@ -30,6 +36,15 @@ class ApiFunctions
             return false;
         } else {
             return true;
+        }
+    }
+    public static function canAccessServer(User $user, $id)
+    {
+        $accessible_servers = $user->servers;
+        if (in_array($id, $accessible_servers)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
