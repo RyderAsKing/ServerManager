@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'status' => 404,
                     'error' => true,
-                    'message' => 'The requested resource is not available'
+                    'error_message' => 'The requested resource is not available'
                 ], 200);
             }
         });

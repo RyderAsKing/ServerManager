@@ -27,7 +27,7 @@ const ExchangeToken = (email, password) => {
 };
 
 const ListSubUsers = (pageNumber = 1) => {
-    return axios.get(`/api/user/subusers`).then((response) => {
+    return axios.get(`/api/user/subuser`).then((response) => {
         return response.data;
     });
 };

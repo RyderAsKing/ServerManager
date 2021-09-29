@@ -10311,7 +10311,7 @@ var ExchangeToken = function ExchangeToken(email, password) {
 
 var ListSubUsers = function ListSubUsers() {
   var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-  return axios.get("/api/user/subusers").then(function (response) {
+  return axios.get("/api/user/subuser").then(function (response) {
     return response.data;
   });
 };
