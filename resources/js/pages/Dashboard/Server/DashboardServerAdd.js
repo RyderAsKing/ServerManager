@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import {
     AddServer,
     ListAllApis,
@@ -12,6 +13,7 @@ import {
 } from "../../../plugins/Notification";
 
 const DashboardServerAdd = () => {
+    const history = useHistory();
     const [apis, setApis] = useState(null);
     const [importList, setImportList] = useState({
         api_id: null,
@@ -23,7 +25,12 @@ const DashboardServerAdd = () => {
     useEffect(() => {
         if (apis === null) {
             ListAllApis().then((response) => {
-                setApis(response);
+                if (response.error == true) {
+                    history.goBack();
+                    ErrorNotification(response.error_message);
+                } else {
+                    setApis(response);
+                }
             });
         }
     }, [apis]);

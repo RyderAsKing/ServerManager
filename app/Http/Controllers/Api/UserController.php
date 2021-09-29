@@ -69,7 +69,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 419,
                     'error' => true,
-                    'message' => 'No permission to perform this action.',
+                    'error_message' => 'No permission to perform this action.',
                 ], 200);
             }
         }
@@ -112,7 +112,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 419,
                 'error' => true,
-                'message' => 'No permission to perform this action.',
+                'error_message' => 'No permission to perform this action.',
             ], 200);
         }
     }

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Paginator } from "react-paginator-responsive";
 import { ListSubUsers } from "../../../plugins/ApiCalls";
+import { ErrorNotification } from "../../../plugins/Notification";
 import PageLayout from "./../../../components/PageLayout/";
 import MessageDiv from "./../../../components/MessageDiv/";
 import BorderCard from "./../../../components/Cards/BorderCard";
 
 const DashboardUsers = () => {
+    const history = useHistory();
     const [pageNumber, setPageNumber] = useState(1);
     const [paginatorValues, setPaginatorValues] = useState({
         itemsPerPage: 0,
@@ -17,13 +19,19 @@ const DashboardUsers = () => {
     const [loading, setLoading] = useState(false);
     const getApis = (pageNumber) => {
         ListSubUsers(pageNumber).then((response) => {
-            setPaginatorValues({
-                itemsPerPage: response.per_page,
-                totalPage: response.last_page,
-                totalItems: response.total,
-                items: response.data,
-            });
-            setLoading(false);
+            console.log(response);
+            if (response.error == true) {
+                history.goBack();
+                ErrorNotification(response.error_message);
+            } else {
+                setPaginatorValues({
+                    itemsPerPage: response.per_page,
+                    totalPage: response.last_page,
+                    totalItems: response.total,
+                    items: response.data,
+                });
+                setLoading(false);
+            }
         });
     };
 
@@ -100,7 +108,7 @@ const DashboardUsers = () => {
             <div className="col-12 col-lg-6">
                 <BorderCard>
                     <div className="card-body">
-                        <h5 className="card-title">Create more Subuser's?</h5>
+                        <h5 className="card-title">Create more Sub-users?</h5>
                         <p className="card-text">
                             Create more subusers to give them access to your
                             resources.
@@ -131,7 +139,7 @@ const DashboardUsers = () => {
     return (
         <>
             <PageLayout
-                name="Manage Subuser's"
+                name="Manage Sub-users"
                 text="Create more subusers to give them access to your resources."
             >
                 {loading == true ? (

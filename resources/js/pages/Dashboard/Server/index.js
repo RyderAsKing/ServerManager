@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Paginator } from "react-paginator-responsive";
 import { ListServers } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
 import PowerButtons from "./../../../components/PowerButtons/";
 import MessageDiv from "./../../../components/MessageDiv/";
 import BorderCard from "./../../../components/Cards/BorderCard";
+import { ErrorNotification } from "../../../plugins/Notification";
 
 const DashboardServer = () => {
+    const history = useHistory();
     const [pageNumber, setPageNumber] = useState(1);
     const [paginatorValues, setPaginatorValues] = useState({
         itemsPerPage: 0,
@@ -18,13 +20,18 @@ const DashboardServer = () => {
     const [loading, setLoading] = useState(false);
     const getServers = (pageNumber) => {
         ListServers(pageNumber).then((response) => {
-            setPaginatorValues({
-                itemsPerPage: response.per_page,
-                totalPage: response.last_page,
-                totalItems: response.total,
-                items: response.data,
-            });
-            setLoading(false);
+            if (response.error == true) {
+                history.goBack();
+                ErrorNotification(response.error_message);
+            } else {
+                setPaginatorValues({
+                    itemsPerPage: response.per_page,
+                    totalPage: response.last_page,
+                    totalItems: response.total,
+                    items: response.data,
+                });
+                setLoading(false);
+            }
         });
     };
 

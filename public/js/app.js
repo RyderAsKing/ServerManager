@@ -7262,6 +7262,8 @@ var PowerButtons = function PowerButtons(props) {
     });
     var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.DestroyServer)(e.target.dataset.db_id);
     response.then(function (response) {
+      console.log(response);
+
       if (response.status != 200) {
         react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(destroyNotification, {
           render: response.error_message,
@@ -7939,14 +7941,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var _components_MessageDiv___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../components/MessageDiv/ */ "./resources/js/components/MessageDiv/index.js");
 /* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -7971,7 +7975,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DashboardApi = function DashboardApi() {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useHistory)();
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
       _useState2 = _slicedToArray(_useState, 2),
       pageNumber = _useState2[0],
@@ -7994,13 +8001,18 @@ var DashboardApi = function DashboardApi() {
 
   var getApis = function getApis(pageNumber) {
     (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListApis)(pageNumber).then(function (response) {
-      setPaginatorValues({
-        itemsPerPage: response.per_page,
-        totalPage: response.last_page,
-        totalItems: response.total,
-        items: response.data
-      });
-      setLoading(false);
+      if (response.error == true) {
+        history.goBack();
+        (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_6__.ErrorNotification)(response.error_message);
+      } else {
+        setPaginatorValues({
+          itemsPerPage: response.per_page,
+          totalPage: response.last_page,
+          totalItems: response.total,
+          items: response.data
+        });
+        setLoading(false);
+      }
     });
   };
 
@@ -8019,7 +8031,7 @@ var DashboardApi = function DashboardApi() {
 
   var handleDeleteAction = function handleDeleteAction(e) {
     setLoading(true);
-    var deleteNotification = react_toastify__WEBPACK_IMPORTED_MODULE_7__.toast.loading("Deleting API", {
+    var deleteNotification = react_toastify__WEBPACK_IMPORTED_MODULE_9__.toast.loading("Deleting API", {
       position: "bottom-right",
       hideProgressBar: false,
       closeOnClick: true,
@@ -8030,14 +8042,14 @@ var DashboardApi = function DashboardApi() {
     var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.DestroyApi)(e.target.dataset.db_id);
     response.then(function (response) {
       if (response.status != 200) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__.toast.update(deleteNotification, {
+        react_toastify__WEBPACK_IMPORTED_MODULE_9__.toast.update(deleteNotification, {
           render: response.error_message,
           type: "error",
           isLoading: false,
           autoClose: 5000
         });
       } else {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__.toast.update(deleteNotification, {
+        react_toastify__WEBPACK_IMPORTED_MODULE_9__.toast.update(deleteNotification, {
           render: response.message,
           type: "success",
           isLoading: false,
@@ -8070,14 +8082,14 @@ var DashboardApi = function DashboardApi() {
   }
 
   if (paginatorValues.totalPage > 1) {
-    paginator = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    paginator = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "col-12 col-lg-12",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         style: {
           "float": "right",
           marginBottom: "10px"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
           page: pageNumber,
           pageSize: paginatorValues.itemsPerPage,
           pageGroupSize: 5,
@@ -8092,28 +8104,28 @@ var DashboardApi = function DashboardApi() {
 
   if (paginatorValues.items.length > 0) {
     items = paginatorValues.items.map(function (value) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "col-12 col-lg-6",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "card-body",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h5", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h5", {
               className: "card-title",
               children: ["Nickname: ", value.nick]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h5", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h5", {
               className: "card-title",
-              children: ["API: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("code", {
+              children: ["API: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("code", {
                 children: value.api
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h5", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h5", {
               className: "card-title",
-              children: ["Hostname: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("code", {
+              children: ["Hostname: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("code", {
                 children: value.hostname
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
               className: "card-text",
-              children: ["Type:", " ", value.type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), " Created ", value.created_at]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+              children: ["Type:", " ", value.type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), " Created ", value.created_at]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-outline-danger",
               type: "button",
               "data-db_id": value.id,
@@ -8124,20 +8136,20 @@ var DashboardApi = function DashboardApi() {
         })
       }, value.id);
     });
-    listEnding = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    listEnding = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "col-12 col-lg-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "card-body",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h5", {
             className: "card-title",
             children: "Add more API's?"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
             className: "card-text",
             children: "Add new API's to our database so that you can add servers and then perform actions on them."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Link, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, {
             to: "/dashboard/api/add",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-outline-light",
               type: "button",
               children: "Add API"
@@ -8147,7 +8159,7 @@ var DashboardApi = function DashboardApi() {
       })
     });
   } else {
-    items = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_MessageDiv___WEBPACK_IMPORTED_MODULE_4__["default"], {
+    items = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_MessageDiv___WEBPACK_IMPORTED_MODULE_4__["default"], {
       name: "Seems like you have no API, how about adding one?",
       text: "Add new API's to our database so that you can add servers\r and then perform actions on them.",
       buttonText: "Add API",
@@ -8155,24 +8167,24 @@ var DashboardApi = function DashboardApi() {
     });
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
       name: "Manage APIs",
       text: "Add API's to our database so that you can add servers and\r then perform actions on them",
-      children: [loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: [loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "text-center",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "spinner-border",
             role: "status",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "sr-only",
               children: "Loading..."
             })
           })
         })
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "row",
           children: [items, listEnding]
         })
@@ -8197,6 +8209,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
@@ -8229,7 +8242,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DashboardServerAdd = function DashboardServerAdd() {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useHistory)();
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
       apis = _useState2[0],
@@ -8252,7 +8268,12 @@ var DashboardServerAdd = function DashboardServerAdd() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (apis === null) {
       (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.ListAllApis)().then(function (response) {
-        setApis(response);
+        if (response.error == true) {
+          history.goBack();
+          (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_4__.ErrorNotification)(response.error_message);
+        } else {
+          setApis(response);
+        }
       });
     }
   }, [apis]);
@@ -8915,14 +8936,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var _components_PowerButtons___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../components/PowerButtons/ */ "./resources/js/components/PowerButtons/index.js");
 /* harmony import */ var _components_MessageDiv___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../components/MessageDiv/ */ "./resources/js/components/MessageDiv/index.js");
 /* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -8947,7 +8970,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DashboardServer = function DashboardServer() {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useHistory)();
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
       _useState2 = _slicedToArray(_useState, 2),
       pageNumber = _useState2[0],
@@ -8970,13 +8996,18 @@ var DashboardServer = function DashboardServer() {
 
   var getServers = function getServers(pageNumber) {
     (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListServers)(pageNumber).then(function (response) {
-      setPaginatorValues({
-        itemsPerPage: response.per_page,
-        totalPage: response.last_page,
-        totalItems: response.total,
-        items: response.data
-      });
-      setLoading(false);
+      if (response.error == true) {
+        history.goBack();
+        (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_7__.ErrorNotification)(response.error_message);
+      } else {
+        setPaginatorValues({
+          itemsPerPage: response.per_page,
+          totalPage: response.last_page,
+          totalItems: response.total,
+          items: response.data
+        });
+        setLoading(false);
+      }
     });
   };
 
@@ -9014,13 +9045,13 @@ var DashboardServer = function DashboardServer() {
   }
 
   if (paginatorValues.totalPage > 1) {
-    paginator = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+    paginator = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "col-12 col-lg-12",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         style: {
           "float": "right"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
           page: pageNumber,
           pageSize: paginatorValues.itemsPerPage,
           pageGroupSize: 5,
@@ -9035,31 +9066,31 @@ var DashboardServer = function DashboardServer() {
 
   if (paginatorValues.items.length > 0) {
     items = paginatorValues.items.map(function (value) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "col-12 col-lg-6",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "card-body",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h5", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("h5", {
               className: "card-title",
-              children: [value.server_id, " - ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("code", {
+              children: [value.server_id, " - ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
                 children: value.hostname
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
               className: "card-text",
               children: value.ipv4
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("p", {
               className: "card-text",
-              children: ["Type:", " ", value.server_type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {})]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_PowerButtons___WEBPACK_IMPORTED_MODULE_4__["default"], {
+              children: ["Type:", " ", value.server_type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("br", {})]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_PowerButtons___WEBPACK_IMPORTED_MODULE_4__["default"], {
               id: value.id
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Link, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, {
               to: "/dashboard/server/".concat(value.id),
               className: "btn btn-primary",
               style: {
                 marginLeft: "2px"
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
                 className: "fas fa-external-link-alt text-white"
               })
             })]
@@ -9067,20 +9098,20 @@ var DashboardServer = function DashboardServer() {
         })
       }, value.id);
     });
-    listEnding = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+    listEnding = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "col-12 col-lg-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "card-body",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h5", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h5", {
             className: "card-title",
             children: "Add more servers?"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
             className: "card-text",
             children: "Add new servers to our database so that you can perform actions on them."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Link, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, {
             to: "/dashboard/server/add",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
               className: "btn btn-outline-light",
               type: "button",
               children: "Add servers"
@@ -9090,7 +9121,7 @@ var DashboardServer = function DashboardServer() {
       })
     });
   } else {
-    items = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_MessageDiv___WEBPACK_IMPORTED_MODULE_5__["default"], {
+    items = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_MessageDiv___WEBPACK_IMPORTED_MODULE_5__["default"], {
       name: "Seems like you have no servers, how about adding one?",
       text: "Add new servers to our database so that you can perform\r actions on them.",
       buttonText: "Add servers",
@@ -9098,24 +9129,24 @@ var DashboardServer = function DashboardServer() {
     });
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
       name: "Manage Servers",
       text: "Perform powerful one click actions on servers with ease",
-      children: [loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      children: [loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
           className: "text-center",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "spinner-border",
             role: "status",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
               className: "sr-only",
               children: "Loading..."
             })
           })
         })
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "row",
           children: [items, listEnding]
         })
@@ -9415,13 +9446,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginator-responsive */ "./node_modules/react-paginator-responsive/dist/react-paginator-responsive.esm.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
-/* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
-/* harmony import */ var _components_MessageDiv___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../components/MessageDiv/ */ "./resources/js/components/MessageDiv/index.js");
-/* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
+/* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
+/* harmony import */ var _components_MessageDiv___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../components/MessageDiv/ */ "./resources/js/components/MessageDiv/index.js");
+/* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -9445,7 +9478,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DashboardUsers = function DashboardUsers() {
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useHistory)();
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
       _useState2 = _slicedToArray(_useState, 2),
       pageNumber = _useState2[0],
@@ -9468,13 +9504,20 @@ var DashboardUsers = function DashboardUsers() {
 
   var getApis = function getApis(pageNumber) {
     (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListSubUsers)(pageNumber).then(function (response) {
-      setPaginatorValues({
-        itemsPerPage: response.per_page,
-        totalPage: response.last_page,
-        totalItems: response.total,
-        items: response.data
-      });
-      setLoading(false);
+      console.log(response);
+
+      if (response.error == true) {
+        history.goBack();
+        (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_3__.ErrorNotification)(response.error_message);
+      } else {
+        setPaginatorValues({
+          itemsPerPage: response.per_page,
+          totalPage: response.last_page,
+          totalItems: response.total,
+          items: response.data
+        });
+        setLoading(false);
+      }
     });
   };
 
@@ -9512,14 +9555,14 @@ var DashboardUsers = function DashboardUsers() {
   }
 
   if (paginatorValues.totalPage > 1) {
-    paginator = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    paginator = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "col-12 col-lg-12",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         style: {
           "float": "right",
           marginBottom: "10px"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_paginator_responsive__WEBPACK_IMPORTED_MODULE_1__.Paginator, {
           page: pageNumber,
           pageSize: paginatorValues.itemsPerPage,
           pageGroupSize: 5,
@@ -9534,20 +9577,20 @@ var DashboardUsers = function DashboardUsers() {
 
   if (paginatorValues.items.length > 0) {
     items = paginatorValues.items.map(function (value) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "col-12 col-lg-6",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "card-body",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h5", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h5", {
               className: "card-title",
               children: ["Email: ", value.email]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h5", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h5", {
               className: "card-title",
-              children: ["API: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("code", {
+              children: ["API: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("code", {
                 children: value.api_token
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-outline-danger",
               type: "button",
               "data-db_id": value.id,
@@ -9557,20 +9600,20 @@ var DashboardUsers = function DashboardUsers() {
         })
       }, value.id);
     });
-    listEnding = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    listEnding = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "col-12 col-lg-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "card-body",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h5", {
             className: "card-title",
-            children: "Create more Subuser's?"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+            children: "Create more Sub-users?"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
             className: "card-text",
             children: "Create more subusers to give them access to your resources."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link, {
             to: "/dashboard/users/add",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-outline-light",
               type: "button",
               children: "Create Subusers"
@@ -9580,7 +9623,7 @@ var DashboardUsers = function DashboardUsers() {
       })
     });
   } else {
-    items = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_MessageDiv___WEBPACK_IMPORTED_MODULE_4__["default"], {
+    items = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_MessageDiv___WEBPACK_IMPORTED_MODULE_5__["default"], {
       name: "Seems like you have no Subusers, how about creating one?",
       text: "Create more subusers to give them access to your resources.",
       buttonText: "Create Subuser",
@@ -9588,24 +9631,24 @@ var DashboardUsers = function DashboardUsers() {
     });
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
-      name: "Manage Subuser's",
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_4__["default"], {
+      name: "Manage Sub-users",
       text: "Create more subusers to give them access to your resources.",
-      children: [loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: [loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "text-center",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "spinner-border",
             role: "status",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "sr-only",
               children: "Loading..."
             })
           })
         })
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "row",
           children: [items, listEnding]
         })

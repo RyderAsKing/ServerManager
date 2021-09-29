@@ -20,6 +20,7 @@ const PowerButtons = (props) => {
 
         var response = DestroyServer(e.target.dataset.db_id);
         response.then((response) => {
+            console.log(response);
             if (response.status != 200) {
                 toast.update(destroyNotification, {
                     render: response.error_message,

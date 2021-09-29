@@ -12,11 +12,24 @@ use App\Custom\Functions\VirtualizorFunctions;
 class ApiController extends Controller
 {
     //
+    private function errorIfSubUser($bearerToken)
+    {
+        $isParent = ApiFunctions::isParent($bearerToken);
+        if ($isParent === false) {
+            abort(response()->json([
+                'status' => 419,
+                'error' => true,
+                'error_message' => 'No permission to perform this action.',
+            ], 200));
+        }
+    }
+
     public function index(Request $request)
     {
         if (empty($request->bearerToken())) {
             return response()->json(['message' => 'Unauthorized']);
         }
+        $this->errorIfSubUser($request->bearerToken());
         $user = ApiFunctions::returnUser($request->bearerToken());
         $apis = $user->api()->paginate(5);
         return response()->json($apis);
@@ -27,6 +40,7 @@ class ApiController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['message' => 'Unauthorized']);
         }
+        $this->errorIfSubUser($request->bearerToken());
         $user = ApiFunctions::returnUser($request->bearerToken());
         $apis = $user->api()->get();
         return response()->json($apis);
@@ -37,6 +51,7 @@ class ApiController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
         }
+        $this->errorIfSubUser($request->bearerToken());
         $user = ApiFunctions::returnUser($request->bearerToken());
         $user->server()->where('api_id', $id)->delete();
         $user->api()->where('id', $id)->delete();
@@ -48,6 +63,7 @@ class ApiController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
         }
+        $this->errorIfSubUser($request->bearerToken());
         $validator = Validator::make($request->all(), ['type' => 'required|integer', 'api' => 'required|min:16', 'name' => 'required|max:64', 'hostname' => 'required|max:32', 'protocol' => 'required|max:32']);
         if ($validator->fails()) {
             return response()->json(['status' => 400, 'error' => true, 'validation_errors' => $validator->messages()]);
@@ -69,6 +85,7 @@ class ApiController extends Controller
         if (empty($request->bearerToken())) {
             return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
         }
+        $this->errorIfSubUser($request->bearerToken());
         $user = ApiFunctions::returnUser($request->bearerToken());
         $api = $user->api()->findOrFail($id);
         $response = ['status' => 200, 'data' => []];
