@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import {
     AddServer,
     ListAllApis,
@@ -7,6 +6,10 @@ import {
 } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
 import BorderCard from "./../../../components/Cards/BorderCard";
+import {
+    ErrorNotification,
+    SuccessNotification,
+} from "../../../plugins/Notification";
 
 const DashboardServerAdd = () => {
     const [apis, setApis] = useState(null);
@@ -34,15 +37,7 @@ const DashboardServerAdd = () => {
         var response = ListServersFromApi(api_id);
         response.then((response) => {
             if (response.error != null) {
-                toast.error(response.error_message, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                ErrorNotification(response.error_message);
                 setImportList({
                     api_id: api_id,
                     list: {},
@@ -81,26 +76,10 @@ const DashboardServerAdd = () => {
         response.then((response) => {
             getServerList(e.target.dataset.api_id);
             if (response.status == 200) {
-                toast.success(response.message, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                SuccessNotification(response.message);
             } else {
                 if (response.error_message != null) {
-                    toast.error(response.error_message, {
-                        position: "bottom-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+                    ErrorNotification(response.error_message);
                 }
             }
         });

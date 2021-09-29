@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
 import { CreateApi } from "../../../plugins/ApiCalls";
+import {
+    ErrorNotification,
+    SuccessNotification,
+} from "../../../plugins/Notification";
 import PageLayout from "./../../../components/PageLayout/";
 
 const DashboardApiAdd = (props) => {
@@ -91,30 +94,14 @@ const DashboardApiAdd = (props) => {
 
         response.then((response) => {
             if (response.status === 200) {
-                toast.success(response.message, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                SuccessNotification(response.message);
                 history.push("/dashboard/api");
             } else {
                 var tempErrorMessage = "";
                 var tempErrorList = [];
                 if (response.error_message != null) {
                     tempErrorMessage = response.error_message;
-                    toast.error(response.error_message, {
-                        position: "bottom-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+                    ErrorNotification(response.error_message);
                 }
                 if (response.validation_errors != null) {
                     tempErrorList = response.validation_errors;

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
 import { ExchangeToken } from "../plugins/ApiCalls";
+import {
+    ErrorNotification,
+    SuccessNotification,
+} from "../plugins/Notification";
 import PageLayout from "./../components/PageLayout/";
 
 const Login = (props) => {
@@ -73,15 +76,7 @@ const Login = (props) => {
                 localStorage.setItem("api_token", response.api_token);
                 localStorage.setItem("name", response.name);
                 localStorage.setItem("email", response.email);
-                toast.success(response.message, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                SuccessNotification(response.message);
                 props.setIsLoggedIn(true);
                 history.push("/dashboard");
             } else {
@@ -89,15 +84,7 @@ const Login = (props) => {
                 var tempErrorList = [];
                 if (response.error_message != null) {
                     tempErrorMessage = response.error_message;
-                    toast.error(response.error_message, {
-                        position: "bottom-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+                    ErrorNotification(response.error_message);
                 }
                 if (response.validation_errors != null) {
                     tempErrorList = response.validation_errors;

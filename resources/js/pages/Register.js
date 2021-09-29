@@ -1,7 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import { RegisterAccount } from "../plugins/ApiCalls";
+import {
+    ErrorNotification,
+    SuccessNotification,
+} from "../plugins/Notification";
 import PageLayout from "./../components/PageLayout/";
 
 const Register = (props) => {
@@ -61,46 +64,29 @@ const Register = (props) => {
         setLoading();
         e.preventDefault();
 
-        const data = {
-            name: registerInput.name,
-            email: registerInput.email,
-            password: registerInput.password,
-        };
-
-        axios.post(`/api/user/register`, data).then((res) => {
-            if (res.data.status == 200) {
-                localStorage.setItem("api_token", res.data.api_token);
-                localStorage.setItem("name", res.data.name);
-                localStorage.setItem("email", res.data.email);
-                toast.success(res.data.message, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+        var response = RegisterAccount(
+            registerInput.name,
+            registerInput.email,
+            registerInput.password
+        );
+        response.then((res) => {
+            if (res.status == 200) {
+                localStorage.setItem("api_token", res.api_token);
+                localStorage.setItem("name", res.name);
+                localStorage.setItem("email", res.email);
+                SuccessNotification(res.message);
                 props.setIsLoggedIn(true);
 
                 history.push("/dashboard");
             } else {
                 var tempErrorMessage = "";
                 var tempErrorList = [];
-                if (res.data.error_message != null) {
-                    tempErrorMessage = res.data.error_message;
-                    toast.error(res.data.error_message, {
-                        position: "bottom-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+                if (res.error_message != null) {
+                    tempErrorMessage = res.error_message;
+                    ErrorNotification(res.error_message);
                 }
-                if (res.data.validation_errors != null) {
-                    tempErrorList = res.data.validation_errors;
+                if (res.validation_errors != null) {
+                    tempErrorList = res.validation_errors;
                 }
                 setRegisterInput({
                     ...registerInput,

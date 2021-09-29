@@ -1,3 +1,23 @@
+const RegisterAccount = (
+    name,
+    email,
+    password,
+    subuser = false,
+    servers = []
+) => {
+    return axios
+        .post(`/api/user/register`, {
+            name: name,
+            email: email,
+            password: password,
+            subuser: subuser,
+            servers: servers,
+        })
+        .then((response) => {
+            return response.data;
+        });
+};
+
 const ExchangeToken = (email, password) => {
     return axios
         .post(`/api/user/login`, { email: email, password: password })
@@ -107,6 +127,7 @@ const CreateApi = (type, api, api_pass, name, hostname, protocol) => {
 };
 
 export {
+    RegisterAccount,
     ExchangeToken,
     ListSubUsers,
     ListServersFromApi,

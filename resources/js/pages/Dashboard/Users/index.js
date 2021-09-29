@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Paginator } from "react-paginator-responsive";
-import { ListSubUsers, DestroyApi } from "../../../plugins/ApiCalls";
+import { ListSubUsers } from "../../../plugins/ApiCalls";
 import PageLayout from "./../../../components/PageLayout/";
 import MessageDiv from "./../../../components/MessageDiv/";
 import BorderCard from "./../../../components/Cards/BorderCard";
@@ -39,38 +38,6 @@ const DashboardUsers = () => {
         }
         setPageNumber(newPage);
     };
-
-    // const handleDeleteAction = (e) => {
-    //     setLoading(true);
-    //     const deleteNotification = toast.loading("Deleting API", {
-    //         position: "bottom-right",
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //     });
-
-    //     var response = DestroyApi(e.target.dataset.db_id);
-    //     response.then((response) => {
-    //         if (response.status != 200) {
-    //             toast.update(deleteNotification, {
-    //                 render: response.error_message,
-    //                 type: "error",
-    //                 isLoading: false,
-    //                 autoClose: 5000,
-    //             });
-    //         } else {
-    //             toast.update(deleteNotification, {
-    //                 render: response.message,
-    //                 type: "success",
-    //                 isLoading: false,
-    //                 autoClose: 5000,
-    //             });
-    //         }
-    //         getApis(pageNumber);
-    //     });
-    // };
 
     const styles = {
         hideBackNextButtonText: false,
