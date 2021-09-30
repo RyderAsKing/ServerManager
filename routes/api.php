@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\VirtualizorServerController;
 Route::post('/user/login', [UserController::class, 'login']);
 Route::post('/user/register', [UserController::class, 'register']);
 Route::middleware('auth:api')->get('/user/subuser', [UserController::class, 'subuser_list']);
+Route::middleware('auth:api')->get('/user/subuser/{id}', [UserController::class, 'subuser_information']);
 Route::middleware('auth:api')->get('/user/subuser/{id}/destroy', [UserController::class, 'subuser_destroy']);
 Route::get('/user/{api_token}', [UserController::class, 'check']);
 

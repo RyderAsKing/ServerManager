@@ -116,4 +116,51 @@ class UserController extends Controller
             ], 200);
         }
     }
+
+    public function subuser_information(Request $request)
+    {
+        if (empty($request->bearerToken())) {
+            return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
+        }
+        $isParent = ApiFunctions::isParent($request->bearerToken());
+
+        if ($isParent == true) {
+            $user = ApiFunctions::returnUser($request->bearerToken());
+            $information = User::where(['parent_id' => $user->id])->first();
+            return response()->json($information);
+        } else {
+            return response()->json(
+                [
+                    'status' => 419,
+                    'error' => true,
+                    'error_message' => 'No permission to perform this action.',
+                ],
+                200
+            );
+        }
+    }
+
+    public function subuser_destroy(Request $request, $id)
+    {
+        if (empty($request->bearerToken())) {
+            return response()->json(['status' => 401, 'error' => true, 'error_message' => 'Unauthorized']);
+        }
+        $isParent = ApiFunctions::isParent($request->bearerToken());
+
+        if ($isParent == true) {
+            $user = ApiFunctions::returnUser($request->bearerToken());
+            User::where(['id' => $id, 'parent_id' => $user->id])->delete();
+            $response = array('status' => 200, 'message' => "Deleted subuser successfully");
+            return response()->json($response);
+        } else {
+            return response()->json(
+                [
+                    'status' => 419,
+                    'error' => true,
+                    'error_message' => 'No permission to perform this action.',
+                ],
+                200
+            );
+        }
+    }
 }

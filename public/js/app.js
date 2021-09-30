@@ -9502,7 +9502,7 @@ var DashboardUsers = function DashboardUsers() {
       loading = _useState6[0],
       setLoading = _useState6[1];
 
-  var getApis = function getApis(pageNumber) {
+  var getSubusers = function getSubusers(pageNumber) {
     (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListSubUsers)(pageNumber).then(function (response) {
       console.log(response);
 
@@ -9523,7 +9523,7 @@ var DashboardUsers = function DashboardUsers() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setLoading(true);
-    getApis(pageNumber);
+    getSubusers(pageNumber);
   }, [pageNumber]);
 
   var handlePageChange = function handlePageChange(newPage) {
@@ -9532,6 +9532,20 @@ var DashboardUsers = function DashboardUsers() {
     }
 
     setPageNumber(newPage);
+  };
+
+  var handleDeleteAction = function handleDeleteAction(e) {
+    console.log(e.target.dataset.db_id);
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.DeleteSubUser)(e.target.dataset.db_id);
+    response.then(function (response) {
+      if (response.error == true) {
+        (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_3__.ErrorNotification)(response.error_message);
+      } else {
+        (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_3__.SuccessNotification)(response.meessage);
+        setLoading(true);
+        getSubusers(pageNumber);
+      }
+    });
   };
 
   var styles = {
@@ -9594,6 +9608,7 @@ var DashboardUsers = function DashboardUsers() {
               className: "btn btn-outline-danger",
               type: "button",
               "data-db_id": value.id,
+              onClick: handleDeleteAction,
               children: "Delete"
             })]
           })
@@ -10274,6 +10289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "RegisterAccount": () => (/* binding */ RegisterAccount),
 /* harmony export */   "ExchangeToken": () => (/* binding */ ExchangeToken),
 /* harmony export */   "ListSubUsers": () => (/* binding */ ListSubUsers),
+/* harmony export */   "DeleteSubUser": () => (/* binding */ DeleteSubUser),
 /* harmony export */   "ListServersFromApi": () => (/* binding */ ListServersFromApi),
 /* harmony export */   "ListServers": () => (/* binding */ ListServers),
 /* harmony export */   "ListAllServers": () => (/* binding */ ListAllServers),
@@ -10311,7 +10327,13 @@ var ExchangeToken = function ExchangeToken(email, password) {
 
 var ListSubUsers = function ListSubUsers() {
   var pageNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-  return axios.get("/api/user/subuser").then(function (response) {
+  return axios.get("/api/user/subuser/?page=".concat(pageNumber)).then(function (response) {
+    return response.data;
+  });
+};
+
+var DeleteSubUser = function DeleteSubUser(db_id) {
+  return axios.get("/api/user/subuser/".concat(db_id, "/destroy")).then(function (response) {
     return response.data;
   });
 };

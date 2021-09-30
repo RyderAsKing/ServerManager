@@ -27,7 +27,15 @@ const ExchangeToken = (email, password) => {
 };
 
 const ListSubUsers = (pageNumber = 1) => {
-    return axios.get(`/api/user/subuser`).then((response) => {
+    return axios
+        .get(`/api/user/subuser/?page=${pageNumber}`)
+        .then((response) => {
+            return response.data;
+        });
+};
+
+const DeleteSubUser = (db_id) => {
+    return axios.get(`/api/user/subuser/${db_id}/destroy`).then((response) => {
         return response.data;
     });
 };
@@ -130,6 +138,7 @@ export {
     RegisterAccount,
     ExchangeToken,
     ListSubUsers,
+    DeleteSubUser,
     ListServersFromApi,
     ListServers,
     ListAllServers,

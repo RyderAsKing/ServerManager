@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Paginator } from "react-paginator-responsive";
-import { ListSubUsers } from "../../../plugins/ApiCalls";
-import { ErrorNotification } from "../../../plugins/Notification";
+import { DeleteSubUser, ListSubUsers } from "../../../plugins/ApiCalls";
+import {
+    ErrorNotification,
+    SuccessNotification,
+} from "../../../plugins/Notification";
 import PageLayout from "./../../../components/PageLayout/";
 import MessageDiv from "./../../../components/MessageDiv/";
 import BorderCard from "./../../../components/Cards/BorderCard";
@@ -17,7 +20,7 @@ const DashboardUsers = () => {
         items: [],
     });
     const [loading, setLoading] = useState(false);
-    const getApis = (pageNumber) => {
+    const getSubusers = (pageNumber) => {
         ListSubUsers(pageNumber).then((response) => {
             console.log(response);
             if (response.error == true) {
@@ -37,7 +40,7 @@ const DashboardUsers = () => {
 
     useEffect(() => {
         setLoading(true);
-        getApis(pageNumber);
+        getSubusers(pageNumber);
     }, [pageNumber]);
 
     const handlePageChange = (newPage) => {
@@ -45,6 +48,20 @@ const DashboardUsers = () => {
             return;
         }
         setPageNumber(newPage);
+    };
+
+    const handleDeleteAction = (e) => {
+        console.log(e.target.dataset.db_id);
+        var response = DeleteSubUser(e.target.dataset.db_id);
+        response.then((response) => {
+            if (response.error == true) {
+                ErrorNotification(response.error_message);
+            } else {
+                SuccessNotification(response.meessage);
+                setLoading(true);
+                getSubusers(pageNumber);
+            }
+        });
     };
 
     const styles = {
@@ -97,6 +114,7 @@ const DashboardUsers = () => {
                             className="btn btn-outline-danger"
                             type="button"
                             data-db_id={value.id}
+                            onClick={handleDeleteAction}
                         >
                             Delete
                         </button>
