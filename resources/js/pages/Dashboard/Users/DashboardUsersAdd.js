@@ -144,7 +144,7 @@ const DashboardUsersAdd = () => {
     return (
         <>
             <PageLayout
-                name="Manage Subuser's"
+                name="Manage Sub-users"
                 text="Create more subusers to give them access to your resources."
             >
                 <form onSubmit={registerSubmit}>

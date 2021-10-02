@@ -7153,7 +7153,7 @@ var Navbar = function Navbar(props) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
               className: "nav-link",
               to: "/dashboard/users",
-              children: "List Subuser's"
+              children: "List sub-users"
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -9335,7 +9335,7 @@ var DashboardUsersAdd = function DashboardUsersAdd() {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
-      name: "Manage Subuser's",
+      name: "Manage Sub-users",
       text: "Create more subusers to give them access to your resources.",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
         onSubmit: registerSubmit,

@@ -94,7 +94,7 @@ const Navbar = (props) => {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/dashboard/users">
-                                List Subuser's
+                                List sub-users
                             </Link>
                         </li>
                     </ul>
