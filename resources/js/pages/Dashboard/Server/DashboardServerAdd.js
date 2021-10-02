@@ -11,6 +11,7 @@ import {
     ErrorNotification,
     SuccessNotification,
 } from "../../../plugins/Notification";
+import ImportServer from "../../../components/ImportServer";
 
 const DashboardServerAdd = () => {
     const history = useHistory();
@@ -136,55 +137,14 @@ const DashboardServerAdd = () => {
                 <div className="row">
                     {importList != null && importList.list.length > 0 ? (
                         importList.list.map((value) => (
-                            <div className="col-12 col-lg-6" key={value.uuid}>
-                                <BorderCard>
-                                    <div className="card-body">
-                                        <h5 className="card-title">
-                                            {value.identifier} -{" "}
-                                            <code>{value.name}</code>
-                                        </h5>
-                                        <p className="card-text">
-                                            UUID - <code>{value.uuid}</code>
-                                        </p>
-                                        {importList.buttonLoading == false ? (
-                                            value.imported == true ? (
-                                                <button
-                                                    className="btn btn-primary text-white"
-                                                    disabled={value.imported}
-                                                >
-                                                    <i className="fas fa-download"></i>{" "}
-                                                    Imported
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    className="btn btn-primary text-white"
-                                                    disabled={value.imported}
-                                                    data-server_id={
-                                                        value.identifier
-                                                    }
-                                                    data-api_id={
-                                                        importList.api_id
-                                                    }
-                                                    onClick={handleImport}
-                                                >
-                                                    <i className="fas fa-download"></i>{" "}
-                                                    Import server
-                                                </button>
-                                            )
-                                        ) : (
-                                            <>
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn-primary text-white"
-                                                    disabled
-                                                >
-                                                    <span className="spinner-border"></span>
-                                                </button>
-                                            </>
-                                        )}
-                                    </div>
-                                </BorderCard>
-                            </div>
+                            <ImportServer
+                                key={value.uuid}
+                                uuid={value.uuid}
+                                identifier={value.identifier}
+                                name={value.name}
+                                imported={value.imported}
+                                api_id={importList.api_id}
+                            ></ImportServer>
                         ))
                     ) : loading == true ? (
                         <div className="container spinner-border"></div>

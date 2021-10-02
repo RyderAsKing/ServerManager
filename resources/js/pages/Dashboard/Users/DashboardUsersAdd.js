@@ -15,7 +15,6 @@ const DashboardUsersAdd = () => {
     useEffect(() => {
         if (servers === null) {
             ListAllServers().then((response) => {
-                console.log(response);
                 setServers(response);
             });
         }

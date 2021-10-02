@@ -67,7 +67,6 @@ const DashboardApiAdd = (props) => {
             ...createInput,
             [e.target.name]: e.target.value,
         });
-        console.log(createInput);
     };
 
     const createSubmit = (e) => {

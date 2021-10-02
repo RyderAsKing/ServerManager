@@ -22,7 +22,6 @@ const DashboardUsers = () => {
     const [loading, setLoading] = useState(false);
     const getSubusers = (pageNumber) => {
         ListSubUsers(pageNumber).then((response) => {
-            console.log(response);
             if (response.error == true) {
                 history.goBack();
                 ErrorNotification(response.error_message);
@@ -51,7 +50,6 @@ const DashboardUsers = () => {
     };
 
     const handleDeleteAction = (e) => {
-        console.log(e.target.dataset.db_id);
         var response = DeleteSubUser(e.target.dataset.db_id);
         response.then((response) => {
             if (response.error == true) {

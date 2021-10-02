@@ -100,7 +100,11 @@ const DashboardServer = () => {
                             <br />
                         </p>
 
-                        <PowerButtons id={value.id}></PowerButtons>
+                        <PowerButtons
+                            id={value.id}
+                            page={pageNumber}
+                            refresh={getServers}
+                        ></PowerButtons>
 
                         <Link
                             to={`/dashboard/server/${value.id}`}

@@ -6959,6 +6959,121 @@ var Footer = function Footer() {
 
 /***/ }),
 
+/***/ "./resources/js/components/ImportServer/index.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/ImportServer/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
+/* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../plugins/Notification */ "./resources/js/plugins/Notification.js");
+/* harmony import */ var _Cards_BorderCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+var ImportServer = function ImportServer(props) {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loading = _useState2[0],
+      setLoading = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props.imported),
+      _useState4 = _slicedToArray(_useState3, 2),
+      imported = _useState4[0],
+      setImported = _useState4[1];
+
+  var handleImport = function handleImport(e) {
+    setLoading(true);
+    var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.AddServer)(e.target.dataset.server_id, e.target.dataset.api_id);
+    response.then(function (response) {
+      if (response.status == 200) {
+        (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_2__.SuccessNotification)(response.message);
+        setImported(true);
+        setLoading(false);
+      } else {
+        if (response.error_message != null) {
+          (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_2__.ErrorNotification)(response.error_message);
+          setLoading(false);
+        }
+      }
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "col-12 col-lg-6",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "card-body",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h5", {
+            className: "card-title",
+            children: [props.identifier, " - ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("code", {
+              children: props.name
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+            className: "card-text",
+            children: ["UUID - ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("code", {
+              children: props.uuid
+            })]
+          }), loading == false ? imported == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+            className: "btn btn-primary text-white",
+            disabled: imported,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+              className: "fas fa-download"
+            }), " Imported"]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+            className: "btn btn-primary text-white",
+            disabled: imported,
+            "data-server_id": props.identifier,
+            "data-api_id": props.api_id,
+            onClick: handleImport,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+              className: "fas fa-download"
+            }), " Import server"]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              type: "submit",
+              className: "btn btn-primary text-white",
+              disabled: true,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                className: "spinner-border"
+              })
+            })
+          })]
+        })
+      })
+    }, props.uuid)
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImportServer);
+
+/***/ }),
+
 /***/ "./resources/js/components/MessageDiv/index.js":
 /*!*****************************************************!*\
   !*** ./resources/js/components/MessageDiv/index.js ***!
@@ -7262,8 +7377,6 @@ var PowerButtons = function PowerButtons(props) {
     });
     var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.DestroyServer)(e.target.dataset.db_id);
     response.then(function (response) {
-      console.log(response);
-
       if (response.status != 200) {
         react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(destroyNotification, {
           render: response.error_message,
@@ -7282,7 +7395,7 @@ var PowerButtons = function PowerButtons(props) {
         if (props.with_text == "true") {
           history.push("/dashboard/server");
         } else {
-          window.location.reload();
+          props.refresh(props.pageNumber);
         }
       }
     });
@@ -7747,7 +7860,6 @@ var DashboardApiAdd = function DashboardApiAdd(props) {
 
   var handleInput = function handleInput(e) {
     setCreateInput(_objectSpread(_objectSpread({}, createInput), {}, _defineProperty({}, e.target.name, e.target.value)));
-    console.log(createInput);
   };
 
   var createSubmit = function createSubmit(e) {
@@ -8209,12 +8321,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
 /* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_ImportServer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/ImportServer */ "./resources/js/components/ImportServer/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -8243,8 +8356,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DashboardServerAdd = function DashboardServerAdd() {
-  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useHistory)();
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useHistory)();
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -8340,84 +8454,48 @@ var DashboardServerAdd = function DashboardServerAdd() {
 
   if (apis != null && apis.length > 0) {
     options = apis.map(function (api) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("option", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("option", {
         value: api.id,
-        children: [api.nick, " | ", api.api, " |", " ", api.type == 0 ? "Virtualizor" : api.type == 1 ? "Pterodactyl" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {})]
+        children: [api.nick, " | ", api.api, " |", " ", api.type == 0 ? "Virtualizor" : api.type == 1 ? "Pterodactyl" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {})]
       }, api.id);
     });
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_2__["default"], {
       name: "Add Server",
       text: "Add servers to the server manager and perform powerful on click actions on them",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("form", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("form", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "mb-3",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
             htmlFor: "api_id",
             className: "form-label",
             children: "API"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("select", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("select", {
             className: "form-select",
             name: "api_id",
             defaultValue: 0,
             onChange: handleInput,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("option", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
               value: "none",
               children: "Select one"
             }), options]
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "row",
         children: importList != null && importList.list.length > 0 ? importList.list.map(function (value) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "col-12 col-lg-6",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-                className: "card-body",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h5", {
-                  className: "card-title",
-                  children: [value.identifier, " -", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("code", {
-                    children: value.name
-                  })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
-                  className: "card-text",
-                  children: ["UUID - ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("code", {
-                    children: value.uuid
-                  })]
-                }), importList.buttonLoading == false ? value.imported == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
-                  className: "btn btn-primary text-white",
-                  disabled: value.imported,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-                    className: "fas fa-download"
-                  }), " ", "Imported"]
-                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
-                  className: "btn btn-primary text-white",
-                  disabled: value.imported,
-                  "data-server_id": value.identifier,
-                  "data-api_id": importList.api_id,
-                  onClick: handleImport,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-                    className: "fas fa-download"
-                  }), " ", "Import server"]
-                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-                    type: "submit",
-                    className: "btn btn-primary text-white",
-                    disabled: true,
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                      className: "spinner-border"
-                    })
-                  })
-                })]
-              })
-            })
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ImportServer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            uuid: value.uuid,
+            identifier: value.identifier,
+            name: value.name,
+            imported: value.imported,
+            api_id: importList.api_id
           }, value.uuid);
-        }) : loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }) : loading == true ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "container spinner-border"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
           style: {
             textAlign: "center"
           },
@@ -8553,7 +8631,6 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
       var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.GetServerInformation)(currentServer);
       response.then(function (response) {
         setServerInformation(response);
-        console.log(response);
       });
     }
   }, [loading]);
@@ -9083,7 +9160,9 @@ var DashboardServer = function DashboardServer() {
               className: "card-text",
               children: ["Type:", " ", value.server_type == 0 ? "Virtualizor" : "Pterodactyl", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("br", {})]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_PowerButtons___WEBPACK_IMPORTED_MODULE_4__["default"], {
-              id: value.id
+              id: value.id,
+              page: pageNumber,
+              refresh: getServers
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, {
               to: "/dashboard/server/".concat(value.id),
               className: "btn btn-primary",
@@ -9214,7 +9293,6 @@ var DashboardUsersAdd = function DashboardUsersAdd() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (servers === null) {
       (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__.ListAllServers)().then(function (response) {
-        console.log(response);
         setServers(response);
       });
     }
@@ -9504,8 +9582,6 @@ var DashboardUsers = function DashboardUsers() {
 
   var getSubusers = function getSubusers(pageNumber) {
     (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.ListSubUsers)(pageNumber).then(function (response) {
-      console.log(response);
-
       if (response.error == true) {
         history.goBack();
         (0,_plugins_Notification__WEBPACK_IMPORTED_MODULE_3__.ErrorNotification)(response.error_message);
@@ -9535,7 +9611,6 @@ var DashboardUsers = function DashboardUsers() {
   };
 
   var handleDeleteAction = function handleDeleteAction(e) {
-    console.log(e.target.dataset.db_id);
     var response = (0,_plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_2__.DeleteSubUser)(e.target.dataset.db_id);
     response.then(function (response) {
       if (response.error == true) {

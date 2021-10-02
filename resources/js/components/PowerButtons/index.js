@@ -20,7 +20,6 @@ const PowerButtons = (props) => {
 
         var response = DestroyServer(e.target.dataset.db_id);
         response.then((response) => {
-            console.log(response);
             if (response.status != 200) {
                 toast.update(destroyNotification, {
                     render: response.error_message,
@@ -38,7 +37,7 @@ const PowerButtons = (props) => {
                 if (props.with_text == "true") {
                     history.push("/dashboard/server");
                 } else {
-                    window.location.reload();
+                    props.refresh(props.pageNumber);
                 }
             }
         });
