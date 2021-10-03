@@ -8,7 +8,8 @@ import Console from "./../../../components/Console/index";
 import Memory from "../../../components/Charts/Memory";
 import CPU from "./../../../components/Charts/Cpu";
 import Network from "./../../../components/Charts/Network";
-
+// Notification
+import { ErrorNotification } from "../../../plugins/Notification";
 const DashboardServerCurrent = (props) => {
     const [loading, setLoading] = useState(true);
     const [serverInformation, setServerInformation] = useState(null);
@@ -139,6 +140,9 @@ const DashboardServerCurrent = (props) => {
                             "\u001b[1m\u001b[33mcontainer~/ \u001b[0m" +
                                 `Server marked as ${data.args[0]}`,
                         ]);
+                    }
+                    if (data.event == "error") {
+                        ErrorNotification(data.args[0]);
                     }
                 };
             }
@@ -323,7 +327,10 @@ const DashboardServerCurrent = (props) => {
             container = (
                 <div className="row">
                     {websocket == null ? (
-                        <div className="text-center">
+                        <div
+                            className="text-center"
+                            style={{ marginTop: "5%" }}
+                        >
                             <div className="spinner-border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </div>
