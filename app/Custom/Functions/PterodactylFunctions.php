@@ -131,7 +131,7 @@ class PterodactylFunctions
         $result = json_decode($result, true);
         $token = $result['data']['token'];
         $socket = $result['data']['socket'];
-        $current_information = array('ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . "://" . $host_ip);
+        $current_information = array('status' => 200, 'ipv4' => $ipv4, 'hostname' => $hostname, 'sftp_port' => $sftp_port, 'disk' => $disk, 'cpu' => $cpu, 'memory' => $memory, 'uuid' => $uuid, 'token' => $token, 'socket' => $socket, 'origin' => $protocol . "://" . $host_ip);
         return $current_information;
     }
 

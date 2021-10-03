@@ -36,6 +36,7 @@ app.ws("/pterodactyl/console", async (socket, req) => {
     let foreign_socket;
     let foreign_token;
     let foreign_origin;
+    let result;
 
     const getForeignSocket = async (db_id, api_token) => {
         await axios
@@ -49,18 +50,18 @@ app.ws("/pterodactyl/console", async (socket, req) => {
                     foreign_socket = res.data["0"].socket;
                     foreign_token = res.data["0"].token;
                     foreign_origin = res.data["0"].origin;
-                    return true;
+                    result = true;
                 } else {
                     var message = JSON.stringify({
                         event: `error`,
                         args: [`${res.data["0"].error_message}`],
                     });
                     socket.send(message);
-                    return false;
+                    result = false;
                 }
             })
             .catch((err) => {
-                return false;
+                result = false;
             });
     };
 
@@ -135,13 +136,11 @@ app.ws("/pterodactyl/console", async (socket, req) => {
         });
     };
 
-    await getForeignSocket(db_id, api_token).then((res) => {
-        if (res == true) {
-            var serverWS = returnForeignSocket(foreign_socket, foreign_origin);
-            useForeignSocket(serverWS);
-        } else {
-            socket.terminate();
-            console.log("Connection was not successfull");
-        }
-    });
+    await getForeignSocket(db_id, api_token);
+    if (result == true) {
+        var serverWS = returnForeignSocket(foreign_socket, foreign_origin);
+        useForeignSocket(serverWS);
+    } else {
+        socket.terminate();
+    }
 });
