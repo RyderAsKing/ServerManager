@@ -14,6 +14,8 @@ const DashboardServerCurrent = (props) => {
     const [loading, setLoading] = useState(true);
     const [serverInformation, setServerInformation] = useState(null);
     const [serverStatus, setServerStatus] = useState(null);
+    const [maxResources, setMaxResources] = useState(null);
+
     const timeformat = (date) => {
         var h = date.getHours();
         var m = date.getMinutes();
@@ -30,7 +32,6 @@ const DashboardServerCurrent = (props) => {
         cpuData: Array(25).fill(0.01),
         diskData: Array(25).fill(0.01),
         networkData: { tx: Array(5).fill(0.01), rx: Array(5).fill(0.01) },
-        max: { memory: 0, disk: 0, cpu: 0 },
         timeData: Array(25).fill(timeformat(new Date())),
     });
     const [consoleLogs, setConsoleLogs] = useState([
@@ -57,13 +58,10 @@ const DashboardServerCurrent = (props) => {
                 setServerStatus(serverInformation[0].status);
             }
             if (serverInformation.server_type == 1) {
-                setChartData({
-                    ...chartData,
-                    max: {
-                        memory: serverInformation[0].memory,
-                        cpu: serverInformation[0].cpu,
-                        disk: serverInformation[0].disk,
-                    },
+                setMaxResources({
+                    memory: serverInformation[0].memory,
+                    cpu: serverInformation[0].cpu,
+                    disk: serverInformation[0].disk,
                 });
                 var apiToken = axios.defaults.headers.common.Authorization;
                 var apiToken = apiToken.replace("Bearer ", "");
@@ -110,8 +108,8 @@ const DashboardServerCurrent = (props) => {
                         memory.push(
                             Math.round(stats.memory_bytes / 1024 / 1024)
                         );
-                        cpu.push(stats.cpu_absolute);
-                        disk.push(stats.disk_bytes);
+                        cpu.push(Math.round(stats.cpu_absolute));
+                        disk.push(Math.round(stats.disk_bytes / 1024 / 1024));
                         tx.push(stats.network.tx_bytes / 1024 / 1024);
                         rx.push(stats.network.rx_bytes / 1024 / 1024);
 
@@ -338,6 +336,29 @@ const DashboardServerCurrent = (props) => {
                     ) : (
                         <>
                             <div className="col-lg-8 col-md-12">
+                                <BorderCard>
+                                    <div className="card-body">
+                                        <p className="card-text">
+                                            CPU -{" "}
+                                            <code>
+                                                {chartData.cpuData[25]} /{" "}
+                                                {maxResources.cpu} %
+                                            </code>
+                                            <br />
+                                            RAM -{" "}
+                                            <code>
+                                                {chartData.memoryData[25]} /{" "}
+                                                {maxResources.memory} MB
+                                            </code>
+                                            <br />
+                                            Disk -{" "}
+                                            <code>
+                                                {chartData.diskData[25]} /{" "}
+                                                {maxResources.disk} MB
+                                            </code>
+                                        </p>
+                                    </div>
+                                </BorderCard>
                                 <Console
                                     data={consoleLogs}
                                     style={{

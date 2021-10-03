@@ -8582,6 +8582,11 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
       serverStatus = _useState6[0],
       setServerStatus = _useState6[1];
 
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      maxResources = _useState8[0],
+      setMaxResources = _useState8[1];
+
   var timeformat = function timeformat(date) {
     var h = date.getHours();
     var m = date.getMinutes();
@@ -8594,7 +8599,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
     return mytime;
   };
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     memoryData: Array(25).fill(0.01),
     cpuData: Array(25).fill(0.01),
     diskData: Array(25).fill(0.01),
@@ -8602,31 +8607,26 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
       tx: Array(5).fill(0.01),
       rx: Array(5).fill(0.01)
     },
-    max: {
-      memory: 0,
-      disk: 0,
-      cpu: 0
-    },
     timeData: Array(25).fill(timeformat(new Date()))
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      chartData = _useState8[0],
-      setChartData = _useState8[1];
-
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["\x1B[1m\x1B[33mcontainer~/ \x1B[0m" + "Server manager (https://github.com/RyderAsKing/ServerManager)"]),
       _useState10 = _slicedToArray(_useState9, 2),
-      consoleLogs = _useState10[0],
-      setConsoleLogs = _useState10[1];
+      chartData = _useState10[0],
+      setChartData = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["\x1B[1m\x1B[33mcontainer~/ \x1B[0m" + "Server manager (https://github.com/RyderAsKing/ServerManager)"]),
       _useState12 = _slicedToArray(_useState11, 2),
-      terminalInput = _useState12[0],
-      setTerminalInput = _useState12[1];
+      consoleLogs = _useState12[0],
+      setConsoleLogs = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState14 = _slicedToArray(_useState13, 2),
-      websocket = _useState14[0],
-      setWebSocket = _useState14[1];
+      terminalInput = _useState14[0],
+      setTerminalInput = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState16 = _slicedToArray(_useState15, 2),
+      websocket = _useState16[0],
+      setWebSocket = _useState16[1];
 
   var currentServer = props.match.params.id;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -8646,13 +8646,11 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
       }
 
       if (serverInformation.server_type == 1) {
-        setChartData(_objectSpread(_objectSpread({}, chartData), {}, {
-          max: {
-            memory: serverInformation[0].memory,
-            cpu: serverInformation[0].cpu,
-            disk: serverInformation[0].disk
-          }
-        }));
+        setMaxResources({
+          memory: serverInformation[0].memory,
+          cpu: serverInformation[0].cpu,
+          disk: serverInformation[0].disk
+        });
         var apiToken = axios.defaults.headers.common.Authorization;
         var apiToken = apiToken.replace("Bearer ", "");
         var uri = encodeURI("".concat(websocket_url, "/pterodactyl/console/?db_id=").concat(serverInformation.id, "&api_token=").concat(apiToken));
@@ -8701,8 +8699,8 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
             }
 
             memory.push(Math.round(stats.memory_bytes / 1024 / 1024));
-            cpu.push(stats.cpu_absolute);
-            disk.push(stats.disk_bytes);
+            cpu.push(Math.round(stats.cpu_absolute));
+            disk.push(Math.round(stats.disk_bytes / 1024 / 1024));
             tx.push(stats.network.tx_bytes / 1024 / 1024);
             rx.push(stats.network.rx_bytes / 1024 / 1024);
             time.push(timeformat(new Date()));
@@ -8945,9 +8943,23 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
             })
           })
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "col-lg-8 col-md-12",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_Console_index__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+                className: "card-body",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("p", {
+                  className: "card-text",
+                  children: ["CPU -", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("code", {
+                    children: [chartData.cpuData[25], " /", " ", maxResources.cpu, " %"]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("br", {}), "RAM -", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("code", {
+                    children: [chartData.memoryData[25], " /", " ", maxResources.memory, " MB"]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("br", {}), "Disk -", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("code", {
+                    children: [chartData.diskData[25], " /", " ", maxResources.disk, " MB"]
+                  })]
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_Console_index__WEBPACK_IMPORTED_MODULE_5__["default"], {
               data: consoleLogs,
               style: {
                 border: "1px solid white",
@@ -8958,7 +8970,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
               inputEvent: terminalInputHandler,
               inputValue: terminalInput,
               keyEvent: keyDownInputHandler
-            })
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "col-lg-4 col-md-12",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_4__["default"], {
