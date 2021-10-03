@@ -6740,8 +6740,7 @@ var Console = /*#__PURE__*/function (_React$Component) {
   _createClass(Console, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var TERMINAL_PRELUDE = "\x1B[1m\x1B[33mcontainer~ \x1B[0m"; // Styling
-
+      // Styling
       var theme = {
         background: "#131A20",
         cursor: "transparent",

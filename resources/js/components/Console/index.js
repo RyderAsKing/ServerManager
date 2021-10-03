@@ -12,8 +12,6 @@ export default class Console extends React.Component {
     }
 
     componentDidMount() {
-        const TERMINAL_PRELUDE = "\u001b[1m\u001b[33mcontainer~ \u001b[0m";
-
         // Styling
         const theme = {
             background: "#131A20",
