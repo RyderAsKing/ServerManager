@@ -45,11 +45,22 @@ app.ws("/pterodactyl/console", async (socket, req) => {
                 },
             })
             .then((res) => {
-                if (res.status == 200) {
+                if (res.data[0].status == 200) {
                     foreign_socket = res.data["0"].socket;
                     foreign_token = res.data["0"].token;
                     foreign_origin = res.data["0"].origin;
+                    return true;
+                } else {
+                    var message = JSON.stringify({
+                        event: `error`,
+                        args: [`${res.data["0"].error_message}`],
+                    });
+                    socket.send(message);
+                    return false;
                 }
+            })
+            .catch((err) => {
+                return false;
             });
     };
 
@@ -124,7 +135,13 @@ app.ws("/pterodactyl/console", async (socket, req) => {
         });
     };
 
-    await getForeignSocket(db_id, api_token);
-    var serverWS = returnForeignSocket(foreign_socket, foreign_origin);
-    useForeignSocket(serverWS);
+    await getForeignSocket(db_id, api_token).then((res) => {
+        if (res == true) {
+            var serverWS = returnForeignSocket(foreign_socket, foreign_origin);
+            useForeignSocket(serverWS);
+        } else {
+            socket.terminate();
+            console.log("Connection was not successfull");
+        }
+    });
 });
