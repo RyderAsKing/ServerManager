@@ -11,7 +11,6 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/jquery.min.js') }}" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
         <script src="{{ asset('js/xterm.js') }}"></script>
 
         <!-- Styles -->

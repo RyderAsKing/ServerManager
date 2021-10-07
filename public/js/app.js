@@ -7229,8 +7229,8 @@ var Navbar = function Navbar(props) {
         className: "navbar-toggler",
         type: "button",
         "data-bs-toggle": "collapse",
-        "data-bs-target": "#navbarColor03",
-        "aria-controls": "navbarColor03",
+        "data-bs-target": "#mainNav",
+        "aria-controls": "mainNav",
         "aria-expanded": "false",
         "aria-label": "Toggle navigation",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
@@ -7238,7 +7238,7 @@ var Navbar = function Navbar(props) {
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "collapse navbar-collapse",
-        id: "navbarColor03",
+        id: "mainNav",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
           className: "navbar-nav me-auto mb-2 mb-lg-0",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
