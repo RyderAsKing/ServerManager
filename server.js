@@ -1,3 +1,6 @@
+// If you get a certificate has expired error even if you have one
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 var express = require("express");
 var app = express();
 const axios = require("axios");
