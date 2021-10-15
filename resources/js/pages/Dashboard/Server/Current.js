@@ -208,6 +208,123 @@ const DashboardServerCurrent = (props) => {
         if (serverInformation.server_type == 0) {
             container = (
                 <>
+                    <div
+                        className="modal fade"
+                        id="changeHostname"
+                        role="modal"
+                        tabIndex={-1}
+                        aria-labelledby="changeHostname"
+                        aria-hidden="true"
+                    >
+                        <div className="modal-dialog text-black">
+                            <form method="post">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5
+                                            className="modal-title"
+                                            id="staticBackdropLabel"
+                                        >
+                                            Change Hostname
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                        />
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="form-group">
+                                            <label htmlFor="hostname">
+                                                New Hostname
+                                            </label>
+                                            <input
+                                                type="string"
+                                                className="form-control"
+                                                id="hostname"
+                                                aria-describedby="emailHelp"
+                                                placeholder="Enter new hostname"
+                                                name="hostname"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                        >
+                                            Close
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                        >
+                                            Change hostname
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div
+                        className="modal fade"
+                        id="changePassword"
+                        role="modal"
+                        tabIndex={-1}
+                        aria-labelledby="changePassword"
+                        aria-hidden="true"
+                    >
+                        <div className="modal-dialog">
+                            <form method="post">
+                                <div className="modal-content text-black">
+                                    <div className="modal-header">
+                                        <h5
+                                            className="modal-title"
+                                            id="staticBackdropLabel"
+                                        >
+                                            Change password
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                        />
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="form-group">
+                                            <label htmlFor="password">
+                                                New Password
+                                            </label>
+                                            <input
+                                                type="string"
+                                                className="form-control"
+                                                id="password"
+                                                placeholder="Enter new password"
+                                                name="password"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                        >
+                                            Close
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary text-white"
+                                        >
+                                            Change password
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-sm-4">
                             <div
@@ -329,9 +446,7 @@ const DashboardServerCurrent = (props) => {
                             className="text-center"
                             style={{ marginTop: "5%" }}
                         >
-                            <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
+                            <div className="spinner-border" role="status"></div>
                         </div>
                     ) : (
                         <>
@@ -406,9 +521,7 @@ const DashboardServerCurrent = (props) => {
                 <div className="container">
                     {loading == true || loading == null ? (
                         <div className="text-center">
-                            <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
+                            <div className="spinner-border" role="status"></div>
                         </div>
                     ) : (
                         <div className="container">
