@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { GetServerInformation } from "../../../plugins/ApiCalls";
-import PageLayout from "./../../../components/PageLayout/";
-import PowerButtons from "./../../../components/PowerButtons/";
-import BorderCard from "./../../../components/Cards/BorderCard";
-import Console from "./../../../components/Console/index";
+import PageLayout from "../../../components/PageLayout";
+import PowerButtons from "../../../components/PowerButtons";
+import BorderCard from "../../../components/Cards/BorderCard";
+import Console from "../../../components/Console/index";
 // Charts
 import Memory from "../../../components/Charts/Memory";
-import CPU from "./../../../components/Charts/Cpu";
-import Network from "./../../../components/Charts/Network";
+import CPU from "../../../components/Charts/Cpu";
+import Network from "../../../components/Charts/Network";
 // Notification
 import { ErrorNotification } from "../../../plugins/Notification";
 const DashboardServerCurrent = (props) => {

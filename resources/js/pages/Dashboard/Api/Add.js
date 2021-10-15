@@ -5,7 +5,7 @@ import {
     ErrorNotification,
     SuccessNotification,
 } from "../../../plugins/Notification";
-import PageLayout from "./../../../components/PageLayout/";
+import PageLayout from "../../../components/PageLayout";
 
 const DashboardApiAdd = (props) => {
     const history = useHistory();

@@ -6,7 +6,7 @@ import {
     ErrorNotification,
 } from "../../../plugins/Notification";
 
-import PageLayout from "./../../../components/PageLayout/";
+import PageLayout from "../../../components/PageLayout";
 
 const DashboardUsersAdd = () => {
     const history = useHistory();

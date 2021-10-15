@@ -6270,12 +6270,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/Register */ "./resources/js/pages/Register.js");
 /* harmony import */ var _pages_Dashboard___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Dashboard/ */ "./resources/js/pages/Dashboard/index.js");
 /* harmony import */ var _pages_Dashboard_Server__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Dashboard/Server */ "./resources/js/pages/Dashboard/Server/index.js");
-/* harmony import */ var _pages_Dashboard_Server_DashboardServerAdd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Dashboard/Server/DashboardServerAdd */ "./resources/js/pages/Dashboard/Server/DashboardServerAdd.js");
-/* harmony import */ var _pages_Dashboard_Server_DashboardServerCurrent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/Dashboard/Server/DashboardServerCurrent */ "./resources/js/pages/Dashboard/Server/DashboardServerCurrent.js");
+/* harmony import */ var _pages_Dashboard_Server_Add__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Dashboard/Server/Add */ "./resources/js/pages/Dashboard/Server/Add.js");
+/* harmony import */ var _pages_Dashboard_Server_Current__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/Dashboard/Server/Current */ "./resources/js/pages/Dashboard/Server/Current.js");
 /* harmony import */ var _pages_Dashboard_Api__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Dashboard/Api */ "./resources/js/pages/Dashboard/Api/index.js");
-/* harmony import */ var _pages_Dashboard_Api_DashboardApiAdd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Dashboard/Api/DashboardApiAdd */ "./resources/js/pages/Dashboard/Api/DashboardApiAdd.js");
+/* harmony import */ var _pages_Dashboard_Api_Add__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Dashboard/Api/Add */ "./resources/js/pages/Dashboard/Api/Add.js");
 /* harmony import */ var _pages_Dashboard_Users__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Dashboard/Users */ "./resources/js/pages/Dashboard/Users/index.js");
-/* harmony import */ var _pages_Dashboard_Users_DashboardUsersAdd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Dashboard/Users/DashboardUsersAdd */ "./resources/js/pages/Dashboard/Users/DashboardUsersAdd.js");
+/* harmony import */ var _pages_Dashboard_Users_Add__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/Dashboard/Users/Add */ "./resources/js/pages/Dashboard/Users/Add.js");
 // Basic
  // Guest
 
@@ -6323,12 +6323,12 @@ var AuthRoutes = [{
   name: "home",
   path: "/dashboard/server/add",
   exact: true,
-  Component: _pages_Dashboard_Server_DashboardServerAdd__WEBPACK_IMPORTED_MODULE_5__["default"]
+  Component: _pages_Dashboard_Server_Add__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   name: "home",
   path: "/dashboard/server/:id",
   exact: true,
-  Component: _pages_Dashboard_Server_DashboardServerCurrent__WEBPACK_IMPORTED_MODULE_6__["default"]
+  Component: _pages_Dashboard_Server_Current__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
   name: "home",
   path: "/dashboard/api",
@@ -6338,7 +6338,7 @@ var AuthRoutes = [{
   name: "home",
   path: "/dashboard/api/add",
   exact: true,
-  Component: _pages_Dashboard_Api_DashboardApiAdd__WEBPACK_IMPORTED_MODULE_8__["default"]
+  Component: _pages_Dashboard_Api_Add__WEBPACK_IMPORTED_MODULE_8__["default"]
 }, {
   name: "home",
   path: "/dashboard/users",
@@ -6348,7 +6348,7 @@ var AuthRoutes = [{
   name: "home",
   path: "/dashboard/users/add",
   exact: true,
-  Component: _pages_Dashboard_Users_DashboardUsersAdd__WEBPACK_IMPORTED_MODULE_10__["default"]
+  Component: _pages_Dashboard_Users_Add__WEBPACK_IMPORTED_MODULE_10__["default"]
 }];
 
 
@@ -7750,10 +7750,10 @@ react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime
 
 /***/ }),
 
-/***/ "./resources/js/pages/Dashboard/Api/DashboardApiAdd.js":
-/*!*************************************************************!*\
-  !*** ./resources/js/pages/Dashboard/Api/DashboardApiAdd.js ***!
-  \*************************************************************/
+/***/ "./resources/js/pages/Dashboard/Api/Add.js":
+/*!*************************************************!*\
+  !*** ./resources/js/pages/Dashboard/Api/Add.js ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -7765,7 +7765,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
-/* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
+/* harmony import */ var _components_PageLayout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/PageLayout */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -7901,7 +7901,7 @@ var DashboardApiAdd = function DashboardApiAdd(props) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_PageLayout__WEBPACK_IMPORTED_MODULE_3__["default"], {
       name: "Add a API",
       text: "Add API's to our database so that you can add servers and\r then perform actions on them",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
@@ -8308,10 +8308,10 @@ var DashboardApi = function DashboardApi() {
 
 /***/ }),
 
-/***/ "./resources/js/pages/Dashboard/Server/DashboardServerAdd.js":
-/*!*******************************************************************!*\
-  !*** ./resources/js/pages/Dashboard/Server/DashboardServerAdd.js ***!
-  \*******************************************************************/
+/***/ "./resources/js/pages/Dashboard/Server/Add.js":
+/*!****************************************************!*\
+  !*** ./resources/js/pages/Dashboard/Server/Add.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8509,10 +8509,10 @@ var DashboardServerAdd = function DashboardServerAdd() {
 
 /***/ }),
 
-/***/ "./resources/js/pages/Dashboard/Server/DashboardServerCurrent.js":
-/*!***********************************************************************!*\
-  !*** ./resources/js/pages/Dashboard/Server/DashboardServerCurrent.js ***!
-  \***********************************************************************/
+/***/ "./resources/js/pages/Dashboard/Server/Current.js":
+/*!********************************************************!*\
+  !*** ./resources/js/pages/Dashboard/Server/Current.js ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8522,13 +8522,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
-/* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
-/* harmony import */ var _components_PowerButtons___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PowerButtons/ */ "./resources/js/components/PowerButtons/index.js");
-/* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
-/* harmony import */ var _components_Console_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../components/Console/index */ "./resources/js/components/Console/index.js");
+/* harmony import */ var _components_PageLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/PageLayout */ "./resources/js/components/PageLayout/index.js");
+/* harmony import */ var _components_PowerButtons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/PowerButtons */ "./resources/js/components/PowerButtons/index.js");
+/* harmony import */ var _components_Cards_BorderCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/Cards/BorderCard */ "./resources/js/components/Cards/BorderCard.js");
+/* harmony import */ var _components_Console_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/Console/index */ "./resources/js/components/Console/index.js");
 /* harmony import */ var _components_Charts_Memory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/Charts/Memory */ "./resources/js/components/Charts/Memory.js");
-/* harmony import */ var _components_Charts_Cpu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../../components/Charts/Cpu */ "./resources/js/components/Charts/Cpu.js");
-/* harmony import */ var _components_Charts_Network__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../../components/Charts/Network */ "./resources/js/components/Charts/Network.js");
+/* harmony import */ var _components_Charts_Cpu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../components/Charts/Cpu */ "./resources/js/components/Charts/Cpu.js");
+/* harmony import */ var _components_Charts_Network__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../components/Charts/Network */ "./resources/js/components/Charts/Network.js");
 /* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -8789,7 +8789,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
             className: "card-text"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_PowerButtons___WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_PowerButtons__WEBPACK_IMPORTED_MODULE_3__["default"], {
             type: "with_text",
             id: serverInformation.id
           })]
@@ -8994,7 +8994,7 @@ var DashboardServerCurrent = function DashboardServerCurrent(props) {
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_2__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_PageLayout__WEBPACK_IMPORTED_MODULE_2__["default"], {
       name: "Manage Server",
       text: "Perform powerful one click actions on the server with ease",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
@@ -9259,10 +9259,10 @@ var DashboardServer = function DashboardServer() {
 
 /***/ }),
 
-/***/ "./resources/js/pages/Dashboard/Users/DashboardUsersAdd.js":
-/*!*****************************************************************!*\
-  !*** ./resources/js/pages/Dashboard/Users/DashboardUsersAdd.js ***!
-  \*****************************************************************/
+/***/ "./resources/js/pages/Dashboard/Users/Add.js":
+/*!***************************************************!*\
+  !*** ./resources/js/pages/Dashboard/Users/Add.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9274,7 +9274,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _plugins_ApiCalls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/ApiCalls */ "./resources/js/plugins/ApiCalls.js");
 /* harmony import */ var _plugins_Notification__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../plugins/Notification */ "./resources/js/plugins/Notification.js");
-/* harmony import */ var _components_PageLayout___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../components/PageLayout/ */ "./resources/js/components/PageLayout/index.js");
+/* harmony import */ var _components_PageLayout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../components/PageLayout */ "./resources/js/components/PageLayout/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -9433,7 +9433,7 @@ var DashboardUsersAdd = function DashboardUsersAdd() {
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_PageLayout___WEBPACK_IMPORTED_MODULE_3__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_PageLayout__WEBPACK_IMPORTED_MODULE_3__["default"], {
       name: "Manage Sub-users",
       text: "Create more subusers to give them access to your resources.",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
