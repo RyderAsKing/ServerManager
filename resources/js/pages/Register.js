@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import SmallSpinner from "../components/Spinners/SmallSpinner";
 import { RegisterAccount } from "../plugins/ApiCalls";
 import {
     ErrorNotification,
@@ -9,15 +10,8 @@ import PageLayout from "./../components/PageLayout/";
 
 const Register = (props) => {
     const history = useHistory();
-    const [submitButton, setSubmitButton] = useState(
-        <button
-            type="submit"
-            className="btn btn-primary text-white"
-            style={{ marginTop: "10px" }}
-        >
-            Register
-        </button>
-    );
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const [registerInput, setRegisterInput] = useState({
         name: "",
         email: "",
@@ -25,33 +19,6 @@ const Register = (props) => {
         errorMessage: "",
         errorList: [],
     });
-
-    const setLoading = () => {
-        setSubmitButton(
-            <>
-                <button
-                    type="submit"
-                    className="btn btn-primary text-white"
-                    style={{ marginTop: "10px" }}
-                    disabled
-                >
-                    <span className="spinner-border"></span>
-                </button>
-            </>
-        );
-        setRegisterInput({ ...registerInput, errorMessage: "", errorList: [] });
-    };
-    const setRegister = () => {
-        setSubmitButton(
-            <button
-                type="submit"
-                className="btn btn-primary text-white"
-                style={{ marginTop: "10px" }}
-            >
-                Register
-            </button>
-        );
-    };
 
     const handleInput = (e) => {
         setRegisterInput({
@@ -61,7 +28,7 @@ const Register = (props) => {
     };
 
     const registerSubmit = (e) => {
-        setLoading();
+        setIsSubmitting(true);
         e.preventDefault();
 
         var response = RegisterAccount(
@@ -93,7 +60,7 @@ const Register = (props) => {
                     errorMessage: tempErrorMessage,
                     errorList: tempErrorList,
                 });
-                setRegister();
+                setIsSubmitting(false);
             }
         });
     };
@@ -141,7 +108,7 @@ const Register = (props) => {
                     <div style={{ color: "red" }}>
                         {registerInput.errorList.email}
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="password" className="form-label">
                             Password
                         </label>
@@ -158,7 +125,18 @@ const Register = (props) => {
                     <div style={{ color: "red" }}>
                         {registerInput.errorList.password}
                     </div>
-                    {submitButton}
+                    <button
+                        type="submit"
+                        className="btn btn-primary text-white"
+                        style={{ marginTop: "10px" }}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting != false || isSubmitting == null ? (
+                            <SmallSpinner></SmallSpinner>
+                        ) : (
+                            "Register"
+                        )}
+                    </button>
                 </form>
             </PageLayout>
         </>

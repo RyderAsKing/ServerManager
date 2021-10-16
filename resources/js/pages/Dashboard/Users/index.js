@@ -9,6 +9,7 @@ import {
 import PageLayout from "./../../../components/PageLayout/";
 import MessageDiv from "./../../../components/MessageDiv/";
 import BorderCard from "./../../../components/Cards/BorderCard";
+import LargeSpinner from "./../../../components/Spinners/LargeSpinner";
 
 const DashboardUsers = () => {
     const history = useHistory();
@@ -161,9 +162,7 @@ const DashboardUsers = () => {
                 {loading == true ? (
                     <>
                         <div className="text-center">
-                            <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
+                            <LargeSpinner></LargeSpinner>
                         </div>
                     </>
                 ) : (

@@ -7,7 +7,8 @@ import PowerButtons from "./../../../components/PowerButtons/";
 import MessageDiv from "./../../../components/MessageDiv/";
 import BorderCard from "./../../../components/Cards/BorderCard";
 import { ErrorNotification } from "../../../plugins/Notification";
-
+// Other
+import LargeSpinner from "./../../../components/Spinners/LargeSpinner";
 const DashboardServer = () => {
     const history = useHistory();
     const [pageNumber, setPageNumber] = useState(1);
@@ -159,9 +160,7 @@ const DashboardServer = () => {
                 {loading == true ? (
                     <>
                         <div className="text-center">
-                            <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
+                            <LargeSpinner></LargeSpinner>
                         </div>
                     </>
                 ) : (

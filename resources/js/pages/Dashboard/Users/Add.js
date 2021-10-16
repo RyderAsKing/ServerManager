@@ -7,9 +7,11 @@ import {
 } from "../../../plugins/Notification";
 
 import PageLayout from "../../../components/PageLayout";
+import SmallSpinner from "../../../components/Spinners/SmallSpinner";
 
 const DashboardUsersAdd = () => {
     const history = useHistory();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [servers, setServers] = useState(null);
 
     useEffect(() => {
@@ -20,15 +22,6 @@ const DashboardUsersAdd = () => {
         }
     }, [servers]);
 
-    const [submitButton, setSubmitButton] = useState(
-        <button
-            type="submit"
-            className="btn btn-primary text-white"
-            style={{ marginTop: "10px" }}
-        >
-            Create subuser
-        </button>
-    );
     const [registerInput, setRegisterInput] = useState({
         name: "",
         email: "",
@@ -37,33 +30,6 @@ const DashboardUsersAdd = () => {
         errorMessage: "",
         errorList: [],
     });
-
-    const setLoading = () => {
-        setSubmitButton(
-            <>
-                <button
-                    type="submit"
-                    className="btn btn-primary text-white"
-                    style={{ marginTop: "10px" }}
-                    disabled
-                >
-                    <span className="spinner-border"></span>
-                </button>
-            </>
-        );
-        setRegisterInput({ ...registerInput, errorMessage: "", errorList: [] });
-    };
-    const setRegister = () => {
-        setSubmitButton(
-            <button
-                type="submit"
-                className="btn btn-primary text-white"
-                style={{ marginTop: "10px" }}
-            >
-                Create Subuser
-            </button>
-        );
-    };
 
     const handleInput = (e) => {
         setRegisterInput({
@@ -87,7 +53,7 @@ const DashboardUsersAdd = () => {
     };
 
     const registerSubmit = (e) => {
-        setLoading();
+        setIsSubmitting(true);
         e.preventDefault();
 
         var response = RegisterAccount(
@@ -116,7 +82,7 @@ const DashboardUsersAdd = () => {
                     errorMessage: tempErrorMessage,
                     errorList: tempErrorList,
                 });
-                setRegister();
+                setIsSubmitting(false);
             }
         });
     };
@@ -220,7 +186,18 @@ const DashboardUsersAdd = () => {
                     <div style={{ color: "red" }}>
                         {registerInput.errorList.servers}
                     </div>
-                    {submitButton}
+                    <button
+                        type="submit"
+                        className="btn btn-primary text-white"
+                        style={{ marginTop: "10px" }}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting != false || isSubmitting == null ? (
+                            <SmallSpinner></SmallSpinner>
+                        ) : (
+                            "Create subuser"
+                        )}
+                    </button>
                 </form>
             </PageLayout>
         </>

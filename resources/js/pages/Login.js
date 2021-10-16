@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ExchangeToken } from "../plugins/ApiCalls";
 import {
@@ -6,18 +6,12 @@ import {
     SuccessNotification,
 } from "../plugins/Notification";
 import PageLayout from "./../components/PageLayout/";
+import SmallSpinner from "./../components/Spinners/SmallSpinner";
 
 const Login = (props) => {
     const history = useHistory();
-    const [submitButton, setSubmitButton] = useState(
-        <button
-            type="submit"
-            className="btn btn-primary text-white"
-            style={{ marginTop: "10px" }}
-        >
-            Login
-        </button>
-    );
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const [loginInput, setLoginInput] = useState({
         email: "",
         password: "",
@@ -27,31 +21,6 @@ const Login = (props) => {
 
     const resetErrors = () => {
         setLoginInput({ ...loginInput, errorMessage: "", errorList: [] });
-    };
-    const setLoading = () => {
-        setSubmitButton(
-            <>
-                <button
-                    type="submit"
-                    className="btn btn-primary text-white"
-                    style={{ marginTop: "10px" }}
-                    disabled
-                >
-                    <span className="spinner-border"></span>
-                </button>
-            </>
-        );
-    };
-    const setLogin = () => {
-        setSubmitButton(
-            <button
-                type="submit"
-                className="btn btn-primary text-white"
-                style={{ marginTop: "10px" }}
-            >
-                Login
-            </button>
-        );
     };
 
     const handleInput = (e) => {
@@ -63,7 +32,7 @@ const Login = (props) => {
 
     const loginSubmit = (e) => {
         resetErrors();
-        setLoading();
+        setIsSubmitting(true);
         e.preventDefault();
 
         const data = {
@@ -94,8 +63,8 @@ const Login = (props) => {
                     errorMessage: tempErrorMessage,
                     errorList: tempErrorList,
                 });
-                setLogin();
             }
+            setIsSubmitting(false);
         });
     };
 
@@ -126,7 +95,7 @@ const Login = (props) => {
                             {loginInput.errorList.email}
                         </div>
                     </div>
-                    <div className="mb-3">
+                    <div>
                         <label htmlFor="password" className="form-label">
                             Password
                         </label>
@@ -143,7 +112,18 @@ const Login = (props) => {
                             {loginInput.errorList.password}
                         </div>
                     </div>
-                    {submitButton}
+                    <button
+                        type="submit"
+                        className="btn btn-primary text-white"
+                        style={{ marginTop: "10px" }}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting != false || isSubmitting == null ? (
+                            <SmallSpinner></SmallSpinner>
+                        ) : (
+                            "Login"
+                        )}
+                    </button>
                 </form>
             </PageLayout>
         </>

@@ -10,6 +10,8 @@ import CPU from "../../../components/Charts/Cpu";
 import Network from "../../../components/Charts/Network";
 // Notification
 import { ErrorNotification } from "../../../plugins/Notification";
+// Other
+import LargeSpinner from "./../../../components/Spinners/LargeSpinner";
 const DashboardServerCurrent = (props) => {
     const [loading, setLoading] = useState(true);
     const [serverInformation, setServerInformation] = useState(null);
@@ -446,7 +448,7 @@ const DashboardServerCurrent = (props) => {
                             className="text-center"
                             style={{ marginTop: "5%" }}
                         >
-                            <div className="spinner-border" role="status"></div>
+                            <LargeSpinner></LargeSpinner>
                         </div>
                     ) : (
                         <>
@@ -521,7 +523,7 @@ const DashboardServerCurrent = (props) => {
                 <div className="container">
                     {loading == true || loading == null ? (
                         <div className="text-center">
-                            <div className="spinner-border" role="status"></div>
+                            <LargeSpinner></LargeSpinner>
                         </div>
                     ) : (
                         <div className="container">
