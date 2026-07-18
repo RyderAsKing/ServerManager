@@ -9,28 +9,21 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Server Manager</title>
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/jquery.min.js') }}" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/xterm.js') }}"></script>
-
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/ReactToastify.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/xterm.css') }}">
 
+        @vite(['resources/js/app.js'])
     </head>
 
     <body class="bg-dark text-white">
         <div id="app"></div>
         <script>
-            var websocket_type = "{{ env('WEBSOCKET_TYPE') }}";
-            var websocket_domain = "{{ env('WEBSOCKET_DOMAIN') }}";
-            var websocket_port = "{{ env('WEBSOCKET_PORT') }}";
+            var websocket_type = @json(env('WEBSOCKET_TYPE'));
+            var websocket_domain = @json(env('WEBSOCKET_DOMAIN'));
+            var websocket_port = @json(env('WEBSOCKET_PORT'));
             var websocket_url = websocket_type + websocket_domain + ":" + websocket_port;
         </script>
-        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 
 </html>
