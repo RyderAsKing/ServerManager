@@ -9,7 +9,8 @@ sudo php artisan migrate --seed --force
 sudo php artisan view:clear
 sudo php artisan config:clear
 sudo composer install --no-dev --optimize-autoloader
-npm install express express-ws ws axios
+npm install
+npm run build
 sudo chown -R www-data:www-data /var/www/manager/*
 sudo php artisan queue:restart
 sudo php artisan up

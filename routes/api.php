@@ -1,35 +1,27 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ServerController;
-use App\Http\Controllers\Api\PterodactylServerController;
-use App\Http\Controllers\Api\VirtualizorServerController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| These routes are loaded by the framework and assigned the "api" middleware
+| group with an /api prefix.
 |
 */
 
-/* Global API */
-
 /* User Management */
-
 Route::post('/user/login', [UserController::class, 'login']);
 Route::post('/user/register', [UserController::class, 'register']);
 Route::middleware('auth:api')->get('/user/subuser', [UserController::class, 'subuser_list']);
 Route::middleware('auth:api')->get('/user/subuser/{id}', [UserController::class, 'subuser_information']);
 Route::middleware('auth:api')->get('/user/subuser/{id}/destroy', [UserController::class, 'subuser_destroy']);
 Route::get('/user/{api_token}', [UserController::class, 'check']);
-
 
 /* Server Management */
 Route::middleware('auth:api')->get('/server', [ServerController::class, 'index']);

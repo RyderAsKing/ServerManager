@@ -56,7 +56,7 @@ curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
 ### Install Dependencies
 
 ```bash
-apt -y install php8.0 php8.0-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server npm
+apt -y install php8.3 php8.3-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-server nginx tar unzip git redis-server npm
 ```
 
 ### Composer
@@ -83,8 +83,9 @@ cp .env.example .env
 # Composer install
 composer install --no-dev --optimize-autoloader
 
-# NPM install
-npm install express express-ws ws axios
+# Frontend dependencies and production build
+npm install
+npm run build
 
 # Only run the command below if you are installing this Panel for the first time
 php artisan key:generate --force
@@ -157,7 +158,7 @@ server {
 
         location ~ \.php$ {
                 include snippets/fastcgi-php.conf;
-                fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+                fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
         }
 
         location ~ /\.ht {
@@ -227,7 +228,8 @@ sudo composer install --no-dev --optimize-autoloader
 ```
 
 ```bash
-npm install express express-ws ws axios
+npm install
+npm run build
 ```
 
 ### Updating permissions

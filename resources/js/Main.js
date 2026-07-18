@@ -40,7 +40,7 @@ const Main = () => {
         updateApiToken();
     }, [isLoggedIn]);
 
-    const basicRoutes = BasicRoutes.map(({ path, Component, exact }, index) => (
+    const basicRoutes = BasicRoutes.map(({ path, Component, exact, name }, index) => (
         <Route
             exact={exact}
             path={path}
